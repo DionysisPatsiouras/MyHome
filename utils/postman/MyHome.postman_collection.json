@@ -1,0 +1,1210 @@
+{
+  "info": {
+    "_postman_id": "74eb5b1f-56c8-423e-ba39-2c455a26cde4",
+    "name": "MyHome",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52023627",
+    "_collection_link": "https://go.postman.co/collection/52023627-74eb5b1f-56c8-423e-ba39-2c455a26cde4?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "auth",
+      "item": [
+        {
+          "name": "auth/",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"d.patsiouras@gmail.com\",\n    \"password\": \"123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{endpoint}}/auth/",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "auth",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "auth/token/",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"dion.patsiouras@gmail.com\",\n    \"password\": \"123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{endpoint}}/auth/token/",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "auth",
+                "token",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "auth/token/refresh/",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n   \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc3MzY2MTAwNSwiaWF0IjoxNzczMjI5MDA1LCJqdGkiOiJhNzc2ODZlOWQ5MGI0YzY4YTE2YzQ1MThiMGM0M2ZiYiIsInVzZXJfaWQiOiIxIiwiZW1haWwiOiJkLnBhdHNpb3VyYXNAZ21haWwuY29tIn0.UKVsPrhOrXp9XYimi1xFBDUeWIXF5mlGBhcIwAFhNIE\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{endpoint}}/auth/token/refresh/",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "auth",
+                "token",
+                "refresh",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "maintenances",
+      "item": [
+        {
+          "name": "maintenances",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{endpoint}}/maintenances",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "maintenances"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "maintenances/",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Συντήρηση καυστήρα αερίου\",\n    \"recurrence\": 365,\n    \"residence\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{endpoint}}/maintenances/",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "maintenances",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "maintenances/:id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{endpoint}}/maintenances/1",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "maintenances",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "maintenances/:id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Συντήρηση καυστήρα\",\n    \"recurrence\": 60\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{endpoint}}/maintenances/1",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "maintenances",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "maintenances/:id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{endpoint}}/maintenances/1",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "maintenances",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "maintenances/overview/:id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{endpoint}}/maintenances/overview/1",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "maintenances",
+                "overview",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "maintenances/history",
+      "item": [
+        {
+          "name": "maintenances/history",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{endpoint}}/maintenances/history",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "maintenances",
+                "history"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "maintenances/history/",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"maintenanceId\": 1,\n    \"date\": \"2026-03-12\",\n    \"residence\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{endpoint}}/maintenances/history/",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "maintenances",
+                "history",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "maintenances/history/:id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{endpoint}}/maintenances/history/1",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "maintenances",
+                "history",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "maintenances/history/:id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"comments\": \"Συντήρηση καυστήρα\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{endpoint}}/maintenances/history/1",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "maintenances",
+                "history",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "maintenances/history/:id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{endpoint}}/maintenances/history/4",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "maintenances",
+                "history",
+                "4"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "rentals",
+      "item": [
+        {
+          "name": "rentals",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{endpoint}}/rentals",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "rentals"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "rentals/",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"rent_amount\": 200,\n    \"residence\": 1,\n    \"start_date\": \"2022-06-04\",\n    \"end_date\": \"2023-06-04\",\n    \"tenant_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{endpoint}}/rentals/",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "rentals",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "rentals/:id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{endpoint}}/rentals/6",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "rentals",
+                "6"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "rentals/:id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"rent_amount\": 1000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{endpoint}}/rentals/7",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "rentals",
+                "7"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "rentals/:id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{endpoint}}/rentals/6",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "rentals",
+                "6"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "residences",
+      "item": [
+        {
+          "name": "residences",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{endpoint}}/residences",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "residences"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "residences/",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"address\": \"Γρηγορίου Ε\",\n    \"road_number\": 28,\n    \"square_meters\" : 47,\n    \"residenceType_id\": 2,\n    \"user\": 2\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{endpoint}}/residences/",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "residences",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "residences/:id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{endpoint}}/residences/3",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "residences",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "residences/:id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"address\" : \"xrusostomouu\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{endpoint}}/residences/3",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "residences",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "residences/:id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{endpoint}}/residences/2",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "residences",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "residences/types",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{endpoint}}/residences/types",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "residences",
+                "types"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "tenants",
+      "item": [
+        {
+          "name": "tenants",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{endpoint}}/tenants",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "tenants"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "tenants/",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"first_name\": \"Ανδρέας\",\n    \"last_name\": \"Φέγγης\",\n    \"afm\": 1235123,\n    \"user\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{endpoint}}/tenants/",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "tenants",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "tenants/:id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{endpoint}}/tenants/1",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "tenants",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "tenants/:id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"afm\": 885082932\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{endpoint}}/tenants/1",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "tenants",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "tenants/:id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{endpoint}}/tenants/1",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "tenants",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "technicians",
+      "item": [
+        {
+          "name": "tenants",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{endpoint}}/tenants",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "tenants"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "tenants/",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"first_name\": \"Ανδρέας\",\n    \"last_name\": \"Φέγγης\",\n    \"afm\": 1235123,\n    \"user\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{endpoint}}/tenants/",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "tenants",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "tenants/:id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{endpoint}}/tenants/1",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "tenants",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "tenants/:id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"afm\": 885082932\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{endpoint}}/tenants/1",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "tenants",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "tenants/:id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{endpoint}}/tenants/1",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "tenants",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "technicians/types",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{endpoint}}/technicians/types",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "technicians",
+                "types"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "users",
+      "item": [
+        {
+          "name": "users/",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"d.patsiouras@tqsgroup.com\",\n    \"password\" :\"123\",\n    \"first_name\": \"Dionysis\",\n    \"last_name\": \"Patsiouras\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{endpoint}}/users/",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "users",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

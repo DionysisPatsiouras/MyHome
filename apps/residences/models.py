@@ -37,7 +37,7 @@ class Residence(models.Model):
     # uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     address = models.CharField(max_length=200, null=False)
-    road_number = models.IntegerField(null=True)
+    road_number = models.CharField(max_length=50, null=True)
 
     floor = models.IntegerField(null=True)
     flat_number = models.CharField(max_length=50, null=True)
