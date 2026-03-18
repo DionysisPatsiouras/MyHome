@@ -9,6 +9,19 @@ class TechnicianTypeSerializer(serializers.ModelSerializer):
         model = TechnicianType
         fields = '__all__'
 
+class TechnicianSerializer(serializers.ModelSerializer):
+
+    
+    technicianType = TechnicianTypeSerializer(many=False, read_only=True)
+
+    technicianType_id = serializers.PrimaryKeyRelatedField(
+        queryset=TechnicianType.objects.all(), source='technicianType', write_only=True
+    )
+
+    class Meta:
+        model = Technician
+        fields = '__all__'
+
 
 
 

@@ -630,6 +630,168 @@
       ]
     },
     {
+      "name": "repairs",
+      "item": [
+        {
+          "name": "repairs",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{endpoint}}/repairs",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "repairs"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "repairs",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"description\": \"Χαλασμένο καζανάκι\",\n    \"cost\": 50,\n    \"user\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{endpoint}}/repairs/",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "repairs",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "repairs/:id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{endpoint}}/repairs/1",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "repairs",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "repairs/:id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"full_name\": \"ΘΑΝΑΣΗΣ ΧΑΣΙΩΤΗΣ\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{endpoint}}/repairs/1",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "repairs",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "repairs/:id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{endpoint}}/repairs/1",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "repairs",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "residences",
       "item": [
         {
@@ -820,6 +982,196 @@
       ]
     },
     {
+      "name": "technicians",
+      "item": [
+        {
+          "name": "technicians",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{endpoint}}/technicians",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "technicians"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "technicians",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"full_name\": \"Θανάσης Χασιώτης\",\n    \"technicianType_id\": 1,\n    \"user\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{endpoint}}/technicians/",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "technicians",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "technicians/:id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{endpoint}}/technicians/1",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "technicians",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "technicians/:id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"full_name\": \"ΘΑΝΑΣΗΣ ΧΑΣΙΩΤΗΣ\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{endpoint}}/technicians/1",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "technicians",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "technicians/:id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{endpoint}}/technicians/1",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "technicians",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "technicians/types",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{endpoint}}/technicians/types",
+              "host": [
+                "{{endpoint}}"
+              ],
+              "path": [
+                "technicians",
+                "types"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "tenants",
       "item": [
         {
@@ -974,196 +1326,6 @@
               "path": [
                 "tenants",
                 "1"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "technicians",
-      "item": [
-        {
-          "name": "tenants",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{endpoint}}/tenants",
-              "host": [
-                "{{endpoint}}"
-              ],
-              "path": [
-                "tenants"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "tenants/",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"first_name\": \"Ανδρέας\",\n    \"last_name\": \"Φέγγης\",\n    \"afm\": 1235123,\n    \"user\": 1\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{endpoint}}/tenants/",
-              "host": [
-                "{{endpoint}}"
-              ],
-              "path": [
-                "tenants",
-                ""
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "tenants/:id",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{endpoint}}/tenants/1",
-              "host": [
-                "{{endpoint}}"
-              ],
-              "path": [
-                "tenants",
-                "1"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "tenants/:id",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "PATCH",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"afm\": 885082932\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{endpoint}}/tenants/1",
-              "host": [
-                "{{endpoint}}"
-              ],
-              "path": [
-                "tenants",
-                "1"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "tenants/:id",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{endpoint}}/tenants/1",
-              "host": [
-                "{{endpoint}}"
-              ],
-              "path": [
-                "tenants",
-                "1"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "technicians/types",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{endpoint}}/technicians/types",
-              "host": [
-                "{{endpoint}}"
-              ],
-              "path": [
-                "technicians",
-                "types"
               ]
             }
           },

@@ -12,7 +12,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 # import jwt, datetime
 
 from django.contrib.auth import authenticate
-from django.utils.timezone import now
+# from django.utils.timezone import now
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):

@@ -10,7 +10,7 @@ from infra.Responses import Forbidden_403
 
 
 
-def generateGenericViews(_MODEL, _MODEL_SERIALIZER, auth_field=None, base_name=None):
+def generateGenericViews(_MODEL, _MODEL_SERIALIZER, auth_field=None):
 
 
     @api_view(["GET", "POST"])

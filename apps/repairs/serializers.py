@@ -1,0 +1,13 @@
+from rest_framework import serializers
+from .models import *
+
+
+class RepairSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Repair
+        fields = '__all__'
+
+
+
+

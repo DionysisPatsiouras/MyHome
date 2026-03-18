@@ -6,7 +6,7 @@ export PGUSER=postgres
 export PGPASSWORD=3276
 
 # Specify the database names
-DB=my_db
+DB=myhome_database
 
 # Drop the old database
 echo "Dropping database $DB..."
