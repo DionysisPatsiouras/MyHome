@@ -1,0 +1,58 @@
+[
+    {
+        "model": "residences.residencetype",
+        "pk": 1,
+        "fields": {
+            "name": "Μονοκατοικία"
+        }
+    },
+    {
+        "model": "residences.residencetype",
+        "pk": 2,
+        "fields": {
+            "name": "Διαμέρισμα"
+        }
+    },
+    {
+        "model": "residences.residence",
+        "pk": 1,
+        "fields": {
+            "uniqueId": "116280720",
+            "address": "Κανάρη",
+            "road_number": 3,
+            "floor": null,
+            "flat_number": null,
+            "square_meters": "20.00",
+            "residenceType": 2,
+            "user": 1,
+            "latitude": null,
+            "longitude": null,
+            "construction_year": null,
+            "created_at": "2026-03-12T10:17:19.901Z",
+            "updated_at": null,
+            "is_deleted": false,
+            "deleted_at": null
+        }
+    },
+    {
+        "model": "residences.residence",
+        "pk": 2,
+        "fields": {
+            "uniqueId": "131274396",
+            "address": "Γρηγορίου Ε",
+            "road_number": 28,
+            "floor": null,
+            "flat_number": null,
+            "square_meters": "47.00",
+            "residenceType": 2,
+            "user": 2,
+            "latitude": null,
+            "longitude": null,
+            "construction_year": null,
+            "created_at": "2026-03-12T10:17:39.284Z",
+            "updated_at": null,
+            "is_deleted": false,
+            "deleted_at": null
+        }
+    }
+]

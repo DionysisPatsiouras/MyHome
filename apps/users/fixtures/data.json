@@ -1,0 +1,40 @@
+[
+    {
+        "model": "users.customuser",
+        "pk": 1,
+        "fields": {
+            "last_login": null,
+            "is_superuser": true,
+            "email": "dion.patsiouras@gmail.com",
+            "first_name": "Διονύσης",
+            "last_name": "Πατσιούρας",
+            "password": "pbkdf2_sha256$1200000$GpWiMhelixeACcSwtPcCqw$54PW01FzyzSG3HoaJJDuhzI+Dsvd21pyT0PQ9tYdNbU=",
+            "is_verified": true,
+            "created_at": "2026-03-12T08:36:13.548Z",
+            "updated_at": null,
+            "is_deleted": false,
+            "deleted_at": null,
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "users.customuser",
+        "pk": 2,
+        "fields": {
+            "last_login": null,
+            "is_superuser": false,
+            "email": "d.patsiouras@tqsgroup.com",
+            "first_name": "Dionysis",
+            "last_name": "Patsiouras",
+            "password": "pbkdf2_sha256$1200000$dKvuvA6XeEumar35bdCRfA$JKcn+q9a4kb4vxo9c2DVhIlrpdmRa3yTMcOh95Aq7Ok=",
+            "is_verified": true,
+            "created_at": "2026-03-12T10:13:33.547Z",
+            "updated_at": null,
+            "is_deleted": false,
+            "deleted_at": null,
+            "groups": [],
+            "user_permissions": []
+        }
+    }
+]

@@ -1,0 +1,16 @@
+    [
+        {
+            "model": "technicians.technicianType",
+            "pk": 1,
+            "fields": {
+                "name": "Ηλεκτρολόγος"
+            }
+        },
+        {
+            "model": "technicians.technicianType",
+            "pk": 2,
+            "fields": {
+                "name": "Υδραυλικός"
+            }
+        }
+    ]

@@ -1,0 +1,12 @@
+### To-Do
+
+## token blacklist implementation
+## roadNumber must change to "varchar"
+
+
+### Generate new Secret
+# python3 -c "import secrets; print(secrets.token_urlsafe(64))"
+
+
+### Check health
+# pyrhon3 manage.py check

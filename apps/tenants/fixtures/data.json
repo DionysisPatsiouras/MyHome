@@ -1,0 +1,17 @@
+[
+    {
+        "model": "tenants.tenant",
+        "pk": 1,
+        "fields": {
+            "first_name": "Ανδρέας",
+            "last_name": "Φέγγης",
+            "afm": "1235123",
+            "phone": null,
+            "user": 1,
+            "created_at": "2026-03-12T14:52:21.625Z",
+            "updated_at": null,
+            "is_deleted": false,
+            "deleted_at": null
+        }
+    }
+]
