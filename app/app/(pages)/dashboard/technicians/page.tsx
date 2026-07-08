@@ -2,14 +2,10 @@
 
 import { useState, useRef } from 'react'
 
-import { InputText } from 'primereact/inputtext'
-import { Card } from 'primereact/card'
-import { Button } from 'primereact/button'
-import { Toast } from 'primereact/toast'
-import { Dropdown } from 'primereact/dropdown'
+// import { Dropdown } from 'primereact/dropdown'
 
 // import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog'
-import { ConfirmDialog } from 'primereact/confirmdialog'
+// import { ConfirmDialog } from 'primereact/confirmdialog'
 
 import { confirmDelete } from '@/app/lib/confirmDelete'
 
@@ -63,7 +59,7 @@ export default function Technicians() {
         <main className='container'>
 
             {/* <Toast ref={toast} /> */}
-            <ConfirmDialog />
+            {/* <ConfirmDialog /> */}
 
             <section className='pb-4'>
                 <h2 className='mt-0 mb-2'>Τεχνικοί</h2>
@@ -78,16 +74,16 @@ export default function Technicians() {
                     <span className="p-inputgroup-addon">
                         <i className="pi pi-search"></i>
                     </span>
-                    <InputText placeholder="Αναζήτηση.." onChange={(e: any) => setSearchValue(e.target.value.toLocaleLowerCase())} />
+                    {/* <InputText placeholder="Αναζήτηση.." onChange={(e: any) => setSearchValue(e.target.value.toLocaleLowerCase())} /> */}
                 </div>
 
-                <Dropdown
+                {/* <Dropdown
                     value={selectedType}
                     options={[{ id: null, name: 'Όλοι' }, ...technicianTypes]}
                     onChange={(e) => setSelectedType(e.value)}
                     optionLabel="name"
                     placeholder="Τύπος τεχνικού"
-                />
+                /> */}
 
             </section>
 
@@ -101,7 +97,7 @@ export default function Technicians() {
                     .filter((item: Technician) => !selectedType || selectedType.id === null || item?.technicianType?.id === selectedType.id)
                     .map((item: Technician) => (
                         <div key={`${item?.id}-${item?.full_name}`} className='col-12 md:col-6 p-2'>
-                            <Card
+                            {/* <Card
                                 title={
                                     <div className='flex flex-column mb-4'>
                                         {item?.full_name}
@@ -124,7 +120,7 @@ export default function Technicians() {
 
                                 </div>
 
-                            </Card>
+                            </Card> */}
                         </div>
                     ))
                 }

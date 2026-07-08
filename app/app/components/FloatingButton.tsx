@@ -46,7 +46,7 @@ export default function FloatingButton() {
     ];
     return (
         <div>
-            <Toast ref={toast} />
+            {/* <Toast ref={toast} />
 
             <SpeedDial
                 model={items}
@@ -54,7 +54,7 @@ export default function FloatingButton() {
                 type="quarter-circle"
                 direction="up-left"
                 style={{ position: "fixed", right: 50, bottom: 50 }}
-            />
+            /> */}
 
         </div>
     )

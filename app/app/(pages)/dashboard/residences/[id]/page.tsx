@@ -1,6 +1,6 @@
 'use client'
 
-import { TabView, TabPanel } from 'primereact/tabview'
+// import { TabView, TabPanel } from 'primereact/tabview'
 
 import ResidenceHeader from '@/app/components/residence/ResidenceHeader'
 import ResidenceInfo from '@/app/components/residence/ResidenceInfo'
@@ -16,7 +16,7 @@ export default function ResidenceView() {
             <ResidenceHeader />
 
             <div className="col-12">
-                <TabView>
+                {/* <TabView>
 
                     <TabPanel header="Στοιχεία" leftIcon="pi pi-info-circle mr-2">
                         <ResidenceInfo />
@@ -38,7 +38,7 @@ export default function ResidenceView() {
                         <Maintenances />
                     </TabPanel>
 
-                </TabView>
+                </TabView> */}
             </div>
 
         </main>

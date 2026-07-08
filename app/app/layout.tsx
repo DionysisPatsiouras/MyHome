@@ -3,14 +3,19 @@ import { Geist, Geist_Mono } from "next/font/google"
 
 import "./globals.css"
 import 'primeicons/primeicons.css'
-import "primereact/resources/themes/lara-light-cyan/theme.css"
+// import "primereact/resources/themes/lara-light-cyan/theme.css"
 
-import 'primeflex/primeflex.css'
+// import 'primeflex/primeflex.css'
 
 import 'leaflet/dist/leaflet.css';
 
+import '@mantine/core/styles.css';
+import { ColorSchemeScript, mantineHtmlProps } from '@mantine/core';
 
-import { PrimeReactProvider } from 'primereact/api'
+import AppMantineProvider from './mantine-provider';
+
+
+// import { PrimeReactProvider } from 'primereact/api'
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,15 +41,17 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      {...mantineHtmlProps}
     >
-      {/* <head> */}
-      {/* <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" /> */}
-      {/* <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossOrigin="anonymous" /> */}
-      {/* </head> */}
-      {/* <Script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" ></Script> */}
+      <head>
+        <ColorSchemeScript />
+      </head>
 
       <body className="min-h-full flex flex-col">
-        <PrimeReactProvider>{children}</PrimeReactProvider>
+        <AppMantineProvider>
+
+          {children}
+        </AppMantineProvider>
       </body>
     </html>
   );
