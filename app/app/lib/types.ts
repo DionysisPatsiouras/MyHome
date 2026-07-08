@@ -24,10 +24,24 @@ export interface Residence extends BaseModel {
     address: string
     construction_year?: number
     residenceType: ResidenceType
+    latitude?: string
+    longitude?: string
     road_number: string
     square_meters: string
+    floor?: number | null
+    flat_number?: string | null
+    energy_class?: string | null
+    power_supply_number?: string | null
+    zip_code?: string | null
     user: number
 
+}
+
+export interface Maintenance {
+    id: number
+    title: string
+    recurrence: number
+    residence: number
 }
 
 export interface Technician extends BaseModel {

@@ -7,7 +7,7 @@ export const MenuItems = [
     {
         label: 'Συμβόλαια',
         icon: 'pi pi-file',
-        url: "/dashboard/p"
+        url: "/dashboard/rentals"
     },
     {
         label: 'Επαγγελματίες',

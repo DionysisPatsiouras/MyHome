@@ -1,6 +1,5 @@
 'use client'
 
-
 import { TextForm } from "@/app/components/ControlledForms"
 import { useForm } from "react-hook-form"
 
@@ -8,14 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { SignInFormSchema } from "@/app/lib/formSchemas"
 import { useCRUD } from "@/app/lib/hooks/useCRUD"
 
+import { AuthRoutes } from "@/app/lib/Routes"
 
-import { Card } from "primereact/card"
-import { Routes, AuthRoutes } from "@/app/lib/Routes"
-
-// import { POST } from "@/app/api/signin/route"
-import { includes } from "zod"
-
-import { useFetch } from "@/app/lib/hooks/useFetch"
 
 interface FormData {
     email: string
@@ -39,50 +32,54 @@ export default function SignIn() {
 
         POST(AuthRoutes.signin, formData).then((res) => {
             console.log(res)
-            // localStorage.setItem("token", res.access)
             cookieStore.set("token", res.access)
         })
     }
 
-    // const signIn = (formData: FormData) => {
-    //     POST(formData) // important
-    //         .then((res: any) => {
-    //             console.log(res.json()); // success message
-    //         })
-    //         .catch((err: any) => {
-    //             console.error(err);
-    //         });
-    // };
+
 
 
     return (
-        <>
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-slate-100">
+            <div className="w-full max-w-md px-4">
+                {/* Logo / Brand */}
+                <div className="flex flex-col items-center mb-8">
+                    <div className="w-14 h-14 rounded-2xl bg-indigo-600 flex items-center justify-center shadow-md mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 9.75L12 3l9 6.75V21a1 1 0 01-1 1H4a1 1 0 01-1-1V9.75z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 22V12h6v10" />
+                        </svg>
+                    </div>
+                    <h1 className="text-2xl font-bold text-slate-800 tracking-tight">MyHome</h1>
+                    <p className="text-slate-500 text-sm mt-1">Sign in to your account</p>
+                </div>
 
+                {/* Card */}
+                <div className="bg-white border border-slate-200 rounded-2xl p-8 shadow-lg">
+                    <div className="flex flex-col gap-5">
+                        <TextForm
+                            label="Email"
+                            id="email"
+                            placeholder="you@example.com"
+                            {...formProps}
+                        />
+                        <TextForm
+                            label="Password"
+                            id="password"
+                            type="password"
+                            placeholder="••••••••"
+                            {...formProps}
+                        />
 
-            <div className="card">
-                <Card title="Simple Card">
-                    <TextForm
-                        label="EMAIL"
-                        id="email"
-                        {...formProps}
-                    />
-                    <TextForm
-                        label="PASSWORD"
-                        id="password"
-                        {...formProps}
-                    />
-                </Card>
+                        <button
+                            onClick={handleSubmit(signIn)}
+                            className="mt-2 w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-semibold rounded-xl transition-colors duration-150 shadow-sm cursor-pointer"
+                        >
+                            Sign in
+                        </button>
+                    </div>
+                </div>
             </div>
-
-
-
-            <button onClick={handleSubmit(signIn)}>
-                sign-in
-
-            </button>
-
-
-
-        </>
+        </div>
     )
 }

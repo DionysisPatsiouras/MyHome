@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react'
 
 // import { useSession } from 'next-auth/react'
 
+
+
 export const useFetch = (endpoint: string) => {
 
 
@@ -25,17 +27,19 @@ export const useFetch = (endpoint: string) => {
             try {
                 // const token = localStorage.getItem("token");
                 const token: any = await cookieStore.get("token")
+                // console.log("🚀 ~ fetchData ~ token:", token)
 
                 const res = await fetch(endpoint, {
                     headers: {
                         "Content-Type": "application/json",
-                        "Authorization": `Bearer ${token.value}`,
+                        "Authorization": `Bearer ${token?.value}`,
                     },
                 });
 
                 if (!res.ok) throw new Error("Failed to fetch data");
 
                 const result = await res.json();
+                setLoading(false)
                 setData(result);
             } catch (err) {
                 console.error(err);
@@ -46,28 +50,7 @@ export const useFetch = (endpoint: string) => {
         fetchData();
     }, [DOM]); // empty dependency array = run once on mount
 
-    useEffect(() => {
 
-        // if (status === 'authenticated') {
-        //     axios(config)
-        //         .then((res) => {
-
-        //             if (Object.keys(res.data).length === 0) {
-        //                 setDataNotFound(true)
-        //                 setData([])
-        //             } else {
-        //                 setData(res.data)
-        //                 setDataNotFound(false)
-        //             }
-
-        //             setLoading(false)
-        //         })
-        //         .catch((err) => console.log(err))
-
-        // }
-
-        // }, [status, session, DOM])
-    }, [DOM])
 
     return { loading, data, fetchData, dataNotFound }
 

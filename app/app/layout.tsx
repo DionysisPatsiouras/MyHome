@@ -37,15 +37,15 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <head>
-        {/* <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" /> */}
-        {/* <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossOrigin="anonymous" /> */}
-      </head>
+      {/* <head> */}
+      {/* <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" /> */}
+      {/* <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossOrigin="anonymous" /> */}
+      {/* </head> */}
       {/* <Script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" ></Script> */}
 
-      <PrimeReactProvider>
-        <body className="min-h-full flex flex-col">{children}</body>
-      </PrimeReactProvider>
+      <body className="min-h-full flex flex-col">
+        <PrimeReactProvider>{children}</PrimeReactProvider>
+      </body>
     </html>
   );
 }

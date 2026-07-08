@@ -34,7 +34,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
          
             user = CustomUser.objects.get(email=attrs.get("email"))
             login_attempts = LoginAttempts.objects.filter(user=user.id).count()
-            current_ip_address = self.context.get("request").META.get("REMOTE_ADDR"),
+            current_ip_address = self.context.get("request").META.get("REMOTE_ADDR")
 
 
             if login_attempts >= 3:

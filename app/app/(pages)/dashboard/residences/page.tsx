@@ -23,64 +23,47 @@ export default function Residences() {
     const { data } = useFetch(Routes('residences').list)
     console.log("🚀 ~ Residences ~ data:", data)
 
-    const CardFooter = ({ id }: { id: number }) => (
-        <div className='flex gap-3'>
-            <Link href={`/dashboard/residences/${id}`}>
-                <Button label="Άνοιγμα" icon="pi pi-eye" />
-            </Link>
-            <Button label="" icon="pi pi-trash" />
-            {/* <Button label="Επεξεργασία" icon="pi pi-cog" severity="secondary" /> */}
-        </div>
-    )
-
     return (
-        <section className='flex align-items-center flex-column '>
+        <section className='flex align-items-center flex-column'>
 
+            <div className='grid col-12 lg:col-10'>
+                {data.map((residence: Residence) => (
+                    <div
+                        key={`${residence.id}-${residence.address}-${residence.square_meters}`}
+                        className="col-12 lg:col-6"
+                    >
+                        <Card style={{ padding: 0, overflow: 'hidden' }}>
 
-
-
-            {data.map((residence: Residence) => (
-                <div
-                    key={`${residence.id}-${residence.address}-${residence.square_meters}`}
-
-                    className="card col-12 lg:col-7">
-                    <Card>
-
-                        <div className='flex flex-column md:flex-row md:gap-4'>
-                            <div
-                                className='col-12 md:col-3'
-                                style={{
-                                    //  border: "1px solid grey", 
-                                    height: 300, minWidth: 350
-                                }}
-                            >
-
-                                <MapComponent height={"-webkit-fill-available"} />
-
+                            {/* Map — top */}
+                            <div style={{ height: 220, width: '100%' }}>
+                                <MapComponent
+                                    height={220}
+                                    width="100%"
+                                    zoom={15}
+                                    coordinates={[residence?.latitude, residence?.longitude]}
+                                />
                             </div>
 
-                            <div className='flex justify-between' style={{ width: "100%" }}>
-
-                                <div className='flex flex-col justify-between'>
-
-                                    <div>
-                                        <h2 style={{ fontSize: "1.5rem", fontWeight: 700 }}>{`${residence.address} ${residence?.road_number}`} </h2>
-                                        <p style={{ fontWeight: 400, color: "#6b7280" }}>{`${residence.residenceType.name} ${meters(residence.square_meters)}`}</p>
-                                    </div>
-
+                            {/* Details — bottom */}
+                            <div className='flex justify-between align-items-start' style={{ padding: '1rem 0rem 0rem' }}>
+                                <div>
+                                    <h2 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.25rem' }}>
+                                        {`${residence.address} ${residence?.road_number}`}
+                                    </h2>
+                                    <p style={{ fontWeight: 400, color: '#6b7280', marginBottom: '0.75rem' }}>
+                                        {`${residence.residenceType.name} · ${meters(residence.square_meters)}`}
+                                    </p>
                                     <Link href={`/dashboard/residences/${residence.id}`}>
-                                        <Button label="Άνοιγμα" icon="pi pi-eye" />
+                                        <Button label="Άνοιγμα" size="small" />
                                     </Link>
-
                                 </div>
-
                                 <i className='pi pi-cog cursor-pointer' style={{ fontSize: 20 }} />
                             </div>
-                        </div>
 
-                    </Card>
-                </div>
-            ))}
+                        </Card>
+                    </div>
+                ))}
+            </div>
 
         </section>
     )

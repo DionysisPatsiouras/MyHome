@@ -23,7 +23,7 @@ DB_USERNAME = config("DB_USERNAME")
 DB_PASSWORD = config("DB_PASSWORD")
 DB_HOST = config("DB_HOST")
 DB_PORT = config("DB_PORT")
-DEBUG_STATUS = config("DEBUG_STATUS")
+DEBUG_STATUS = config("DEBUG_STATUS", cast=bool)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = "django-insecure-r5z^zvyf6b6x_3ks37t+_7&h6nj8&jby)=h90jp##)j1y*=kvp"
@@ -32,8 +32,7 @@ SECRET_KEY = SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = DEBUG_STATUS
 
-ALLOWED_HOSTS = []
-# ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="localhost,127.0.0.1", cast=lambda v: [s.strip() for s in v.split(",")])
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
@@ -59,6 +58,11 @@ INSTALLED_APPS = [
     "technicians",
     "tenants",
     "users",
+    "django_crontab",
+]
+
+CRONJOBS = [
+    # ('* * * * *', 'django.core.management.call_command', ['hello_cron']),
 ]
 
 MIDDLEWARE = [

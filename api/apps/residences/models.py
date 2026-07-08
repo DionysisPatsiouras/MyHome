@@ -5,7 +5,7 @@ import random
 
 # from django.utils import timezone
 
-# import uuid
+import uuid
 
 
 from tenants.models import *
@@ -32,9 +32,11 @@ class ResidenceType(models.Model):
 
 class Residence(models.Model):
 
+    # uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
     uniqueId = models.CharField(default=generate_uniqueId, unique=True)
 
-    # uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     address = models.CharField(max_length=200, null=False)
     road_number = models.CharField(max_length=50, null=True)

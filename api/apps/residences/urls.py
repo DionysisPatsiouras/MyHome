@@ -8,7 +8,7 @@ views = importlib.import_module(f"{app_name}.views")
 
 urlpatterns = [
     path("", views.list), # GET, POST
-    path("<int:id>", views.record), # GET, PATCH, DELETE
+    path("<uuid:id>", views.record), # GET, PATCH, DELETE
     path("types", views.retrieveTypes),
 ]
 

@@ -6,4 +6,9 @@
 
 
 ### Check health
-# pyrhon3 manage.py check
+# python3 manage.py check
+
+
+### Login Credentials
+# email: dion.patsiouras@gmail.com
+# password: 123

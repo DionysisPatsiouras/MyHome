@@ -6,6 +6,7 @@ import { InputText } from 'primereact/inputtext'
 import { Card } from 'primereact/card'
 import { Button } from 'primereact/button'
 import { Toast } from 'primereact/toast'
+import { Dropdown } from 'primereact/dropdown'
 
 // import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog'
 import { ConfirmDialog } from 'primereact/confirmdialog'
@@ -13,9 +14,9 @@ import { ConfirmDialog } from 'primereact/confirmdialog'
 import { confirmDelete } from '@/app/lib/confirmDelete'
 
 import { useFetch } from "@/app/lib/hooks/useFetch"
-import { Routes } from "@/app/lib/Routes"
+import { Routes, customRoute } from "@/app/lib/Routes"
 
-import type { Technician } from "@/app/lib/types"
+import type { Technician, TechnicianType } from "@/app/lib/types"
 
 export default function Technicians() {
     // const toast = useRef(null)
@@ -26,10 +27,11 @@ export default function Technicians() {
 
 
     const { data: technicians } = useFetch(Routes('technicians').list)
+    const { data: technicianTypes } = useFetch(customRoute('technicians/types'))
 
     const [selection, setSelection] = useState<number>()
-
     const [searchValue, setSearchValue] = useState<string>("")
+    const [selectedType, setSelectedType] = useState<TechnicianType | null>(null)
 
 
     // const accept = () => {
@@ -60,15 +62,17 @@ export default function Technicians() {
     return (
         <main className='container'>
 
-
-            1. [delete with modal pending]
-            <br></br>
-            2. [edit technician]
-
             {/* <Toast ref={toast} /> */}
             <ConfirmDialog />
 
             <section className='pb-4'>
+                <h2 className='mt-0 mb-2'>Τεχνικοί</h2>
+                <p className='m-0 text-color-secondary'>
+                    Εδώ μπορείτε να αποθηκεύσετε όλους τους τεχνικούς που συνεργάζεστε, ώστε να είναι διαθέσιμοι για μελλοντική χρήση σε επισκευές και συντηρήσεις.
+                </p>
+            </section>
+
+            <section className='pb-4 flex gap-2'>
 
                 <div className="p-inputgroup flex-1">
                     <span className="p-inputgroup-addon">
@@ -76,6 +80,14 @@ export default function Technicians() {
                     </span>
                     <InputText placeholder="Αναζήτηση.." onChange={(e: any) => setSearchValue(e.target.value.toLocaleLowerCase())} />
                 </div>
+
+                <Dropdown
+                    value={selectedType}
+                    options={[{ id: null, name: 'Όλοι' }, ...technicianTypes]}
+                    onChange={(e) => setSelectedType(e.value)}
+                    optionLabel="name"
+                    placeholder="Τύπος τεχνικού"
+                />
 
             </section>
 
@@ -86,6 +98,7 @@ export default function Technicians() {
                     .filter((item: Technician) => searchValue === ""
                         ? item
                         : item?.full_name && normalize(item.full_name).includes(normalize(searchValue)))
+                    .filter((item: Technician) => !selectedType || selectedType.id === null || item?.technicianType?.id === selectedType.id)
                     .map((item: Technician) => (
                         <div key={`${item?.id}-${item?.full_name}`} className='col-12 md:col-6 p-2'>
                             <Card
