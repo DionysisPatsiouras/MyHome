@@ -40,7 +40,7 @@ const user = {
 const navLinks = [
     { label: 'Αρχική', url: '/dashboard' },
     { label: 'Ακίνητα', url: '/dashboard/residences' },
-    { label: 'Τηλεφωνικός κατάλογος', url: '/dashboard/technicians' },
+    { label: 'Τεχνικοί', url: '/dashboard/technicians' },
 ];
 
 type UserMenuEntry =

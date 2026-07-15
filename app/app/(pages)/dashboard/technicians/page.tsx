@@ -1,98 +1,140 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 
+import { Badge, Button, Group, SegmentedControl, Select, Stack, TextInput, Title } from '@mantine/core'
+import { IconLayoutGrid, IconList, IconPlus, IconSearch } from '@tabler/icons-react'
 
-import { useFetch } from "@/app/lib/hooks/useFetch"
-import { Routes } from "@/app/lib/Routes"
+import { useFetch } from '@/app/lib/hooks/useFetch'
+import { useCRUD } from '@/app/lib/hooks/useCRUD'
+import { Routes, customRoute } from '@/app/lib/Routes'
+import CardView from '@/app/components/technician/CardView'
+import ListView from '@/app/components/technician/ListView'
+import { DataNotFound } from '@/app/components/layout/DataNotFound'
+import { PageLoader } from '@/app/components/layout/PageLoader'
+import { DeleteModal } from '@/app/components/layout/DeleteModal'
 
-import type { Technician, TechnicianType } from "@/app/lib/types"
+import type { Technician, TechnicianType } from '@/app/lib/types'
 
 export default function Technicians() {
-
 
     const normalize = (str: string) =>
         str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('el')
 
+    const { DELETE } = useCRUD()
+    const { data: technicians, loading, dataNotFound, fetchData } = useFetch(Routes('technicians').list)
+    const { data: technicianTypes } = useFetch(customRoute('technicians/types'))
 
-    const { data: technicians } = useFetch(Routes('technicians').list)
-    // const { data: technicianTypes } = useFetch(customRoute('technicians/types'))
+    const [searchValue, setSearchValue] = useState<string>('')
+    const [selectedTypeId, setSelectedTypeId] = useState<string | null>(null)
+    const [view, setView] = useState<'grid' | 'list'>('grid')
 
+    const [deleteTarget, setDeleteTarget] = useState<Technician | null>(null)
+    const [deleting, setDeleting] = useState(false)
 
-    const [searchValue, setSearchValue] = useState<string>("")
-    const [selectedType, setSelectedType] = useState<TechnicianType | null>(null)
+    const handleDelete = async () => {
+        if (!deleteTarget) return
 
+        setDeleting(true)
+
+        try {
+            DELETE(Routes('technicians').delete(String(deleteTarget.id)))
+            setDeleteTarget(null)
+            fetchData()
+        } catch (err) {
+            console.error(err)
+        } finally {
+            setDeleting(false)
+        }
+    }
+
+    const filteredTechnicians = technicians
+        .filter((item: Technician) =>
+            searchValue === '' ? item : item?.full_name && normalize(item.full_name).includes(normalize(searchValue)))
+        .filter((item: Technician) => !selectedTypeId || item?.technicianType?.id === Number(selectedTypeId))
+
+    if (loading) return <PageLoader />
+
+    if (dataNotFound) {
+        return (
+            <DataNotFound
+                title="Δεν υπάρχουν τεχνικοί"
+                description="Δεν έχετε προσθέσει ακόμα κάποιον τεχνικό."
+                actionLabel="Νέος τεχνικός"
+                actionHref="/dashboard/technicians/new"
+            />
+        )
+    }
 
     return (
-        <main className='container'>
+        <Stack gap="lg">
 
+            <DeleteModal
+                opened={!!deleteTarget}
+                onClose={() => setDeleteTarget(null)}
+                onConfirm={handleDelete}
+                loading={deleting}
+                title="Διαγραφή τεχνικού"
+                description={`Είστε σίγουροι ότι θέλετε να διαγράψετε τον τεχνικό "${deleteTarget?.full_name ?? ''}"; Η ενέργεια αυτή δεν μπορεί να αναιρεθεί.`}
+            />
 
-            <section className='pb-4'>
-                <h2 className='mt-0 mb-2'>Τεχνικοί</h2>
-                <p className='m-0 text-color-secondary'>
-                    Εδώ μπορείτε να αποθηκεύσετε όλους τους τεχνικούς που συνεργάζεστε, ώστε να είναι διαθέσιμοι για μελλοντική χρήση σε επισκευές και συντηρήσεις.
-                </p>
-            </section>
+            <Group justify="space-between">
+                <Group gap="xs" align="center">
+                    <Title order={2}>Τεχνικοί</Title>
+                    <Badge variant="light" color="blue" size="lg" circle>
+                        {technicians.length}
+                    </Badge>
+                </Group>
+                <Group gap="sm">
+                    <SegmentedControl
+                        value={view}
+                        onChange={(value) => setView(value as 'grid' | 'list')}
+                        data={[
+                            { label: <IconLayoutGrid size={16} />, value: 'grid' },
+                            { label: <IconList size={16} />, value: 'list' },
+                        ]}
+                    />
+                    <Button component={Link} href="/dashboard/technicians/new" leftSection={<IconPlus size={16} />}>
+                        Νέος τεχνικός
+                    </Button>
+                </Group>
+            </Group>
 
-            <section className='pb-4 flex gap-2'>
-
-                <div className="p-inputgroup flex-1">
-                    <span className="p-inputgroup-addon">
-                        <i className="pi pi-search"></i>
-                    </span>
-                    {/* <InputText placeholder="Αναζήτηση.." onChange={(e: any) => setSearchValue(e.target.value.toLocaleLowerCase())} /> */}
-                </div>
-
-                {/* <Dropdown
-                    value={selectedType}
-                    options={[{ id: null, name: 'Όλοι' }, ...technicianTypes]}
-                    onChange={(e) => setSelectedType(e.value)}
-                    optionLabel="name"
+            <Group gap="sm">
+                <TextInput
+                    placeholder="Αναζήτηση.."
+                    leftSection={<IconSearch size={16} />}
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    style={{ flex: 1 }}
+                />
+                <Select
                     placeholder="Τύπος τεχνικού"
-                /> */}
+                    data={[
+                        { value: 'all', label: 'Όλες οι ειδικότητες' },
+                        ...technicianTypes.map((type: TechnicianType) => ({ value: String(type.id), label: type.name })),
+                    ]}
+                    value={selectedTypeId ?? 'all'}
+                    onChange={(value) => setSelectedTypeId(value === 'all' ? null : value)}
+                    w={220}
+                />
+            </Group>
 
-            </section>
+            {filteredTechnicians.length === 0 && (
+                <DataNotFound
+                    title="Δεν βρέθηκαν τεχνικοί"
+                    description="Δοκιμάστε διαφορετικά κριτήρια αναζήτησης ή φιλτραρίσματος."
+                />
+            )}
 
+            {filteredTechnicians.length > 0 && view === 'grid' && (
+                <CardView technicians={filteredTechnicians} onDelete={setDeleteTarget} />
+            )}
+            {filteredTechnicians.length > 0 && view === 'list' && (
+                <ListView technicians={filteredTechnicians} onDelete={setDeleteTarget} />
+            )}
 
-
-            <section className='grid'>
-                {technicians
-                    .filter((item: Technician) => searchValue === ""
-                        ? item
-                        : item?.full_name && normalize(item.full_name).includes(normalize(searchValue)))
-                    .filter((item: Technician) => !selectedType || selectedType.id === null || item?.technicianType?.id === selectedType.id)
-                    .map((item: Technician) => (
-                        <div key={`${item?.id}-${item?.full_name}`} className='col-12 md:col-6 p-2'>
-                            {/* <Card
-                                title={
-                                    <div className='flex flex-column mb-4'>
-                                        {item?.full_name}
-                                        <small style={{ fontWeight: 500, fontSize: 14 }}>{item?.technicianType?.name}</small>
-                                    </div>
-                                }
-                            >
-                                <div className='flex gap-2 align-items-center mb-2'>
-                                    <i className='pi pi-phone' />
-                                    <p className="m-0">{item?.phone_1}</p>
-                                </div>
-                                <div className='flex gap-2 align-items-center'>
-                                    <i className='pi pi-phone' />
-                                    <p className="m-0">{item?.phone_2 || "-"}</p>
-                                </div>
-
-                                <div className='flex gap-2 mt-3'>
-                                    <Button icon="pi pi-pencil" rounded text raised />
-                                    <Button icon="pi pi-trash" onClick={() => handleDelete(item)} severity="danger" rounded text raised />
-
-                                </div>
-
-                            </Card> */}
-                        </div>
-                    ))
-                }
-            </section>
-
-
-        </main>
+        </Stack>
     )
 }
