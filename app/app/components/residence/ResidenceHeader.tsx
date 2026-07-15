@@ -1,7 +1,5 @@
 'use client'
 
-// import { Tag } from 'primereact/tag'
-// import { Skeleton } from 'primereact/skeleton'
 
 import { meters } from '@/app/lib/formatter'
 import { useResidence } from '@/app/contexts/ResidenceContext'

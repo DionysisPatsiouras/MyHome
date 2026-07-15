@@ -1,21 +1,14 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 
-// import { Dropdown } from 'primereact/dropdown'
-
-// import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog'
-// import { ConfirmDialog } from 'primereact/confirmdialog'
-
-import { confirmDelete } from '@/app/lib/confirmDelete'
 
 import { useFetch } from "@/app/lib/hooks/useFetch"
-import { Routes, customRoute } from "@/app/lib/Routes"
+import { Routes } from "@/app/lib/Routes"
 
 import type { Technician, TechnicianType } from "@/app/lib/types"
 
 export default function Technicians() {
-    // const toast = useRef(null)
 
 
     const normalize = (str: string) =>
@@ -23,43 +16,16 @@ export default function Technicians() {
 
 
     const { data: technicians } = useFetch(Routes('technicians').list)
-    const { data: technicianTypes } = useFetch(customRoute('technicians/types'))
+    // const { data: technicianTypes } = useFetch(customRoute('technicians/types'))
 
-    const [selection, setSelection] = useState<number>()
+
     const [searchValue, setSearchValue] = useState<string>("")
     const [selectedType, setSelectedType] = useState<TechnicianType | null>(null)
 
 
-    // const accept = () => {
-    //     alert("tst")
-    //     toast.current.show({ severity: 'info', summary: 'Επιβεβαίωση', detail: 'Η καταχώρηση διαγράφηκε επιτυχώς', life: 3000 });
-    // }
-
-    // const reject = () => {
-    //     toast.current.show({ severity: 'warn', summary: 'Ακύρωση', detail: 'Η διαγραφή ακυρώθηκε', life: 3000 });
-    // }
-
-    const handleDelete = (technician: Technician) => {
-        setSelection(technician?.id)
-        confirmDelete()
-        // confirmDialog({
-        //     message: 'Θέλετε να διαγράψετε αυτή την καταχώρηση;',
-        //     header: 'Διαγραφή',
-        //     icon: 'pi pi-info-circle',
-        //     defaultFocus: 'reject',
-        //     acceptClassName: 'p-button-danger',
-        //     acceptLabel: 'Διαγραφή',
-        //     rejectLabel: 'Άκυρο',
-        //     accept,
-        //     reject
-        // });
-    }
-
     return (
         <main className='container'>
 
-            {/* <Toast ref={toast} /> */}
-            {/* <ConfirmDialog /> */}
 
             <section className='pb-4'>
                 <h2 className='mt-0 mb-2'>Τεχνικοί</h2>

@@ -1,6 +1,6 @@
 'use client'
 
-import { Card } from 'primereact/card'
+import { Card } from '@mantine/core'
 
 import { useResidence } from '@/app/contexts/ResidenceContext'
 

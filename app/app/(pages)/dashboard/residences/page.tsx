@@ -1,110 +1,108 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
-import dynamic from 'next/dynamic'
 
-import { Card, Button, Menu } from '@mantine/core'
+import { Badge, Button, Card, Group, SegmentedControl, Stack, Title } from '@mantine/core'
+import { IconPlus, IconLayoutGrid, IconList, IconMap } from '@tabler/icons-react'
 
-import { useFetch } from "@/app/lib/hooks/useFetch"
-import { Routes } from "@/app/lib/Routes"
-import { meters } from '@/app/lib/formatter'
+import { useFetch } from '@/app/lib/hooks/useFetch'
+import { Routes } from '@/app/lib/Routes'
+import CardView from '@/app/components/residence/CardView'
+import ListView from '@/app/components/residence/ListView'
+import { ResidencesMap } from '@/app/components/residence/ResidencesMap'
+import { DataNotFound } from '@/app/components/layout/DataNotFound'
+import { PageLoader } from '@/app/components/layout/PageLoader'
+import { DeleteModal } from '@/app/components/layout/DeleteModal'
 
 import type { Residence } from '@/app/lib/types'
-import type { MapComponentProps } from '@/app/components/MapComponent'
+
+import { useCRUD } from '@/app/lib/hooks/useCRUD'
+
 
 export default function Residences() {
 
-    const MapComponent = dynamic<MapComponentProps>(() => import("@/app/components/MapComponent"), {
-        ssr: false,
-    });
+    const { DELETE } = useCRUD()
+    const { data: residences, loading, dataNotFound, fetchData } = useFetch(Routes('residences').list)
 
+    const [deleteTarget, setDeleteTarget] = useState<Residence | null>(null)
+    const [deleting, setDeleting] = useState(false)
+    const [view, setView] = useState<'grid' | 'list' | 'map'>('grid')
 
-    const { data, fetchData } = useFetch(Routes('residences').list)
-    console.log("🚀 ~ Residences ~ data:", data)
+    const handleDelete = async () => {
+        if (!deleteTarget) return
 
-    const handleDelete = async (id: number) => {
-        const token: any = await cookieStore.get("token")
+        setDeleting(true)
 
-        await fetch(Routes('residences').delete(String(id)), {
-            method: 'DELETE',
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token?.value}`,
-            },
-        })
+        try {
+            DELETE(Routes('residences').delete(String(deleteTarget.id)))
+            setDeleteTarget(null)
+            fetchData()
+        } catch (err) {
+            console.error(err)
+        } finally {
+            setDeleting(false)
+        }
+    }
 
-        fetchData()
+    if (loading) return <PageLoader />
+
+    if (dataNotFound) {
+        return (
+            <DataNotFound
+                title="Δεν υπάρχουν ακίνητα"
+                description="Δεν έχετε προσθέσει ακόμα κάποιο ακίνητο."
+                actionLabel="Νέο ακίνητο"
+                actionHref="/dashboard/residences/new"
+            />
+        )
     }
 
     return (
-        <section className='flex align-items-center flex-column'>
+        <Stack gap="lg">
 
-            <div className='grid col-12 lg:col-10'>
-                {data.map((residence: Residence) => (
-                    <div
-                        key={`${residence.id}-${residence.address}-${residence.square_meters}`}
-                        className="col-12 lg:col-6"
-                    >
-                        <Card padding={0} radius="md" withBorder style={{ overflow: 'hidden' }}>
+            <DeleteModal
+                opened={!!deleteTarget}
+                onClose={() => setDeleteTarget(null)}
+                onConfirm={handleDelete}
+                loading={deleting}
+                title="Διαγραφή ακινήτου"
+                description={`Είστε σίγουροι ότι θέλετε να διαγράψετε το ακίνητο "${deleteTarget?.address ?? ''} ${deleteTarget?.road_number ?? ''}"; Η ενέργεια αυτή δεν μπορεί να αναιρεθεί.`}
+            />
 
-                            <div style={{ height: 220, width: '100%' }}>
-                                <MapComponent
-                                    height={220}
-                                    width="100%"
-                                    zoom={15}
-                                    coordinates={[residence?.latitude, residence?.longitude]}
-                                />
-                            </div>
 
-                            <div className='flex justify-between align-items-start' style={{ padding: '1rem' }}>
-                                <div>
-                                    <h2 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.25rem' }}>
-                                        {`${residence.address} ${residence?.road_number}`}
-                                    </h2>
-                                    <p style={{ fontWeight: 400, color: '#6b7280', marginBottom: '0.75rem' }}>
-                                        {`${residence.residenceType.name} · ${meters(residence.square_meters)}`}
-                                    </p>
-                                    <Button.Group>
-                                        <Button
-                                            component={Link}
-                                            href={`/dashboard/residences/${residence.id}`}
-                                            size="xs"
-                                        >
-                                            Άνοιγμα
-                                        </Button>
-                                        <Menu position="bottom-end" withinPortal>
-                                            <Menu.Target>
-                                                <Button size="xs" px="xs">
-                                                    <i className="pi pi-chevron-down" style={{ fontSize: 12 }} />
-                                                </Button>
-                                            </Menu.Target>
-                                            <Menu.Dropdown>
-                                                <Menu.Item
-                                                    component={Link}
-                                                    href={`/dashboard/residences/${residence.id}/edit`}
-                                                    leftSection={<i className="pi pi-pencil" />}
-                                                >
-                                                    Επεξεργασία
-                                                </Menu.Item>
-                                                <Menu.Item
-                                                    color="red"
-                                                    leftSection={<i className="pi pi-trash" />}
-                                                    onClick={() => handleDelete(residence.id)}
-                                                >
-                                                    Διαγραφή
-                                                </Menu.Item>
-                                            </Menu.Dropdown>
-                                        </Menu>
-                                    </Button.Group>
-                                </div>
-                                <i className='pi pi-cog cursor-pointer' style={{ fontSize: 20 }} />
-                            </div>
+            <Group justify="space-between">
+                <Group gap="xs" align="center">
+                    <Title order={2}>Ακίνητα</Title>
+                    <Badge variant="light" color="blue" size="lg" circle>
+                        {residences.length}
+                    </Badge>
+                </Group>
+                <Group gap="sm">
+                    <SegmentedControl
+                        value={view}
+                        onChange={(value) => setView(value as 'grid' | 'list' | 'map')}
+                        data={[
+                            { label: <IconLayoutGrid size={16} />, value: 'grid' },
+                            { label: <IconList size={16} />, value: 'list' },
+                            { label: <IconMap size={16} />, value: 'map' },
+                        ]}
+                    />
+                    <Button component={Link} href="/dashboard/residences/new" leftSection={<IconPlus size={16} />}>
+                        Νέο ακίνητο
+                    </Button>
+                </Group>
+            </Group>
 
-                        </Card>
-                    </div>
-                ))}
-            </div>
+            {view === 'grid' && <CardView residences={residences} onDelete={setDeleteTarget} />}
+            {view === 'list' && <ListView residences={residences} onDelete={setDeleteTarget} />}
+            {view === 'map' && (
+                <Card padding={0} radius="md" withBorder style={{ overflow: 'hidden' }}>
+                    <ResidencesMap residences={residences} />
+                </Card>
+            )}
 
-        </section>
+
+        </Stack>
     )
 }

@@ -2,10 +2,11 @@ import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 
 import "./globals.css"
-import 'primeicons/primeicons.css'
+// import 'primeicons/primeicons.css'
 // import "primereact/resources/themes/lara-light-cyan/theme.css"
 
 // import 'primeflex/primeflex.css'
+
 
 import 'leaflet/dist/leaflet.css';
 

@@ -7,5 +7,5 @@ export default function AppMantineProvider({
 }: Readonly<{
     children?: React.ReactNode;
 }>) {
-    return <MantineProvider>{children}</MantineProvider>;
+    return <MantineProvider defaultColorScheme="auto">{children}</MantineProvider>;
 }

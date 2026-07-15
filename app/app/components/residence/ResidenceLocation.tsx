@@ -1,7 +1,7 @@
 'use client'
 
 import dynamic from 'next/dynamic'
-import { Card } from 'primereact/card'
+import { Card } from '@mantine/core'
 
 import { useResidence } from '@/app/contexts/ResidenceContext'
 import type { MapComponentProps } from '@/app/components/MapComponent'

@@ -163,39 +163,30 @@ export const useCRUD = () => {
 
     // }
 
-    // const DELETE = async (endpoint: string, snackbarMessage = 'Επιτυχής διαγραφή') => {
+    const DELETE = async (endpoint: string, unauthenticated = false) => {
 
-    //     const config = {
-    //         method: 'DELETE',
-    //         url: endpoint,
-    //         headers: {
-    //             'Content-Type': 'application/json',
+        const token: any = await cookieStore.get("token")
 
-    //             // @ts-ignore
-    //             Authorization: `Bearer ${session?.user?.token}`,
-    //         }
-    //     }
+        const config = {
+            method: 'DELETE',
+            url: endpoint,
+            headers: {
 
-    //     if (status === 'authenticated') {
+                "Content-Type": "application/json",
+                ...(unauthenticated ? {} : { Authorization: `Bearer ${token?.value}` }),
+            }
+        }
 
-    //         return await axios(config)
-    //             .then((response) => {
 
-    //                 snackbarMessage !== '' && snackbar(snackbarMessage)
+        const res = await fetch(endpoint, config)
 
-    //                 return response.data
-    //             })
-    //             .catch((error) => {
-    //                 throw error
-    //             })
+        return res.json()
 
-    //     }
-
-    // }
+    }
 
 
 
     // return { GET, POST, DELETE, PATCH, POST_NO_TOKEN, POST_FILES_NO_TOKEN }
-    return { POST }
+    return { POST, DELETE }
 
 }

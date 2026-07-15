@@ -27,15 +27,15 @@ export type POIType =
     | 'gym';
 
 const POI_CONFIG: Record<POIType, { key: string; value: string; color: string; label: string }> = {
-    supermarket: { key: 'shop',    value: 'supermarket',    color: '#22c55e', label: 'Supermarket' },
-    pharmacy:    { key: 'amenity', value: 'pharmacy',       color: '#ef4444', label: 'Pharmacy'    },
-    school:      { key: 'amenity', value: 'school',         color: '#f59e0b', label: 'School'      },
-    hospital:    { key: 'amenity', value: 'hospital',       color: '#dc2626', label: 'Hospital'    },
-    restaurant:  { key: 'amenity', value: 'restaurant',     color: '#8b5cf6', label: 'Restaurant'  },
-    bank:        { key: 'amenity', value: 'bank',           color: '#3b82f6', label: 'Bank'        },
-    atm:         { key: 'amenity', value: 'atm',            color: '#0ea5e9', label: 'ATM'         },
-    bakery:      { key: 'shop',    value: 'bakery',         color: '#d97706', label: 'Bakery'      },
-    gym:         { key: 'leisure', value: 'fitness_centre', color: '#ec4899', label: 'Gym'         },
+    supermarket: { key: 'shop', value: 'supermarket', color: '#22c55e', label: 'Supermarket' },
+    pharmacy: { key: 'amenity', value: 'pharmacy', color: '#ef4444', label: 'Pharmacy' },
+    school: { key: 'amenity', value: 'school', color: '#f59e0b', label: 'School' },
+    hospital: { key: 'amenity', value: 'hospital', color: '#dc2626', label: 'Hospital' },
+    restaurant: { key: 'amenity', value: 'restaurant', color: '#8b5cf6', label: 'Restaurant' },
+    bank: { key: 'amenity', value: 'bank', color: '#3b82f6', label: 'Bank' },
+    atm: { key: 'amenity', value: 'atm', color: '#0ea5e9', label: 'ATM' },
+    bakery: { key: 'shop', value: 'bakery', color: '#d97706', label: 'Bakery' },
+    gym: { key: 'leisure', value: 'fitness_centre', color: '#ec4899', label: 'Gym' },
 };
 
 function createPOIIcon(color: string) {

@@ -3,11 +3,8 @@
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
-import { Dropdown } from 'primereact/dropdown'
-import { Button } from "primereact/button"
-
-import { Card } from 'primereact/card'
-
+import { Card } from "@mantine/core"
+import { Button } from "@mantine/core"
 
 import { NewResidenceSchema } from "@/app/lib/formSchemas"
 import { useFetch } from "@/app/lib/hooks/useFetch"
@@ -101,11 +98,11 @@ export default function NewResidence() {
                     <div className="flex flex-col gap-2">
 
                         <label htmlFor="username">Οροφος</label>
-                        <Dropdown
+                        {/* <Dropdown
                             options={cities}
                             optionLabel="name"
-                        // className="w-full" 
-                        />
+                        className="w-full" 
+                        /> */}
 
                     </div>
                 </div>
@@ -169,11 +166,11 @@ export default function NewResidence() {
                     <div className="flex flex-col gap-2">
 
                         <label htmlFor="username">Ενεργειακή κατάταξη</label>
-                        <Dropdown
+                        {/* <Dropdown
                             options={cities}
                             optionLabel="name"
-                        // className="w-full" 
-                        />
+                        className="w-full" 
+                        /> */}
 
                     </div>
                 </div>

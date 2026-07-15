@@ -9,6 +9,8 @@ import { useCRUD } from "@/app/lib/hooks/useCRUD"
 
 import { AuthRoutes } from "@/app/lib/Routes"
 
+import { useRouter } from "next/navigation"
+
 
 interface FormData {
     email: string
@@ -16,6 +18,8 @@ interface FormData {
 }
 
 export default function SignIn() {
+
+    const router = useRouter()
 
 
 
@@ -33,6 +37,7 @@ export default function SignIn() {
         POST(AuthRoutes.signin, formData).then((res) => {
             console.log(res)
             cookieStore.set("token", res.access)
+            router.push("/dashboard/")
         })
     }
 

@@ -13,6 +13,7 @@
     "@mantine/core": "^9.4.1",
     "@mantine/hooks": "^9.4.1",
     "@primeuix/themes": "^3.0.0-rc.1",
+    "@tabler/icons-react": "^3.44.0",
     "jsonwebtoken": "^9.0.3",
     "leaflet": "^1.9.4",
     "next": "16.2.1",
@@ -31,6 +32,9 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.1",
+    "postcss": "^8.5.16",
+    "postcss-preset-mantine": "^1.18.0",
+    "postcss-simple-vars": "^7.0.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

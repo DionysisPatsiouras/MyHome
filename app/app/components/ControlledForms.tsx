@@ -1,6 +1,4 @@
-import { InputText } from "primereact/inputtext"
-import { Dropdown } from 'primereact/dropdown'
-
+import { PasswordInput, TextInput } from "@mantine/core"
 
 interface FormProps {
     id: string
@@ -12,22 +10,16 @@ interface FormProps {
 }
 
 export const TextForm = ({ id, label, register, errors, placeholder, type = "text" }: FormProps) => {
-    return (
-        <div className="flex flex-col gap-2">
+    const Component = type === "password" ? PasswordInput : TextInput
 
-            <label htmlFor="username">{label}</label>
-            <InputText
-                type={type}
-                id={id} aria-describedby="username-help"
-                placeholder={placeholder}
-                {...register(id)}
-            />
-            {errors?.[id]?.message &&
-                <small id="username-help" style={{ color: "#c52828" }}>
-                    {errors?.[id]?.message}
-                </small>
-            }
-        </div>
+    return (
+        <Component
+            id={id}
+            label={label}
+            placeholder={placeholder}
+            error={errors?.[id]?.message}
+            {...register(id)}
+        />
     )
 
 }

@@ -2,13 +2,11 @@
 
 import { useEffect, useState } from 'react'
 
-// import axios from 'axios'
 
 // import { useSession } from 'next-auth/react'
 
 
-
-export const useFetch = (endpoint: string) => {
+export const useFetch = (endpoint: string, unauthenticated = false) => {
 
 
     const [data, setData] = useState([])
@@ -21,34 +19,36 @@ export const useFetch = (endpoint: string) => {
 
 
     useEffect(() => {
-        // Define async function inside the effect
+
         const fetchData = async () => {
 
             try {
-                // const token = localStorage.getItem("token");
+
                 const token: any = await cookieStore.get("token")
-                // console.log("🚀 ~ fetchData ~ token:", token)
 
                 const res = await fetch(endpoint, {
                     headers: {
                         "Content-Type": "application/json",
-                        "Authorization": `Bearer ${token?.value}`,
+                        ...(unauthenticated ? {} : { Authorization: `Bearer ${token?.value}` }),
                     },
                 });
 
-                if (!res.ok) throw new Error("Failed to fetch data");
+                if (!res.ok) throw new Error("Failed to fetch data")
 
-                const result = await res.json();
+                const result = await res.json()
+                result.length === 0 && setDataNotFound(true)
+
                 setLoading(false)
-                setData(result);
-            } catch (err) {
-                console.error(err);
-            }
-        };
+                setData(result)
 
-        // Call the async function
-        fetchData();
-    }, [DOM]); // empty dependency array = run once on mount
+            } catch (err) {
+                console.error(err)
+            }
+        }
+
+        fetchData()
+
+    }, [DOM])
 
 
 

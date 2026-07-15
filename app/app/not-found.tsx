@@ -1,13 +1,13 @@
 'use client'
 
 import Link from 'next/link'
-import { Button } from 'primereact/button'
-import { Card } from 'primereact/card'
+// import { Button } from 'primereact/button'
+// import { Card } from 'primereact/card'
 
 export default function PageNotFound() {
     return (
         <div className="flex align-items-center justify-content-center min-h-screen surface-ground">
-            <Card className="text-center shadow-4" style={{ maxWidth: '480px', width: '100%' }}>
+            {/* <Card className="text-center shadow-4" style={{ maxWidth: '480px', width: '100%' }}>
                 <div className="mb-4">
                     <i
                         className="pi pi-home"
@@ -36,7 +36,7 @@ export default function PageNotFound() {
                         size="large"
                     />
                 </Link>
-            </Card>
+            </Card> */}
         </div>
     )
 }

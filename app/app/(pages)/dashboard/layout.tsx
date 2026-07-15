@@ -1,12 +1,7 @@
 'use client'
 
-
-// import { Menubar } from 'primereact/menubar'
-
-import { MenuItems } from '@/app/lib/constants/MenuItems';
-
-import FloatingButton from '@/app/components/FloatingButton';
-
+import { Grid } from '@mantine/core'
+import { DashboardHeader } from '@/app/components/DashboardHeader'
 
 
 export default function DashboardLayout({ children }: any) {
@@ -14,14 +9,16 @@ export default function DashboardLayout({ children }: any) {
 
     return (
         <>
-            <header className="card">
-                {/* <Menubar model={MenuItems} /> */}
+            <header>
+                <DashboardHeader />
             </header>
+
             <main className='p-4'>
-
-                {children}
-                <FloatingButton />
-
+                <Grid justify="center">
+                    <Grid.Col span={{ base: 12, lg: 8 }}>
+                        {children}
+                    </Grid.Col>
+                </Grid>
             </main>
         </>
     )

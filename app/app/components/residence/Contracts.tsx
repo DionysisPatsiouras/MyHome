@@ -1,74 +1,18 @@
 'use client'
 
 import { useState } from 'react'
-import { Card } from 'primereact/card'
-import { Tag } from 'primereact/tag'
-import { Dialog } from 'primereact/dialog'
-
-const dummyContracts = [
-    {
-        id: 1,
-        tenant: 'Νίκος Θεοδωρίδης',
-        phone: '6912345678',
-        email: 'nikos.theodor@email.com',
-        start_date: '2025-07-01',
-        end_date: '2026-09-30',
-        monthly_rent: 720,
-        deposit: 1440,
-        status: 'Ενεργό',
-        notes: 'Καλός ενοικιαστής, πάντα πληρώνει εγκαίρως.',
-    },
-    {
-        id: 2,
-        tenant: 'Ελένη Κωστοπούλου',
-        phone: '6934567890',
-        email: 'eleni.kosto@email.com',
-        start_date: '2025-08-01',
-        end_date: '2026-07-10',
-        monthly_rent: 850,
-        deposit: 1700,
-        status: 'Ενεργό',
-        notes: null,
-    },
-    {
-        id: 3,
-        tenant: 'Δημήτρης Σταμάτης',
-        phone: '6956789012',
-        email: 'dimitris.s@email.com',
-        start_date: '2024-06-20',
-        end_date: '2026-06-25',
-        monthly_rent: 690,
-        deposit: 1380,
-        status: 'Ενεργό',
-        notes: 'Έχει κατοικίδιο (σκύλος).',
-    },
-    {
-        id: 4,
-        tenant: 'Γιώργος Παπαδόπουλος',
-        phone: '6978901234',
-        email: 'giorgos.pap@email.com',
-        start_date: '2024-03-01',
-        end_date: '2026-03-15',
-        monthly_rent: 650,
-        deposit: 1300,
-        status: 'Ληγμένο',
-        notes: null,
-    },
-    {
-        id: 5,
-        tenant: 'Μαρία Αντωνίου',
-        phone: '6990123456',
-        email: 'maria.ant@email.com',
-        start_date: '2021-06-01',
-        end_date: '2022-05-31',
-        monthly_rent: 580,
-        deposit: 1160,
-        status: 'Ληγμένο',
-        notes: 'Συμβόλαιο δεν ανανεώθηκε μετά τη λήξη.',
-    },
-]
-
-type Contract = typeof dummyContracts[0]
+import { Badge, Card, Group, Modal, Stack } from '@mantine/core'
+import {
+    IconAlertTriangle,
+    IconArrowLeft,
+    IconArrowRight,
+    IconClock,
+    IconFile,
+    IconMessageCircle,
+    IconUser,
+} from '@tabler/icons-react'
+import type { IconProps } from '@tabler/icons-react'
+import { dummyContracts, type Contract } from '@/app/lib/data/contracts'
 
 function dateDiff(dateStr: string): { past: boolean; years: number; months: number; days: number } {
     const today = new Date()
@@ -96,21 +40,21 @@ function formatDiff({ years, months, days }: { years: number; months: number; da
 function InfoRow({ label, value }: { label: string; value?: string | number | null }) {
     if (!value) return null
     return (
-        <div className="flex justify-between align-items-center py-2" style={{ borderBottom: '1px solid #f3f4f6' }}>
+        <Group justify="space-between" align="center" py={8} style={{ borderBottom: '1px solid #f3f4f6' }}>
             <span style={{ color: '#6b7280', fontSize: '0.875rem' }}>{label}</span>
             <span style={{ fontWeight: 500 }}>{value}</span>
-        </div>
+        </Group>
     )
 }
 
-function SectionTitle({ label, icon }: { label: string; icon: string }) {
+function SectionTitle({ label, icon: Icon }: { label: string; icon: React.ComponentType<IconProps> }) {
     return (
-        <div className="flex align-items-center gap-2 mt-4 mb-1" style={{ borderLeft: '3px solid #6366f1', paddingLeft: '0.5rem' }}>
-            <i className={`pi ${icon}`} style={{ color: '#6366f1', fontSize: '0.85rem' }} />
+        <Group gap={8} align="center" mt={16} mb={4} style={{ borderLeft: '3px solid #6366f1', paddingLeft: '0.5rem' }}>
+            <Icon size={14} style={{ color: '#6366f1' }} />
             <span style={{ fontWeight: 600, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#6366f1' }}>
                 {label}
             </span>
-        </div>
+        </Group>
     )
 }
 
@@ -119,32 +63,31 @@ export default function Contracts() {
 
     return (
         <>
-            <div className="flex flex-column gap-3">
+            <Stack gap="md">
                 {dummyContracts.map(contract => (
-                    <Card key={contract.id} style={{ cursor: 'pointer' }} onClick={() => setSelected(contract)}>
-                        <div className="flex justify-content-between align-items-start">
-                            <div className="flex flex-column gap-1">
+                    <Card key={contract.id} withBorder padding="md" radius="md" style={{ cursor: 'pointer' }} onClick={() => setSelected(contract)}>
+                        <Group justify="space-between" align="flex-start">
+                            <Stack gap={4}>
                                 <span style={{ fontWeight: 600, fontSize: '1rem' }}>
-                                    <i className="pi pi-user mr-2" style={{ color: '#6b7280' }} />
+                                    <IconUser size={16} style={{ color: '#6b7280', marginRight: 8, verticalAlign: 'middle' }} />
                                     {contract.tenant}
                                 </span>
-                                <div className="flex align-items-center gap-2 mt-1">
+                                <Group gap={8} align="center" mt={4}>
                                     <span style={{ background: '#f0fdf4', color: '#16a34a', borderRadius: '0.375rem', padding: '0.15rem 0.5rem', fontSize: '0.78rem', fontWeight: 500 }}>
-                                        <i className="pi pi-arrow-right mr-1" style={{ fontSize: '0.7rem' }} />
+                                        <IconArrowRight size={12} style={{ marginRight: 4, verticalAlign: 'middle' }} />
                                         {contract.start_date}
                                     </span>
                                     <span style={{ color: '#d1d5db', fontSize: '0.75rem' }}>→</span>
                                     <span style={{ background: '#fef2f2', color: '#dc2626', borderRadius: '0.375rem', padding: '0.15rem 0.5rem', fontSize: '0.78rem', fontWeight: 500 }}>
-                                        <i className="pi pi-arrow-left mr-1" style={{ fontSize: '0.7rem' }} />
+                                        <IconArrowLeft size={12} style={{ marginRight: 4, verticalAlign: 'middle' }} />
                                         {contract.end_date}
                                     </span>
-                                </div>
-                            </div>
-                            <div className="flex flex-column align-items-end gap-2">
-                                <Tag
-                                    value={contract.status}
-                                    severity={contract.status === 'Ενεργό' ? 'success' : 'secondary'}
-                                />
+                                </Group>
+                            </Stack>
+                            <Stack gap={8} align="flex-end">
+                                <Badge color={contract.status === 'Ενεργό' ? 'green' : 'gray'}>
+                                    {contract.status}
+                                </Badge>
                                 <span style={{ fontWeight: 600, fontSize: '1rem' }}>
                                     {contract.monthly_rent}€ / μήνα
                                 </span>
@@ -154,58 +97,56 @@ export default function Contracts() {
                                     const totalDaysLeft = diff.years * 365 + diff.months * 30 + diff.days
                                     if (totalDaysLeft <= 60) return (
                                         <span style={{ fontSize: '0.8rem', color: '#f59e0b', fontWeight: 600 }}>
-                                            <i className="pi pi-exclamation-triangle mr-1" />
+                                            <IconAlertTriangle size={14} style={{ marginRight: 4, verticalAlign: 'middle' }} />
                                             {formatDiff(diff)} απομένουν
                                         </span>
                                     )
                                     return (
                                         <span style={{ fontSize: '0.8rem', color: '#6b7280' }}>
-                                            <i className="pi pi-clock mr-1" />
+                                            <IconClock size={14} style={{ marginRight: 4, verticalAlign: 'middle' }} />
                                             {formatDiff(diff)} απομένουν
                                         </span>
                                     )
                                 })()}
-                            </div>
-                        </div>
+                            </Stack>
+                        </Group>
                     </Card>
                 ))}
-            </div>
+            </Stack>
 
-            <Dialog
-                header={selected?.tenant}
-                visible={!!selected}
-                onHide={() => setSelected(null)}
-                style={{ width: '26rem' }}
-                modal
+            <Modal
+                opened={!!selected}
+                onClose={() => setSelected(null)}
+                title={selected?.tenant}
+                size="26rem"
             >
                 {selected && (
-                    <div className="flex flex-column gap-2">
-                        <SectionTitle label="Στοιχεία Ενοικιαστή" icon="pi-user" />
+                    <Stack gap={8}>
+                        <SectionTitle label="Στοιχεία Ενοικιαστή" icon={IconUser} />
                         <InfoRow label="Τηλέφωνο" value={selected.phone} />
                         <InfoRow label="Email" value={selected.email} />
 
-                        <SectionTitle label="Συμβόλαιο" icon="pi-file" />
+                        <SectionTitle label="Συμβόλαιο" icon={IconFile} />
                         <InfoRow label="Έναρξη" value={selected.start_date} />
                         <InfoRow label="Λήξη" value={selected.end_date} />
                         <InfoRow label="Μηνιαίο ενοίκιο" value={`${selected.monthly_rent}€`} />
                         <InfoRow label="Εγγύηση" value={`${selected.deposit}€`} />
-                        <div className="flex justify-between align-items-center py-2" style={{ borderBottom: '1px solid #f3f4f6' }}>
+                        <Group justify="space-between" align="center" py={8} style={{ borderBottom: '1px solid #f3f4f6' }}>
                             <span style={{ color: '#6b7280', fontSize: '0.875rem' }}>Κατάσταση</span>
-                            <Tag
-                                value={selected.status}
-                                severity={selected.status === 'Ενεργό' ? 'success' : 'secondary'}
-                            />
-                        </div>
+                            <Badge color={selected.status === 'Ενεργό' ? 'green' : 'gray'}>
+                                {selected.status}
+                            </Badge>
+                        </Group>
 
                         {selected.notes && (
                             <>
-                                <SectionTitle label="Σημειώσεις" icon="pi-comment" />
+                                <SectionTitle label="Σημειώσεις" icon={IconMessageCircle} />
                                 <p style={{ margin: 0, fontSize: '0.875rem', color: '#374151' }}>{selected.notes}</p>
                             </>
                         )}
-                    </div>
+                    </Stack>
                 )}
-            </Dialog>
+            </Modal>
         </>
     )
 }
