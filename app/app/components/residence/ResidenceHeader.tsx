@@ -1,5 +1,7 @@
 'use client'
 
+import { Badge, Group, Paper, Skeleton, Stack, Text, Title } from '@mantine/core'
+import { IconBolt, IconBuilding, IconCalendar, IconDoor, IconMapPin, IconRulerMeasure } from '@tabler/icons-react'
 
 import { meters } from '@/app/lib/formatter'
 import { useResidence } from '@/app/contexts/ResidenceContext'
@@ -9,33 +11,72 @@ export default function ResidenceHeader() {
 
     if (loading || !residence?.address) {
         return (
-            <div className="col-12 mb-2" style={{ background: '#f5f3ff', borderRadius: '0.75rem', padding: '1.25rem 1.5rem' }}>
-                <div className="flex flex-column gap-2">
-                    {/* <Skeleton width="22rem" height="2rem" /> */}
-                    {/* <Skeleton width="14rem" height="1.2rem" /> */}
-                </div>
-            </div>
+            <Paper bg="violet.0" radius="md" p="lg" mb="md">
+                <Stack gap="xs">
+                    <Skeleton height={28} width="22rem" radius="sm" />
+                    <Skeleton height={18} width="14rem" radius="sm" />
+                </Stack>
+            </Paper>
         )
     }
 
     return (
-        <div className="col-12 mb-2" style={{ background: '#f5f3ff', borderRadius: '0.75rem', padding: '1.25rem 1.5rem' }}>
-            <div className="flex align-items-center gap-3 mb-1">
-                <h1 style={{ fontSize: '1.5rem', fontWeight: 700, margin: 0 }}>
+        <Paper bg="violet.0" radius="md" p="lg" mb="md">
+            <Group gap="sm" mb={4}>
+                <Title order={1} size="h2" fw={700}>
                     {residence.address} {residence.road_number}
-                </h1>
-                {/* {residence.residenceType && (
-                    <Tag value={residence.residenceType.name} severity="info" />
+                </Title>
+                {residence.residenceType && (
+                    <Badge variant="light" color="violet">
+                        {residence.residenceType.name}
+                    </Badge>
                 )}
                 {residence.energy_class && (
-                    <Tag value={`Κλάση ${residence.energy_class}`} severity="success" />
-                )} */}
-            </div>
-            <div className="flex align-items-center gap-3" style={{ color: '#6b7280', fontSize: '0.875rem' }}>
-                {residence.zip_code && <span><i className="pi pi-map-marker mr-1" />{residence.zip_code}</span>}
-                {residence.square_meters && <span><i className="pi pi-th-large mr-1" />{meters(residence.square_meters)}</span>}
-                {residence.floor != null && <span><i className="pi pi-building mr-1" />Όροφος {residence.floor}</span>}
-            </div>
-        </div>
+                    <Badge variant="light" color="green">
+                        Κλάση {residence.energy_class}
+                    </Badge>
+                )}
+            </Group>
+            <Group gap="lg" c="dimmed">
+                {residence.zip_code && (
+                    <Group gap={4}>
+                        <IconMapPin size={16} />
+                        <Text size="sm">{residence.zip_code}</Text>
+                    </Group>
+                )}
+                {residence.square_meters && (
+                    <Group gap={4}>
+                        <IconRulerMeasure size={16} />
+                        <Text size="sm">{meters(residence.square_meters)}</Text>
+                    </Group>
+                )}
+                {residence.floor != null && (
+                    <Group gap={4}>
+                        <IconBuilding size={16} />
+                        <Text size="sm">Όροφος {residence.floor}</Text>
+                    </Group>
+                )}
+                {residence.flat_number && (
+                    <Group gap={4}>
+                        <IconDoor size={16} />
+                        <Text size="sm">Διαμέρισμα {residence.flat_number}</Text>
+                    </Group>
+                )}
+                {residence.construction_year && (
+                    <Group gap={4}>
+                        <IconCalendar size={16} />
+                        <Text size="sm">
+                            {residence.construction_year} ({new Date().getFullYear() - residence.construction_year} έτη)
+                        </Text>
+                    </Group>
+                )}
+                {residence.power_supply_number && (
+                    <Group gap={4}>
+                        <IconBolt size={16} />
+                        <Text size="sm">{residence.power_supply_number}</Text>
+                    </Group>
+                )}
+            </Group>
+        </Paper>
     )
 }

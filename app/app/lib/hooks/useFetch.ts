@@ -33,16 +33,23 @@ export const useFetch = (endpoint: string, unauthenticated = false) => {
                     },
                 });
 
+                if (res.status === 404) {
+                    setDataNotFound(true)
+                    return
+                }
+
                 if (!res.ok) throw new Error("Failed to fetch data")
 
                 const result = await res.json()
-                result.length === 0 && setDataNotFound(true)
+                if (Array.isArray(result) && result.length === 0) setDataNotFound(true)
 
-                setLoading(false)
                 setData(result)
 
             } catch (err) {
                 console.error(err)
+                setDataNotFound(true)
+            } finally {
+                setLoading(false)
             }
         }
 

@@ -19,7 +19,7 @@ export default function ResidenceInfo() {
 
     function SectionTitle({ label, icon }: { label: string; icon: string }) {
         return (
-            <div className="flex align-items-center gap-2 mt-4 mb-1" style={{ borderLeft: '3px solid #6366f1', paddingLeft: '0.5rem' }}>
+            <div className="flex align-items-center gap-2 mt-4 mb-1" style={{ borderLeft: '3px solid #6366f1', paddingLeft: '0.3rem' }}>
                 <i className={`pi ${icon}`} style={{ color: '#6366f1', fontSize: '0.85rem' }} />
                 <span style={{ fontWeight: 600, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#6366f1' }}>
                     {label}

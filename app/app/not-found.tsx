@@ -1,42 +1,37 @@
 'use client'
 
 import Link from 'next/link'
-// import { Button } from 'primereact/button'
-// import { Card } from 'primereact/card'
+import { Button, Center, Stack, Text, Title } from '@mantine/core'
+import { IconHome } from '@tabler/icons-react'
 
 export default function PageNotFound() {
     return (
-        <div className="flex align-items-center justify-content-center min-h-screen surface-ground">
-            {/* <Card className="text-center shadow-4" style={{ maxWidth: '480px', width: '100%' }}>
-                <div className="mb-4">
-                    <i
-                        className="pi pi-home"
-                        style={{ fontSize: '4rem', color: 'var(--primary-color)', opacity: 0.3 }}
-                    />
-                </div>
+        <Center mih="100vh" p="md">
+            <Stack align="center" gap="sm" maw={420}>
 
-                <h1
-                    className="m-0 font-bold"
-                    style={{ fontSize: '6rem', lineHeight: 1, color: 'var(--primary-color)' }}
-                >
+                <Title order={1} fw={800} size={72} c="blue.6" lh={1}>
                     404
-                </h1>
+                </Title>
 
-                <h2 className="mt-3 mb-2 text-900 font-semibold text-2xl">Page Not Found</h2>
+                <Title order={2} size="h3" ta="center">
+                    Η σελίδα δεν βρέθηκε
+                </Title>
 
-                <p className="mt-0 mb-5 text-600 line-height-3">
-                    The page you&apos;re looking for doesn&apos;t exist or has been moved.
-                </p>
+                <Text c="dimmed" ta="center">
+                    Η σελίδα που ψάχνετε δεν υπάρχει ή έχει μετακινηθεί.
+                </Text>
 
-                <Link href="/" style={{ textDecoration: 'none' }}>
-                    <Button
-                        label="Back to Home"
-                        icon="pi pi-arrow-left"
-                        iconPos="left"
-                        size="large"
-                    />
-                </Link>
-            </Card> */}
-        </div>
+                <Button
+                    component={Link}
+                    href="/dashboard"
+                    leftSection={<IconHome size={18} />}
+                    color="blue"
+                    size="md"
+                    mt="md"
+                >
+                    Επιστροφή στην αρχική
+                </Button>
+            </Stack>
+        </Center>
     )
 }

@@ -9,12 +9,28 @@ import ResidenceLocation from '@/app/components/residence/ResidenceLocation'
 import Contracts from '@/app/components/residence/Contracts'
 import Repairs from '@/app/components/residence/Repairs'
 import Maintenances from '@/app/components/residence/Maintenances'
+import { PageLoader } from '@/app/components/layout/PageLoader'
+import { DataNotFound } from '@/app/components/layout/DataNotFound'
+import { useResidence } from '@/app/contexts/ResidenceContext'
 
 export default function ResidenceView() {
+    const { loading, notFound } = useResidence()
+
+    if (loading) return <PageLoader />
+
+    if (notFound) {
+        return (
+            <DataNotFound
+                title="Το ακίνητο δεν βρέθηκε"
+                description="Το ακίνητο που αναζητάτε δεν υπάρχει ή έχει διαγραφεί."
+                actionLabel="Πίσω στα ακίνητα"
+                actionHref="/dashboard/residences"
+            />
+        )
+    }
+
     return (
         <section>
-
-
 
             <ResidenceHeader />
 
