@@ -20,7 +20,7 @@ export default function ResidenceView() {
 
             <Tabs defaultValue="info">
 
-                <Tabs.List>
+                <Tabs.List style={{ marginBottom: 15 }}>
                     <Tabs.Tab value="info" leftSection={<IconInfoCircle size={16} />}>
                         Στοιχεία
                     </Tabs.Tab>

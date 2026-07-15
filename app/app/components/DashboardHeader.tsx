@@ -180,7 +180,7 @@ export function DashboardHeader() {
                 onClose={close}
                 size="100%"
                 padding="md"
-                title="Navigation"
+                title="Μενού"
                 hiddenFrom="sm"
                 zIndex={10000000000}
             >
