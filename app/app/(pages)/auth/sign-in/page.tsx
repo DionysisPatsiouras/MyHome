@@ -1,6 +1,6 @@
 'use client'
 
-import { TextForm } from "@/app/components/ControlledForms"
+import ControlledTextfield from "@/app/components/forms/ControlledTextfield"
 import { useForm } from "react-hook-form"
 
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -25,11 +25,11 @@ export default function SignIn() {
 
     const { POST } = useCRUD()
 
-    const { register, handleSubmit, formState: { errors }, } = useForm<FormData>({
+    const { control, handleSubmit, formState: { errors }, } = useForm<FormData>({
         resolver: zodResolver(SignInFormSchema),
     })
 
-    const formProps = { register, errors }
+    const formProps = { control, errors }
 
 
     const signIn = (formData: any) => {
@@ -62,15 +62,15 @@ export default function SignIn() {
                 {/* Card */}
                 <div className="bg-white border border-slate-200 rounded-2xl p-8 shadow-lg">
                     <div className="flex flex-col gap-5">
-                        <TextForm
+                        <ControlledTextfield
                             label="Email"
-                            id="email"
+                            name="email"
                             placeholder="you@example.com"
                             {...formProps}
                         />
-                        <TextForm
+                        <ControlledTextfield
                             label="Password"
-                            id="password"
+                            name="password"
                             type="password"
                             placeholder="••••••••"
                             {...formProps}

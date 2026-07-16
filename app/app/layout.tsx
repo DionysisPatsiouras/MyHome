@@ -45,7 +45,7 @@ export default function RootLayout({
       {...mantineHtmlProps}
     >
       <head>
-        <ColorSchemeScript />
+        {/* <ColorSchemeScript /> */}
       </head>
 
       <body className="min-h-full flex flex-col">
