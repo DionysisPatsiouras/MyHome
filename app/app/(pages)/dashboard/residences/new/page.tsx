@@ -198,8 +198,7 @@ export default function NewResidence() {
                         />
                         <ControlledTextfield
                             name="road_number"
-                            control={control}
-                            errors={errors}
+                            {...formProps}
                             label="Αριθμός"
                             placeholder="π.χ. 12"
                         />
@@ -208,8 +207,7 @@ export default function NewResidence() {
                     <SimpleGrid cols={{ base: 2, sm: 3 }} spacing="md">
                         <ControlledTextfield
                             name="zip_code"
-                            control={control}
-                            errors={errors}
+                            {...formProps}
                             label="ΤΚ"
                         />
                         <Controller
@@ -228,8 +226,7 @@ export default function NewResidence() {
                         />
                         <ControlledTextfield
                             name="flat_number"
-                            control={control}
-                            errors={errors}
+                            {...formProps}
                             label="Διαμέρισμα"
                             leftSection={<IconDoor size={14} />}
                         />
@@ -241,7 +238,7 @@ export default function NewResidence() {
                 <Stack gap="md">
                     <SectionTitle label="Τεχνικά Χαρακτηριστικά" icon={IconRulerMeasure} />
 
-                    <SimpleGrid cols={{ base: 2, sm: 4 }} spacing="md">
+                    <SimpleGrid cols={{ base: 2, sm: 3 }} spacing="md">
                         <Controller
                             name="square_meters"
                             control={control}
@@ -292,15 +289,13 @@ export default function NewResidence() {
                     <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
                         <ControlledTextfield
                             name="power_supply_number"
-                            control={control}
-                            errors={errors}
+                            {...formProps}
                             label="Αρ. Παροχής Ρεύματος"
                             leftSection={<IconBolt size={14} />}
                         />
                         <ControlledTextfield
                             name="gas_supply_number"
-                            control={control}
-                            errors={errors}
+                            {...formProps}
                             label="Αρ. Παροχής Αερίου"
                             leftSection={<IconFlame size={14} />}
                         />
