@@ -6,11 +6,11 @@ import { useEffect, useState } from 'react'
 // import { useSession } from 'next-auth/react'
 
 
-export const useFetch = (endpoint: string, unauthenticated = false) => {
+export const useFetch = (endpoint: string, unauthenticated = false, enabled = true) => {
 
 
     const [data, setData] = useState([])
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(enabled)
     const [DOM, setDOM] = useState(true)
     const [dataNotFound, setDataNotFound] = useState(false)
 
@@ -19,6 +19,11 @@ export const useFetch = (endpoint: string, unauthenticated = false) => {
 
 
     useEffect(() => {
+
+        if (!enabled) {
+            setLoading(false)
+            return
+        }
 
         const fetchData = async () => {
 

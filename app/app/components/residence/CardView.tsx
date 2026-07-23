@@ -5,8 +5,8 @@ import Link from 'next/link'
 import { Badge, Button, Card, Group, Menu, SimpleGrid, Stack, Text, Title } from '@mantine/core'
 import { IconRulerMeasure, IconChevronDown, IconPencil, IconTrash } from '@tabler/icons-react'
 
-import { meters } from '@/app/lib/formatter'
-import { ResidenceMap } from '@/app/components/residence/ResidenceMap'
+import { meters } from '@/app/lib/utils/formatter'
+import { LocationsMap } from '@/app/components/map'
 
 import type { Residence } from '@/app/lib/types'
 
@@ -21,11 +21,20 @@ export default function CardView({ residences, onDelete }: CardViewProps) {
             {residences.map((residence: Residence) => (
                 <Card key={residence.id} padding={0} radius="md" withBorder>
                     <Card.Section>
-                        <ResidenceMap
+                        <LocationsMap
                             height={180}
-                            width="100%"
                             zoom={15}
-                            coordinates={[Number(residence?.latitude), Number(residence?.longitude)]}
+                            locations={
+                                residence.latitude && residence.longitude
+                                    ? [
+                                          {
+                                              id: residence.id,
+                                              lat: Number(residence.latitude),
+                                              lng: Number(residence.longitude),
+                                          },
+                                      ]
+                                    : []
+                            }
                         />
                     </Card.Section>
 

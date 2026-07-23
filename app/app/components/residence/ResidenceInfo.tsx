@@ -1,6 +1,6 @@
 'use client'
 
-import { meters } from '@/app/lib/formatter'
+import { meters } from '@/app/lib/utils/formatter'
 import { useResidence } from '@/app/contexts/ResidenceContext'
 
 export default function ResidenceInfo() {

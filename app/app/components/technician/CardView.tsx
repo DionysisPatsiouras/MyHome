@@ -14,7 +14,7 @@ interface CardViewProps {
 
 export default function CardView({ technicians, onDelete }: CardViewProps) {
     return (
-        <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="xl">
+        <SimpleGrid cols={{ base: 1, sm: 2, lg: 2 }} spacing="xl">
             {technicians.map((technician: Technician) => (
                 <Card key={technician.id} padding="xl" radius="lg" withBorder>
                     <Group justify="space-between" align="flex-start" wrap="nowrap">

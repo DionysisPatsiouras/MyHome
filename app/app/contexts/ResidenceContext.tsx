@@ -12,6 +12,7 @@ interface ResidenceContextValue {
     loading: boolean
     notFound: boolean
     maintenances: Maintenance[]
+    refetchResidence: () => void
 }
 
 const ResidenceContext = createContext<ResidenceContextValue | null>(null)
@@ -19,7 +20,7 @@ const ResidenceContext = createContext<ResidenceContextValue | null>(null)
 export function ResidenceProvider({ children }: { children: React.ReactNode }) {
     const { id } = useParams()
 
-    const { data, loading, dataNotFound } = useFetch(Routes('residences').id(String(id)))
+    const { data, loading, dataNotFound, fetchData } = useFetch(Routes('residences').id(String(id)))
     const residence = (data as unknown as Residence) ?? null
     const notFound = dataNotFound || (!loading && !residence)
 
@@ -27,7 +28,7 @@ export function ResidenceProvider({ children }: { children: React.ReactNode }) {
     const maintenances = (maintenancesData as unknown as Maintenance[]) ?? []
 
     return (
-        <ResidenceContext.Provider value={{ residence, loading, notFound, maintenances }}>
+        <ResidenceContext.Provider value={{ residence, loading, notFound, maintenances, refetchResidence: fetchData }}>
             {children}
         </ResidenceContext.Provider>
     )

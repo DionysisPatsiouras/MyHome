@@ -10,7 +10,7 @@ import { useFetch } from '@/app/lib/hooks/useFetch'
 import { Routes } from '@/app/lib/Routes'
 import CardView from '@/app/components/residence/CardView'
 import ListView from '@/app/components/residence/ListView'
-import { ResidencesMap } from '@/app/components/residence/ResidencesMap'
+import { LocationsMap } from '@/app/components/map'
 import { DataNotFound } from '@/app/components/layout/DataNotFound'
 import { PageLoader } from '@/app/components/layout/PageLoader'
 import { DeleteModal } from '@/app/components/layout/DeleteModal'
@@ -35,7 +35,7 @@ export default function Residences() {
         setDeleting(true)
 
         try {
-            DELETE(Routes('residences').delete(String(deleteTarget.id)))
+            await DELETE(Routes('residences').delete(String(deleteTarget.id)))
             setDeleteTarget(null)
             fetchData()
         } catch (err) {
@@ -98,7 +98,28 @@ export default function Residences() {
             {view === 'list' && <ListView residences={residences} onDelete={setDeleteTarget} />}
             {view === 'map' && (
                 <Card padding={0} radius="md" withBorder style={{ overflow: 'hidden' }}>
-                    <ResidencesMap residences={residences} />
+                    <LocationsMap
+                        height={520}
+                        emptyMessage="Δεν υπάρχουν ακίνητα με συντεταγμένες"
+                        locations={residences
+                            .filter((residence: Residence) => residence.latitude && residence.longitude)
+                            .map((residence: Residence) => ({
+                                id: residence.id,
+                                lat: Number(residence.latitude),
+                                lng: Number(residence.longitude),
+                                popup: (
+                                    <div style={{ fontSize: 13, lineHeight: 1.5 }}>
+                                        <strong>{`${residence.address} ${residence.road_number ?? ''}`}</strong>
+                                        <br />
+                                        <span style={{ color: '#6d28d9', fontSize: 11, fontWeight: 600 }}>
+                                            {residence.residenceType?.name}
+                                        </span>
+                                        <br />
+                                        <Link href={`/dashboard/residences/${residence.id}`}>Άνοιγμα</Link>
+                                    </div>
+                                ),
+                            }))}
+                    />
                 </Card>
             )}
 

@@ -28,7 +28,7 @@ const generateParams = (paramsObj: any) => {
 export const Routes = (resourceName: string) => ({
     id: (id: string) => `${prefix}/${resourceName}/${id}`,
     list: `${prefix}/${resourceName}`,
-    add: `${prefix}/${resourceName}/handler/add`,
+    add: `${prefix}/${resourceName}/`,
     patch: (id: string) => `${prefix}/${resourceName}/handler/patch/${id}`,
     delete: (id: string) => `${prefix}/${resourceName}/${id}`,
     hardDelete: (id: string) => `${prefix}/${resourceName}/handler/hardDelete/${id}`,

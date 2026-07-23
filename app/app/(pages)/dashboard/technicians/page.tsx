@@ -39,13 +39,13 @@ export default function Technicians() {
         setDeleting(true)
 
         try {
-            DELETE(Routes('technicians').delete(String(deleteTarget.id)))
+            await DELETE(Routes('technicians').delete(String(deleteTarget.id)))
             setDeleteTarget(null)
-            fetchData()
         } catch (err) {
             console.error(err)
         } finally {
             setDeleting(false)
+            fetchData()
         }
     }
 

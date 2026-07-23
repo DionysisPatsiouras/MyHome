@@ -1,6 +1,6 @@
 'use client'
 
-import { Grid, Tabs } from '@mantine/core'
+import { Tabs } from '@mantine/core'
 import { IconInfoCircle, IconMap, IconFile, IconHammer, IconTool } from '@tabler/icons-react'
 
 import ResidenceHeader from '@/app/components/residence/ResidenceHeader'
@@ -34,7 +34,7 @@ export default function ResidenceView() {
 
             <ResidenceHeader />
 
-            <Tabs defaultValue="info">
+            <Tabs defaultValue="info" keepMountedMode="display-none">
 
                 <Tabs.List style={{ marginBottom: 15 }}>
                     <Tabs.Tab value="info" leftSection={<IconInfoCircle size={16} />}>

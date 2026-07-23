@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Badge, Button, Group, Menu, Table, Text } from '@mantine/core'
 import { IconRulerMeasure, IconChevronDown, IconPencil, IconTrash } from '@tabler/icons-react'
 
-import { meters } from '@/app/lib/formatter'
+import { meters } from '@/app/lib/utils/formatter'
 
 import type { Residence } from '@/app/lib/types'
 

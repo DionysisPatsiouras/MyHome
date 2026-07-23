@@ -14,7 +14,7 @@ import {
 } from '@tabler/icons-react'
 import type { IconProps } from '@tabler/icons-react'
 import { dummyContracts, type Contract } from '@/app/lib/data/contracts'
-import type { NewContractFormValues } from '@/app/lib/formSchemas'
+import type { NewContractFormValues } from '@/app/lib/utils/formSchemas'
 import { NewContractModal } from '@/app/components/layout/NewContractModal'
 
 const COLORS = {

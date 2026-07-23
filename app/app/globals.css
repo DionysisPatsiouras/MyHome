@@ -31,13 +31,10 @@ body {
   padding: 0 1rem;
 }
 
+.leaflet-container{
+  z-index: 10;
+}
 
-.p-component{
-  /* padding: 0 !important; */
-}
-.p-card-body{
-  /* padding: 0 !important; */
-}
 .p-card .p-card-content {
   padding: 0 !important;
 }

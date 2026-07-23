@@ -12,5 +12,124 @@
             "fields": {
                 "name": "Υδραυλικός"
             }
+        },
+        {
+            "model": "technicians.technicianType",
+            "pk": 3,
+            "fields": {
+                "name": "Τεχνικός Κλιματισμού"
+            }
+        },
+        {
+            "model": "technicians.technicianType",
+            "pk": 4,
+            "fields": {
+                "name": "Ελαιοχρωματιστής"
+            }
+        },
+        {
+            "model": "technicians.technicianType",
+            "pk": 5,
+            "fields": {
+                "name": "Ξυλουργός"
+            }
+        },
+        {
+            "model": "technicians.technicianType",
+            "pk": 6,
+            "fields": {
+                "name": "Κλειδαράς"
+            }
+        },
+        {
+            "model": "technicians.technicianType",
+            "pk": 7,
+            "fields": {
+                "name": "Τζαμάς"
+            }
+        },
+        {
+            "model": "technicians.technicianType",
+            "pk": 8,
+            "fields": {
+                "name": "Γυψοσανιδάς"
+            }
+        },
+        {
+            "model": "technicians.technicianType",
+            "pk": 9,
+            "fields": {
+                "name": "Τεχνικός Λευκών Συσκευών"
+            }
+        },
+        {
+            "model": "technicians.technicianType",
+            "pk": 10,
+            "fields": {
+                "name": "Κηπουρός"
+            }
+        },
+        {
+            "model": "technicians.technicianType",
+            "pk": 11,
+            "fields": {
+                "name": "Καθαριστής/τρια"
+            }
+        },
+        {
+            "model": "technicians.technicianType",
+            "pk": 12,
+            "fields": {
+                "name": "Τεχνικός Ασανσέρ"
+            }
+        },
+        {
+            "model": "technicians.technicianType",
+            "pk": 13,
+            "fields": {
+                "name": "Οικοδόμος"
+            }
+        },
+        {
+            "model": "technicians.technicianType",
+            "pk": 14,
+            "fields": {
+                "name": "Τεχνικός Πισίνας"
+            }
+        },
+        {
+            "model": "technicians.technicianType",
+            "pk": 15,
+            "fields": {
+                "name": "Απεντομωτής"
+            }
+        },
+        {
+            "model": "technicians.technicianType",
+            "pk": 16,
+            "fields": {
+                "name": "Επιδιορθωτής Στέγης"
+            }
+        },
+        {
+            "model": "technicians.technicianType",
+            "pk": 17,
+            "fields": {
+                "name": "Τεχνικός Συναγερμών"
+            }
+        },
+        {
+            "model": "technicians.technicianType",
+            "pk": 18,
+            "fields": {
+                "name": "Τεχνικός Φωτοβολταϊκών"
+            }
+        },
+        {
+            "model": "technicians.technicianType",
+            "pk": 19,
+            "fields": {
+                "name": "Άλλο"
+            }
         }
     ]

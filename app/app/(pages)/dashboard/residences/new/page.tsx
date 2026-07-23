@@ -37,7 +37,8 @@ import {
 
 // import { ControlledTextfield } from '@/app/components/forms/ControlledTextfield'
 import ControlledTextfield from '@/app/components/forms/ControlledTextfield'
-import { NewResidenceSchema, type NewResidenceFormValues } from '@/app/lib/formSchemas'
+import { LocationPicker } from '@/app/components/map'
+import { NewResidenceSchema, type NewResidenceFormValues } from '@/app/lib/utils/formSchemas'
 import { useFetch } from '@/app/lib/hooks/useFetch'
 import { useCRUD } from '@/app/lib/hooks/useCRUD'
 import { Routes } from '@/app/lib/Routes'
@@ -231,6 +232,37 @@ export default function NewResidence() {
                             leftSection={<IconDoor size={14} />}
                         />
                     </SimpleGrid>
+
+                    <Controller
+                        name="latitude"
+                        control={control}
+                        render={({ field: latField }) => (
+                            <Controller
+                                name="longitude"
+                                control={control}
+                                render={({ field: lonField }) => (
+                                    <Stack gap={6}>
+                                        <Text size="xs" c="dimmed">
+                                            Κάντε κλικ στον χάρτη για να ορίσετε τη θέση του ακινήτου
+                                            {latField.value && lonField.value
+                                                ? ` — ${Number(latField.value).toFixed(5)}, ${Number(lonField.value).toFixed(5)}`
+                                                : ''}
+                                        </Text>
+                                        <div style={{ borderRadius: 8, overflow: 'hidden' }}>
+                                            <LocationPicker
+                                                latitude={latField.value ? Number(latField.value) : undefined}
+                                                longitude={lonField.value ? Number(lonField.value) : undefined}
+                                                onChange={(lat, lng) => {
+                                                    latField.onChange(lat.toFixed(6))
+                                                    lonField.onChange(lng.toFixed(6))
+                                                }}
+                                            />
+                                        </div>
+                                    </Stack>
+                                )}
+                            />
+                        )}
+                    />
                 </Stack>
             </Paper>
 

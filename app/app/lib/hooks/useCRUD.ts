@@ -1,169 +1,108 @@
 'use client'
 
-// import axios from 'axios'
+import { notifications } from '@mantine/notifications'
 
-// import { useSession } from 'next-auth/react'
+type NotificationOption = {
+    title?: string
+    message?: string
+}
 
-// import { useSnackbarContext } from '@/contexts/SnackbarContext'
-
-// import { isEncrypted, decryptWithForgeToString } from '@/utils/decrypt'
-
+export type CRUDNotificationOptions = {
+    success?: NotificationOption
+    error?: NotificationOption
+}
 
 export const useCRUD = () => {
 
 
-    // const { data: session, status } = useSession()
-    // const { snackbar } = useSnackbarContext()
+    const POST = async (endpoint: string, body: any, unauthenticated = false, notificationOptions?: CRUDNotificationOptions | boolean) => {
 
-
-
-    // const GET = async (endpoint: string, unauthorized = false) => {
-
-    //     // if (status !== 'authenticated' && !unauthorized) return
-
-    //     const config = {
-    //         method: 'GET',
-    //         url: endpoint,
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             // @ts-ignore
-    //             ...(unauthorized ? {} : { Authorization: `Bearer ${session?.user?.token}` }),
-    //         }
-    //     }
-
-    //     try {
-    //         const response = await axios(config)
-
-
-    //         if (isEncrypted(response.data)) {
-    //             const devSecret = process.env.NEXT_PUBLIC_E2EE_SECRET
-
-    //             try {
-    //                 const plainText: any = await decryptWithForgeToString(response.data, String(devSecret))
-    //                 return JSON.parse(plainText)
-    //             } catch (err) {
-    //                 console.warn(err, "DECRYPT FAILED")
-    //                 return response.data
-    //             }
-    //         } else {
-    //             return response.data
-    //         }
-    //     } catch (error) {
-    //         console.error("Fetch error:", error)
-    //         throw error
-    //     }
-    // }
-
-
-    const POST = async (endpoint: string, body: any) => {
+        const token: any = await cookieStore.get("token")
 
         const config = {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                //  'Content-Type': 'multipart/form-data'
+                ...(unauthenticated ? {} : { Authorization: `Bearer ${token?.value}` }),
             },
             body: JSON.stringify(body)
         };
 
+
         const res = await fetch(endpoint, config)
+        const data = await res.json()
 
-        return res.json()
+        if (notificationOptions) {
 
-        // if (status === 'authenticated') {
+            const options = typeof notificationOptions === 'boolean' ? {} : notificationOptions
 
-        // return await axios(config)
-        //     .then((response) => {
+            if (!res.ok) {
+                notifications.show({
+                    color: 'red',
+                    title: options.error?.title ?? 'Σφάλμα',
+                    message: options.error?.message ?? 'Η ενέργεια απέτυχε'
+                })
+                throw data
+            }
 
-        //         snackbarMessage !== '' && snackbar(snackbarMessage)
+            notifications.show({
+                color: 'green',
+                title: options.success?.title ?? 'Επιτυχία',
+                message: options.success?.message ?? 'Η ενέργεια ολοκληρώθηκε'
+            })
+        }
 
-        //         return response.data
-        //     })
-        //     .catch((error) => {
-        //         throw error
-        //     })
-
-        // }
+        return data
 
     }
 
-    // const POST_FILES_NO_TOKEN = async (endpoint: string, body: any) => {
-    //     const config = {
-    //         method: 'POST',
-    //         url: endpoint,
-    //         data: body,
-    //         headers: {
-    //             'Content-Type': 'multipart/form-data'
-    //         }
-    //     }
-    //     return await axios(config)
-    //         .then((response) => {
-    //             return response.data
-    //         })
-    //         .catch((error) => {
-    //             throw error
-    //         })
-
-    // }
-
-    // const POST_NO_TOKEN = async (endpoint: string, body: any, snackbarMessage = 'Επιτυχής καταχώρηση', givenToken?: string) => {
 
 
-    //     const config = {
-    //         method: 'POST',
-    //         url: endpoint,
-    //         data: body,
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             ...(givenToken ? { Authorization: `Bearer ${givenToken}` } : {}),
-    //         }
-    //     }
+    const PATCH = async (endpoint: string, body: any, unauthenticated = false, notificationOptions?: CRUDNotificationOptions | boolean) => {
 
-    //     return await axios(config)
-    //         .then((response) => {
-    //             snackbarMessage !== '' && snackbar(snackbarMessage)
+        const token: any = await cookieStore.get("token")
 
-    //             return response.data
-    //         })
-    //         .catch((error) => {
-    //             throw error
-    //         })
-    // }
+        const config = {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                ...(unauthenticated ? {} : { Authorization: `Bearer ${token?.value}` }),
+            },
+            body: JSON.stringify(body)
+        };
 
-    // const PATCH = async (endpoint: string, body: any, snackbarMessage = 'Επιτυχής ενημέρωση', unauthorized = false) => {
 
-    //     const config = {
-    //         method: 'PATCH',
-    //         url: endpoint,
-    //         data: body,
-    //         headers: {
-    //             'Content-Type': 'application/json',
+        const res = await fetch(endpoint, config)
+        const data = await res.json()
 
-    //             // @ts-ignore
-    //             // Authorization: `Bearer ${session?.user?.token}`,
+        if (notificationOptions) {
 
-    //             // @ts-ignore
-    //             ...(unauthorized ? {} : { Authorization: `Bearer ${session?.user?.token}` }),
-    //         }
-    //     }
+            const options = typeof notificationOptions === 'boolean' ? {} : notificationOptions
 
-    //     if (status === 'authenticated' || unauthorized === true) {
+            if (!res.ok) {
+                notifications.show({
+                    color: 'red',
+                    title: options.error?.title ?? 'Σφάλμα',
+                    message: options.error?.message ?? 'Η ενέργεια απέτυχε'
+                })
+                throw data
+            }
 
-    //         return await axios(config)
-    //             .then((response) => {
+            notifications.show({
+                color: 'green',
+                title: options.success?.title ?? 'Επιτυχία',
+                message: options.success?.message ?? 'Η ενέργεια ολοκληρώθηκε'
+            })
+        }
 
-    //                 snackbarMessage !== '' && snackbar(snackbarMessage)
+        return data
 
-    //                 return response.data
-    //             })
-    //             .catch((error) => {
-    //                 throw error
-    //             })
+    }
 
-    //     }
 
-    // }
 
-    const DELETE = async (endpoint: string, unauthenticated = false) => {
+    const DELETE = async (endpoint: string, unauthenticated = false, notificationOptions: CRUDNotificationOptions | boolean = true) => {
 
         const token: any = await cookieStore.get("token")
 
@@ -179,14 +118,36 @@ export const useCRUD = () => {
 
 
         const res = await fetch(endpoint, config)
+        const data = await res.json()
 
-        return res.json()
+        if (notificationOptions) {
+
+            const options = typeof notificationOptions === 'boolean' ? {} : notificationOptions
+
+            if (!res.ok) {
+                notifications.show({
+                    color: 'red',
+                    title: options.error?.title ?? 'Σφάλμα',
+                    message: options.error?.message ?? 'Η διαγραφή απέτυχε'
+                })
+                throw data
+            }
+
+            notifications.show({
+                color: 'green',
+                title: options.success?.title ?? 'Επιτυχία',
+                message: options.success?.message ?? 'Η διαγραφή ολοκληρώθηκε'
+            })
+        } else if (!res.ok) {
+            throw data
+        }
+
+        return data
 
     }
 
 
 
-    // return { GET, POST, DELETE, PATCH, POST_NO_TOKEN, POST_FILES_NO_TOKEN }
-    return { POST, DELETE }
+    return { POST, PATCH, DELETE }
 
 }

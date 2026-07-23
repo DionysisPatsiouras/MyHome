@@ -12,6 +12,7 @@
     "@hookform/resolvers": "^5.2.2",
     "@mantine/core": "^9.4.1",
     "@mantine/hooks": "^9.4.1",
+    "@mantine/notifications": "^9.4.2",
     "@primeuix/themes": "^3.0.0-rc.1",
     "@tabler/icons-react": "^3.44.0",
     "jsonwebtoken": "^9.0.3",

@@ -3,7 +3,7 @@
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, Group, Modal, NumberInput, Select, Stack, Textarea, TextInput } from '@mantine/core'
-import { NewContractSchema, type NewContractFormValues } from '@/app/lib/formSchemas'
+import { NewContractSchema, type NewContractFormValues } from '@/app/lib/utils/formSchemas'
 
 const NEW_CONTRACT_DEFAULTS: Partial<NewContractFormValues> = {
     status: 'Ενεργό',

@@ -4,7 +4,7 @@ import ControlledTextfield from "@/app/components/forms/ControlledTextfield"
 import { useForm } from "react-hook-form"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { SignInFormSchema } from "@/app/lib/formSchemas"
+import { SignInFormSchema } from "@/app/lib/utils/formSchemas"
 import { useCRUD } from "@/app/lib/hooks/useCRUD"
 
 import { AuthRoutes } from "@/app/lib/Routes"
@@ -35,10 +35,9 @@ export default function SignIn() {
     const signIn = (formData: any) => {
 
         POST(AuthRoutes.signin, formData).then((res) => {
-            console.log(res)
             cookieStore.set("token", res.access)
             router.push("/dashboard/")
-        })
+        }).catch(() => { })
     }
 
 

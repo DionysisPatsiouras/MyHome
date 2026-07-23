@@ -17,7 +17,7 @@ import {
 } from '@tabler/icons-react'
 import type { IconProps } from '@tabler/icons-react'
 
-import { meters } from '@/app/lib/formatter'
+import { meters } from '@/app/lib/utils/formatter'
 import { useResidence } from '@/app/contexts/ResidenceContext'
 
 const ENERGY_CLASS_COLOR: Record<string, string> = {

@@ -11,6 +11,7 @@ import "./globals.css"
 import 'leaflet/dist/leaflet.css';
 
 import '@mantine/core/styles.css';
+import '@mantine/notifications/styles.css';
 import { ColorSchemeScript, mantineHtmlProps } from '@mantine/core';
 
 import AppMantineProvider from './mantine-provider';

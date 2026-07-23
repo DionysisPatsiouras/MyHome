@@ -1,5 +1,6 @@
 'use client';
 import { MantineProvider } from '@mantine/core';
+import { Notifications } from '@mantine/notifications';
 import * as React from 'react';
 
 export default function AppMantineProvider({
@@ -7,5 +8,10 @@ export default function AppMantineProvider({
 }: Readonly<{
     children?: React.ReactNode;
 }>) {
-    return <MantineProvider defaultColorScheme="auto">{children}</MantineProvider>;
+    return (
+        <MantineProvider defaultColorScheme="auto">
+            <Notifications />
+            {children}
+        </MantineProvider>
+    );
 }
