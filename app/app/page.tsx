@@ -196,9 +196,8 @@ export default function Home() {
                 withBorder
                 radius="lg"
                 padding="lg"
-                className="h-full border-t-4"
-                // style={{ borderTopColor: `var(--mantine-color-${color}-5)` }}
-                style={{ borderColor: `var(--mantine-color-${color}-5)` }}
+                className="h-full cursor-pointer border-t-4 border-t-zinc-200 dark:border-t-zinc-800 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-[var(--feature-color)]"
+                style={{ '--feature-color': `var(--mantine-color-${color}-5)` } as React.CSSProperties}
               >
                 <ThemeIcon size={44} radius="md" variant="light" color={color}>
                   <Icon size={24} />
