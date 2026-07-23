@@ -36,31 +36,37 @@ const features = [
     icon: IconBuildingEstate,
     title: 'Διαμερίσματα',
     description: 'Καταχώρισε όλα τα ακίνητά σου και έχε τα χαρακτηριστικά τους πάντα διαθέσιμα σε ένα μέρος.',
+    color: 'blue',
   },
   {
     icon: IconFileText,
     title: 'Συμβόλαια',
     description: 'Παρακολούθησε ενοικιαστές, όρους και ημερομηνίες λήξης χωρίς να ψάχνεις χαρτιά.',
+    color: 'grape',
   },
   {
     icon: IconTool,
     title: 'Επισκευές',
     description: 'Κατέγραψε βλάβες και επισκευές, με ιστορικό ανά ακίνητο.',
+    color: 'orange',
   },
   {
     icon: IconRefresh,
     title: 'Συντηρήσεις',
     description: 'Όρισε περιοδικές συντηρήσεις και μην ξεχνάς ποτέ ξανά ένα σέρβις.',
+    color: 'teal',
   },
   {
     icon: IconUsers,
     title: 'Επαγγελματίες',
     description: 'Κράτα στοιχεία επικοινωνίας τεχνικών και συνεργατών, έτοιμα όποτε τους χρειαστείς.',
+    color: 'pink',
   },
   {
     icon: IconMapPin,
     title: 'Τοποθεσία σε χάρτη',
     description: 'Δες τα ακίνητά σου πάνω σε χάρτη και εντόπισέ τα με μια ματιά.',
+    color: 'cyan',
   },
 ]
 
@@ -69,16 +75,19 @@ const steps = [
     icon: IconBuildingEstate,
     title: 'Καταχώρισε τα ακίνητά σου',
     description: 'Πρόσθεσε διαμερίσματα με τα χαρακτηριστικά και την τοποθεσία τους σε λίγα λεπτά.',
+    color: 'blue',
   },
   {
     icon: IconClipboardList,
     title: 'Συμπλήρωσε τα δεδομένα',
     description: 'Σύνδεσε συμβόλαια, ενοικιαστές, τεχνικούς και προγραμματισμένες συντηρήσεις σε κάθε ακίνητο.',
+    color: 'grape',
   },
   {
     icon: IconLayoutDashboard,
     title: 'Παρακολούθα τα πάντα',
     description: 'Δες την εικόνα όλων των ακινήτων σου σε ένα dashboard, χωρίς σκόρπια χαρτιά και μηνύματα.',
+    color: 'teal',
   },
 ]
 
@@ -96,12 +105,16 @@ export default function Home() {
           className="pointer-events-none absolute bottom-[-20%] left-[-10%] h-80 w-80 rounded-full opacity-20 blur-3xl"
           style={{ background: 'radial-gradient(circle, #22b8cf, transparent 70%)' }}
         />
+        <div
+          className="pointer-events-none absolute top-1/3 left-1/2 h-72 w-72 rounded-full opacity-20 blur-3xl"
+          style={{ background: 'radial-gradient(circle, #be4bdb, transparent 70%)' }}
+        />
 
         <Container size="lg" className="relative py-20 sm:py-28">
           <Grid align="center" gap={{ base: 40, md: 64 }}>
             <Grid.Col span={{ base: 12, md: 6 }}>
               <Stack gap="lg" align="flex-start">
-                <Badge size="lg" variant="light" color="blue" radius="sm">
+                <Badge size="lg" variant="gradient" gradient={{ from: 'blue', to: 'grape', deg: 90 }} radius="sm">
                   Διαχείριση Ακινήτων
                 </Badge>
 
@@ -111,7 +124,12 @@ export default function Home() {
                 >
                   Το σπίτι σου,
                   <br />
-                  πλήρως οργανωμένο.
+                  <span
+                    className="bg-clip-text text-transparent"
+                    style={{ backgroundImage: 'linear-gradient(90deg, #4dabf7, #be4bdb)' }}
+                  >
+                    πλήρως οργανωμένο.
+                  </span>
                 </Title>
 
                 <Text size="xl" c="dimmed" maw={480}>
@@ -125,6 +143,8 @@ export default function Home() {
                     href="/auth/sign-up"
                     size="lg"
                     radius="md"
+                    variant="gradient"
+                    gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
                     rightSection={<IconArrowRight size={18} />}
                   >
                     Δημιουργία λογαριασμού
@@ -135,6 +155,7 @@ export default function Home() {
                     size="lg"
                     radius="md"
                     variant="default"
+                    color="grape"
                   >
                     Σύνδεση
                   </Button>
@@ -155,7 +176,13 @@ export default function Home() {
         <Container size="lg" className="py-20 sm:py-28">
           <Stack align="center" gap="xs" mb={48}>
             <Title order={2} ta="center" className="text-2xl sm:text-3xl font-bold">
-              Όλα όσα χρειάζεσαι για τα ακίνητά σου
+              Όλα όσα χρειάζεσαι{' '}
+              <span
+                className="bg-clip-text text-transparent"
+                style={{ backgroundImage: 'linear-gradient(90deg, #4dabf7, #22b8cf)' }}
+              >
+                για τα ακίνητά σου
+              </span>
             </Title>
             <Text ta="center" c="dimmed" maw={480}>
               Ένα εργαλείο, σχεδιασμένο για ιδιοκτήτες που θέλουν έλεγχο χωρίς πολυπλοκότητα.
@@ -163,9 +190,17 @@ export default function Home() {
           </Stack>
 
           <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="lg">
-            {features.map(({ icon: Icon, title, description }) => (
-              <Card key={title} withBorder radius="lg" padding="lg" className="h-full">
-                <ThemeIcon size={44} radius="md" variant="light" color="blue">
+            {features.map(({ icon: Icon, title, description, color }) => (
+              <Card
+                key={title}
+                withBorder
+                radius="lg"
+                padding="lg"
+                className="h-full border-t-4"
+                // style={{ borderTopColor: `var(--mantine-color-${color}-5)` }}
+                style={{ borderColor: `var(--mantine-color-${color}-5)` }}
+              >
+                <ThemeIcon size={44} radius="md" variant="light" color={color}>
                   <Icon size={24} />
                 </ThemeIcon>
                 <Text fw={600} size="lg" mt="md">
@@ -196,17 +231,34 @@ export default function Home() {
                   Χωρίς σκόρπια αρχεία και σημειώματα. Κάθε ακίνητο κρατά τα δικά του
                   συμβόλαια, τεχνικούς και ιστορικό, πάντα ένα κλικ μακριά.
                 </Text>
-                <List
-                  spacing="sm"
-                  icon={
-                    <ThemeIcon color="blue" variant="light" size={22} radius="xl">
-                      <IconCircleCheck size={14} />
-                    </ThemeIcon>
-                  }
-                >
-                  <List.Item>Κεντρική εικόνα όλων των ακινήτων σε πραγματικό χρόνο</List.Item>
-                  <List.Item>Ιστορικό επισκευών και συντηρήσεων ανά διαμέρισμα</List.Item>
-                  <List.Item>Στοιχεία ενοικιαστών και συμβολαίων χωρίς χαρτιά</List.Item>
+                <List spacing="sm">
+                  <List.Item
+                    icon={
+                      <ThemeIcon color="teal" variant="light" size={22} radius="xl">
+                        <IconCircleCheck size={14} />
+                      </ThemeIcon>
+                    }
+                  >
+                    Κεντρική εικόνα όλων των ακινήτων σε πραγματικό χρόνο
+                  </List.Item>
+                  <List.Item
+                    icon={
+                      <ThemeIcon color="orange" variant="light" size={22} radius="xl">
+                        <IconCircleCheck size={14} />
+                      </ThemeIcon>
+                    }
+                  >
+                    Ιστορικό επισκευών και συντηρήσεων ανά διαμέρισμα
+                  </List.Item>
+                  <List.Item
+                    icon={
+                      <ThemeIcon color="grape" variant="light" size={22} radius="xl">
+                        <IconCircleCheck size={14} />
+                      </ThemeIcon>
+                    }
+                  >
+                    Στοιχεία ενοικιαστών και συμβολαίων χωρίς χαρτιά
+                  </List.Item>
                 </List>
               </Stack>
             </Grid.Col>
@@ -226,16 +278,16 @@ export default function Home() {
           </Stack>
 
           <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="xl">
-            {steps.map(({ icon: Icon, title, description }, index) => (
+            {steps.map(({ icon: Icon, title, description, color }, index) => (
               <Stack key={title} align="center" ta="center" gap="sm">
                 <div className="relative">
-                  <ThemeIcon size={56} radius="xl" variant="light" color="blue">
+                  <ThemeIcon size={56} radius="xl" variant="light" color={color}>
                     <Icon size={28} />
                   </ThemeIcon>
                   <Badge
                     size="sm"
                     circle
-                    color="blue"
+                    color={color}
                     className="!absolute -right-1 -top-1"
                   >
                     {index + 1}
@@ -253,8 +305,11 @@ export default function Home() {
         </Container>
       </section>
 
-      <section className="border-t border-zinc-200 dark:border-zinc-800">
-        <Container size="md" className="py-20 text-center">
+      <section
+        className="relative overflow-hidden border-t border-zinc-200 dark:border-zinc-800"
+        style={{ background: 'linear-gradient(135deg, rgba(77,171,247,0.08), rgba(190,75,219,0.08))' }}
+      >
+        <Container size="md" className="relative py-20 text-center">
           <Stack align="center" gap="lg">
             <Title order={2} className="text-2xl sm:text-3xl font-bold">
               Ξεκίνα σήμερα, δωρεάν
@@ -267,6 +322,8 @@ export default function Home() {
               href="/auth/sign-up"
               size="lg"
               radius="md"
+              variant="gradient"
+              gradient={{ from: 'blue', to: 'grape', deg: 90 }}
               rightSection={<IconArrowRight size={18} />}
             >
               Δημιουργία λογαριασμού
