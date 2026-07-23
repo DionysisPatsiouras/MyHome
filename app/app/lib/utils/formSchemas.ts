@@ -17,6 +17,20 @@ export const SignInFormSchema = z.object({
         .trim(),
 })
 
+export const SignUpFormSchema = z.object({
+    full_name: z.string({ error: 'Please enter your full name.' }).min(1, { error: 'Please enter your full name.' }).trim(),
+    email: z.email({ error: 'Please enter a valid email.' }).trim(),
+    password: z
+        .string()
+        .min(Number(process.env.NEXT_PUBLIC_PASSWORD_LENGTH),
+            { error: `Be at least ${Number(process.env.NEXT_PUBLIC_PASSWORD_LENGTH)} characters long` })
+        .trim(),
+    confirm_password: z.string().trim(),
+}).refine(data => data.password === data.confirm_password, {
+    error: 'Passwords do not match',
+    path: ['confirm_password'],
+})
+
 
 export const NewResidenceSchema = z.object({
     residenceType: z.number({ message: "Επιλέξτε κατηγορία" }),

@@ -1,4 +1,5 @@
 'use client'
+import Image from "next/image"
 import Link from "next/link"
 import {
   Badge,
@@ -29,7 +30,6 @@ import {
 import { LandingHeader } from './components/LandingHeader'
 import { LandingFooter } from './components/LandingFooter'
 import { AppMockup } from './components/illustrations/AppMockup'
-import { SkylineIllustration } from './components/illustrations/SkylineIllustration'
 
 const features = [
   {
@@ -214,11 +214,21 @@ export default function Home() {
         </Container>
       </section>
 
-      <section className="border-t border-zinc-200 dark:border-zinc-800">
+      <section
+        className="border-t border-zinc-200 bg-gradient-to-br from-blue-50 to-cyan-50 dark:border-zinc-800 dark:from-blue-950/20 dark:to-cyan-950/10"
+      >
         <Container size="lg" className="py-20 sm:py-28">
           <Grid align="center" gap={{ base: 32, md: 64 }}>
             <Grid.Col span={{ base: 12, md: 6 }}>
-              <SkylineIllustration />
+              <div className="relative h-64 w-full overflow-hidden rounded-2xl border border-zinc-200 shadow-xl shadow-blue-500/10 dark:border-zinc-800 sm:h-80">
+                <Image
+                  src="https://picsum.photos/seed/myhome-skyline/1200/800"
+                  alt="Πολυκατοικία διαμερισμάτων"
+                  fill
+                  className="object-cover"
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                />
+              </div>
             </Grid.Col>
 
             <Grid.Col span={{ base: 12, md: 6 }}>
@@ -260,6 +270,94 @@ export default function Home() {
                   </List.Item>
                 </List>
               </Stack>
+            </Grid.Col>
+          </Grid>
+        </Container>
+      </section>
+
+      <section className="border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950">
+        <Container size="lg" className="py-20 sm:py-28">
+          <Stack align="center" gap="xs" mb={48}>
+            <Title order={2} ta="center" className="text-2xl sm:text-3xl font-bold">
+              Ακίνητα κάθε τύπου
+            </Title>
+            <Text ta="center" c="dimmed" maw={480}>
+              Από στούντιο μέχρι μεζονέτες, το MyHome προσαρμόζεται σε κάθε ακίνητο που διαχειρίζεσαι.
+            </Text>
+          </Stack>
+
+          <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="lg">
+            {[
+              { seed: 'myhome-apartment-1', label: 'Διαμέρισμα, Κολωνάκι' },
+              { seed: 'myhome-apartment-2', label: 'Στούντιο, Παγκράτι' },
+              { seed: 'myhome-apartment-3', label: 'Μεζονέτα, Γλυφάδα' },
+            ].map(({ seed, label }) => (
+              <div key={seed} className="group relative h-56 overflow-hidden rounded-2xl border border-zinc-200 shadow-md dark:border-zinc-800">
+                <Image
+                  src={`https://picsum.photos/seed/${seed}/800/600`}
+                  alt={label}
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  sizes="(min-width: 640px) 33vw, 100vw"
+                />
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-3">
+                  <Text size="sm" fw={600} c="white">
+                    {label}
+                  </Text>
+                </div>
+              </div>
+            ))}
+          </SimpleGrid>
+        </Container>
+      </section>
+
+      <section
+        className="border-t border-zinc-200 bg-gradient-to-br from-pink-50 to-purple-50 dark:border-zinc-800 dark:from-pink-950/20 dark:to-purple-950/10"
+      >
+        <Container size="lg" className="py-20 sm:py-28">
+          <Grid align="center" gap={{ base: 32, md: 64 }}>
+            <Grid.Col span={{ base: 12, md: 6 }} order={{ base: 2, md: 1 }}>
+              <Stack gap="md">
+                <Title order={2} className="text-2xl sm:text-3xl font-bold">
+                  Τεχνικοί που εμπιστεύεσαι, ένα κλικ μακριά
+                </Title>
+                <Text c="dimmed" maw={440}>
+                  Κράτα στοιχεία επικοινωνίας και ιστορικό συνεργασίας για κάθε επαγγελματία,
+                  και ανάθεσε επισκευές χωρίς να ψάχνεις σε παλιά μηνύματα.
+                </Text>
+                <List spacing="sm">
+                  <List.Item
+                    icon={
+                      <ThemeIcon color="pink" variant="light" size={22} radius="xl">
+                        <IconCircleCheck size={14} />
+                      </ThemeIcon>
+                    }
+                  >
+                    Στοιχεία επικοινωνίας τεχνικών ανά ειδικότητα
+                  </List.Item>
+                  <List.Item
+                    icon={
+                      <ThemeIcon color="teal" variant="light" size={22} radius="xl">
+                        <IconCircleCheck size={14} />
+                      </ThemeIcon>
+                    }
+                  >
+                    Ιστορικό επισκευών ανά τεχνικό και ακίνητο
+                  </List.Item>
+                </List>
+              </Stack>
+            </Grid.Col>
+
+            <Grid.Col span={{ base: 12, md: 6 }} order={{ base: 1, md: 2 }}>
+              <div className="relative h-64 w-full overflow-hidden rounded-2xl border border-zinc-200 shadow-xl shadow-pink-500/10 dark:border-zinc-800 sm:h-80">
+                <Image
+                  src="https://picsum.photos/seed/myhome-technician/1200/800"
+                  alt="Τεχνικός σε επισκευή"
+                  fill
+                  className="object-cover"
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                />
+              </div>
             </Grid.Col>
           </Grid>
         </Container>
