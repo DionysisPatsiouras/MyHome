@@ -10,19 +10,19 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import {
     Alert,
     Button,
-    Card,
     Group,
     Paper,
+    Select,
     SimpleGrid,
-    Skeleton,
     Stack,
     Text,
+    Textarea,
     Title,
 } from '@mantine/core'
 import {
     IconAlertCircle,
     IconArrowLeft,
-    IconCheck,
+    IconNotes,
     IconPhone,
     IconTools,
     IconUser,
@@ -45,31 +45,6 @@ function SectionTitle({ label, icon: Icon }: { label: string; icon: React.Compon
                 {label}
             </Text>
         </Group>
-    )
-}
-
-function TechnicianTypeCard({ type, selected, onSelect }: { type: TechnicianType; selected: boolean; onSelect: () => void }) {
-    return (
-        <Card
-            withBorder
-            radius="md"
-            padding="md"
-            onClick={onSelect}
-            style={{
-                cursor: 'pointer',
-                borderColor: selected ? 'var(--mantine-color-blue-6)' : undefined,
-                borderWidth: selected ? 2 : 1,
-                backgroundColor: selected ? 'var(--mantine-color-blue-light)' : undefined,
-                transition: 'border-color 100ms ease, background-color 100ms ease',
-            }}
-        >
-            <Group justify="space-between" wrap="nowrap">
-                <Group gap="xs" wrap="nowrap">
-                    <Text fw={500} size="sm">{type.name}</Text>
-                </Group>
-                {selected && <IconCheck size={16} style={{ color: 'var(--mantine-color-blue-6)', flexShrink: 0 }} />}
-            </Group>
-        </Card>
     )
 }
 
@@ -103,6 +78,7 @@ export default function EditTechnician() {
             technicianType_id: fetchedTechnician.technicianType?.id,
             phone_1: String(fetchedTechnician.phone_1 ?? ''),
             phone_2: fetchedTechnician.phone_2 ? String(fetchedTechnician.phone_2) : undefined,
+            description: fetchedTechnician.description ?? '',
         })
     }, [technician, reset])
 
@@ -162,31 +138,26 @@ export default function EditTechnician() {
                 <Stack gap="md">
                     <SectionTitle label="Ειδικότητα" icon={IconTools} />
 
-                    {loadingTypes ? (
-                        <SimpleGrid cols={{ base: 2, sm: 3 }} spacing="sm">
-                            {Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} height={54} radius="md" />)}
-                        </SimpleGrid>
-                    ) : (
-                        <Controller
-                            name="technicianType_id"
-                            control={control}
-                            render={({ field }) => (
-                                <SimpleGrid cols={{ base: 2, sm: 3 }} spacing="sm">
-                                    {technicianTypes.map((type: TechnicianType) => (
-                                        <TechnicianTypeCard
-                                            key={type.id}
-                                            type={type}
-                                            selected={field.value === type.id}
-                                            onSelect={() => field.onChange(type.id)}
-                                        />
-                                    ))}
-                                </SimpleGrid>
-                            )}
-                        />
-                    )}
-                    {errors.technicianType_id && (
-                        <Text size="xs" c="red">{errors.technicianType_id.message}</Text>
-                    )}
+                    <Controller
+                        name="technicianType_id"
+                        control={control}
+                        render={({ field }) => (
+                            <Select
+                                placeholder="Επιλέξτε ειδικότητα"
+                                leftSection={<IconTools size={14} />}
+                                data={(technicianTypes ?? []).map((type: TechnicianType) => ({
+                                    value: String(type.id),
+                                    label: type.name,
+                                }))}
+                                disabled={loadingTypes}
+                                searchable
+                                nothingFoundMessage="Δεν βρέθηκαν ειδικότητες"
+                                error={errors.technicianType_id?.message}
+                                value={field.value != null ? String(field.value) : null}
+                                onChange={(value) => field.onChange(value ? Number(value) : undefined)}
+                            />
+                        )}
+                    />
                 </Stack>
             </Paper>
 
@@ -218,6 +189,23 @@ export default function EditTechnician() {
                             leftSection={<IconPhone size={14} />}
                         />
                     </SimpleGrid>
+
+                    <Controller
+                        name="description"
+                        control={control}
+                        render={({ field }) => (
+                            <Textarea
+                                label="Περιγραφή"
+                                placeholder="Προαιρετικές σημειώσεις για τον τεχνικό.."
+                                leftSection={<IconNotes size={14} />}
+                                minRows={3}
+                                autosize
+                                error={errors.description?.message}
+                                {...field}
+                                value={field.value ?? ''}
+                            />
+                        )}
+                    />
                 </Stack>
             </Paper>
 

@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 
-import { ActionIcon, Badge, Group, Stack, Table, Text } from '@mantine/core'
+import { ActionIcon, Badge, Group, Stack, Table, Text, Tooltip } from '@mantine/core'
 import { IconPencil, IconPhone, IconTrash } from '@tabler/icons-react'
 
 import type { Technician } from '@/app/lib/types'
@@ -14,14 +14,15 @@ interface ListViewProps {
 
 export default function ListView({ technicians, onDelete }: ListViewProps) {
     return (
-        <Table.ScrollContainer minWidth={600}>
+        <Table.ScrollContainer minWidth={750}>
             <Table verticalSpacing="sm" highlightOnHover>
                 <Table.Thead>
                     <Table.Tr>
-                        <Table.Th>Όνομα</Table.Th>
-                        <Table.Th>Τύπος</Table.Th>
-                        <Table.Th>Τηλέφωνα</Table.Th>
-                        <Table.Th />
+                        <Table.Th w="20%">Όνομα</Table.Th>
+                        <Table.Th w="15%">Τύπος</Table.Th>
+                        <Table.Th w="20%">Τηλέφωνα</Table.Th>
+                        <Table.Th w="35%">Περιγραφή</Table.Th>
+                        <Table.Th w="10%" />
                     </Table.Tr>
                 </Table.Thead>
                 <Table.Tbody>
@@ -48,6 +49,19 @@ export default function ListView({ technicians, onDelete }: ListViewProps) {
                                         <Text size="sm">{technician.phone_2 || '-'}</Text>
                                     </Group>
                                 </Stack>
+                            </Table.Td>
+                            <Table.Td maw={280}>
+                                <Tooltip
+                                    label={technician.description}
+                                    disabled={!technician.description}
+                                    multiline
+                                    w={280}
+                                    withArrow
+                                >
+                                    <Text size="sm" c="dimmed" truncate="end">
+                                        {technician.description || '-'}
+                                    </Text>
+                                </Tooltip>
                             </Table.Td>
                             <Table.Td>
                                 <Group justify="flex-end" gap="xs">

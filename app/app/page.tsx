@@ -5,7 +5,9 @@ import {
   Button,
   Card,
   Container,
+  Grid,
   Group,
+  List,
   SimpleGrid,
   Stack,
   Text,
@@ -20,7 +22,14 @@ import {
   IconMapPin,
   IconUsers,
   IconArrowRight,
+  IconClipboardList,
+  IconLayoutDashboard,
+  IconCircleCheck,
 } from '@tabler/icons-react'
+import { LandingHeader } from './components/LandingHeader'
+import { LandingFooter } from './components/LandingFooter'
+import { AppMockup } from './components/illustrations/AppMockup'
+import { SkylineIllustration } from './components/illustrations/SkylineIllustration'
 
 const features = [
   {
@@ -55,9 +64,29 @@ const features = [
   },
 ]
 
+const steps = [
+  {
+    icon: IconBuildingEstate,
+    title: 'Καταχώρισε τα ακίνητά σου',
+    description: 'Πρόσθεσε διαμερίσματα με τα χαρακτηριστικά και την τοποθεσία τους σε λίγα λεπτά.',
+  },
+  {
+    icon: IconClipboardList,
+    title: 'Συμπλήρωσε τα δεδομένα',
+    description: 'Σύνδεσε συμβόλαια, ενοικιαστές, τεχνικούς και προγραμματισμένες συντηρήσεις σε κάθε ακίνητο.',
+  },
+  {
+    icon: IconLayoutDashboard,
+    title: 'Παρακολούθα τα πάντα',
+    description: 'Δες την εικόνα όλων των ακινήτων σου σε ένα dashboard, χωρίς σκόρπια χαρτιά και μηνύματα.',
+  },
+]
+
 export default function Home() {
   return (
     <div className="flex flex-col flex-1 bg-zinc-50 dark:bg-black">
+      <LandingHeader />
+
       <section className="relative overflow-hidden border-b border-zinc-200 dark:border-zinc-800">
         <div
           className="pointer-events-none absolute -top-32 right-[-10%] h-96 w-96 rounded-full opacity-30 blur-3xl"
@@ -68,52 +97,61 @@ export default function Home() {
           style={{ background: 'radial-gradient(circle, #22b8cf, transparent 70%)' }}
         />
 
-        <Container size="md" className="relative py-24 sm:py-32">
-          <Stack align="center" gap="lg">
-            <Badge size="lg" variant="light" color="blue" radius="sm">
-              Διαχείριση Ακινήτων
-            </Badge>
+        <Container size="lg" className="relative py-20 sm:py-28">
+          <Grid align="center" gap={{ base: 40, md: 64 }}>
+            <Grid.Col span={{ base: 12, md: 6 }}>
+              <Stack gap="lg" align="flex-start">
+                <Badge size="lg" variant="light" color="blue" radius="sm">
+                  Διαχείριση Ακινήτων
+                </Badge>
 
-            <Title
-              order={1}
-              ta="center"
-              className="text-4xl sm:text-6xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50"
-            >
-              Το σπίτι σου,
-              <br />
-              πλήρως οργανωμένο.
-            </Title>
+                <Title
+                  order={1}
+                  className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50"
+                >
+                  Το σπίτι σου,
+                  <br />
+                  πλήρως οργανωμένο.
+                </Title>
 
-            <Text ta="center" size="xl" c="dimmed" maw={560}>
-              Ακίνητα, συμβόλαια, επισκευές και συντηρήσεις σε ένα σημείο.
-              Σταμάτα να ψάχνεις χαρτιά και μηνύματα — όλα είναι εδώ.
-            </Text>
+                <Text size="xl" c="dimmed" maw={480}>
+                  Ακίνητα, συμβόλαια, επισκευές και συντηρήσεις σε ένα σημείο.
+                  Σταμάτα να ψάχνεις χαρτιά και μηνύματα — όλα είναι εδώ.
+                </Text>
 
-            <Group mt="md">
-              <Button
-                component={Link}
-                href="/auth/sign-up"
-                size="lg"
-                radius="md"
-                rightSection={<IconArrowRight size={18} />}
-              >
-                Δημιουργία λογαριασμού
-              </Button>
-              <Button
-                component={Link}
-                href="/auth/sign-in"
-                size="lg"
-                radius="md"
-                variant="default"
-              >
-                Σύνδεση
-              </Button>
-            </Group>
-          </Stack>
+                <Group mt="md">
+                  <Button
+                    component={Link}
+                    href="/auth/sign-up"
+                    size="lg"
+                    radius="md"
+                    rightSection={<IconArrowRight size={18} />}
+                  >
+                    Δημιουργία λογαριασμού
+                  </Button>
+                  <Button
+                    component={Link}
+                    href="/auth/sign-in"
+                    size="lg"
+                    radius="md"
+                    variant="default"
+                  >
+                    Σύνδεση
+                  </Button>
+                </Group>
+              </Stack>
+            </Grid.Col>
+
+            <Grid.Col span={{ base: 12, md: 6 }}>
+              <Group justify="center">
+                <AppMockup />
+              </Group>
+            </Grid.Col>
+          </Grid>
         </Container>
       </section>
 
-      <section>
+      <section id="features">
         <Container size="lg" className="py-20 sm:py-28">
           <Stack align="center" gap="xs" mb={48}>
             <Title order={2} ta="center" className="text-2xl sm:text-3xl font-bold">
@@ -143,6 +181,79 @@ export default function Home() {
       </section>
 
       <section className="border-t border-zinc-200 dark:border-zinc-800">
+        <Container size="lg" className="py-20 sm:py-28">
+          <Grid align="center" gap={{ base: 32, md: 64 }}>
+            <Grid.Col span={{ base: 12, md: 6 }}>
+              <SkylineIllustration />
+            </Grid.Col>
+
+            <Grid.Col span={{ base: 12, md: 6 }}>
+              <Stack gap="md">
+                <Title order={2} className="text-2xl sm:text-3xl font-bold">
+                  Όλα τα ακίνητά σου, σε μια εικόνα
+                </Title>
+                <Text c="dimmed" maw={440}>
+                  Χωρίς σκόρπια αρχεία και σημειώματα. Κάθε ακίνητο κρατά τα δικά του
+                  συμβόλαια, τεχνικούς και ιστορικό, πάντα ένα κλικ μακριά.
+                </Text>
+                <List
+                  spacing="sm"
+                  icon={
+                    <ThemeIcon color="blue" variant="light" size={22} radius="xl">
+                      <IconCircleCheck size={14} />
+                    </ThemeIcon>
+                  }
+                >
+                  <List.Item>Κεντρική εικόνα όλων των ακινήτων σε πραγματικό χρόνο</List.Item>
+                  <List.Item>Ιστορικό επισκευών και συντηρήσεων ανά διαμέρισμα</List.Item>
+                  <List.Item>Στοιχεία ενοικιαστών και συμβολαίων χωρίς χαρτιά</List.Item>
+                </List>
+              </Stack>
+            </Grid.Col>
+          </Grid>
+        </Container>
+      </section>
+
+      <section id="how-it-works" className="border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950">
+        <Container size="lg" className="py-20 sm:py-28">
+          <Stack align="center" gap="xs" mb={56}>
+            <Title order={2} ta="center" className="text-2xl sm:text-3xl font-bold">
+              Πώς λειτουργεί
+            </Title>
+            <Text ta="center" c="dimmed" maw={480}>
+              Τρία βήματα ανάμεσα σε εσένα και μια πλήρως οργανωμένη διαχείριση ακινήτων.
+            </Text>
+          </Stack>
+
+          <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="xl">
+            {steps.map(({ icon: Icon, title, description }, index) => (
+              <Stack key={title} align="center" ta="center" gap="sm">
+                <div className="relative">
+                  <ThemeIcon size={56} radius="xl" variant="light" color="blue">
+                    <Icon size={28} />
+                  </ThemeIcon>
+                  <Badge
+                    size="sm"
+                    circle
+                    color="blue"
+                    className="!absolute -right-1 -top-1"
+                  >
+                    {index + 1}
+                  </Badge>
+                </div>
+                <Text fw={600} size="lg">
+                  {title}
+                </Text>
+                <Text c="dimmed" size="sm" maw={280}>
+                  {description}
+                </Text>
+              </Stack>
+            ))}
+          </SimpleGrid>
+        </Container>
+      </section>
+
+      <section className="border-t border-zinc-200 dark:border-zinc-800">
         <Container size="md" className="py-20 text-center">
           <Stack align="center" gap="lg">
             <Title order={2} className="text-2xl sm:text-3xl font-bold">
@@ -163,6 +274,8 @@ export default function Home() {
           </Stack>
         </Container>
       </section>
+
+      <LandingFooter />
     </div>
   )
 }

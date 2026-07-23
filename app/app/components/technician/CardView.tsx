@@ -61,6 +61,11 @@ export default function CardView({ technicians, onDelete }: CardViewProps) {
                             <IconPhone size={16} />
                             <Text size="sm">{technician.phone_2 || '-'}</Text>
                         </Group>
+                        {technician.description && (
+                            <Text size="sm" c="dimmed">
+                                {technician.description}
+                            </Text>
+                        )}
                     </Stack>
                 </Card>
             ))}

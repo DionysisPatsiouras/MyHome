@@ -58,6 +58,7 @@ export const NewTechnicianSchema = z.object({
     technicianType_id: z.number({ message: "Επιλέξτε ειδικότητα" }),
     phone_1: z.string({ message: "Υποχρεωτικό πεδίο" }).min(1, { message: "Υποχρεωτικό πεδίο" }).regex(PHONE_REGEX, { message: "Μη έγκυρο τηλέφωνο" }),
     phone_2: z.string().regex(PHONE_REGEX, { message: "Μη έγκυρο τηλέφωνο" }).optional().or(z.literal('')),
+    description: z.string().max(200, { message: "Μέγιστο μήκος 200 χαρακτήρων" }).optional().or(z.literal('')),
 })
 
 export type NewTechnicianFormValues = z.infer<typeof NewTechnicianSchema>

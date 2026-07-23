@@ -50,6 +50,7 @@ export interface Technician extends BaseModel {
     technicianType: TechnicianType
     phone_1?: number
     phone_2?: number
+    description?: string
     user: number
 
 }

@@ -1,135 +1,218 @@
-    [
-        {
-            "model": "technicians.technicianType",
-            "pk": 1,
-            "fields": {
-                "name": "Ηλεκτρολόγος"
-            }
-        },
-        {
-            "model": "technicians.technicianType",
-            "pk": 2,
-            "fields": {
-                "name": "Υδραυλικός"
-            }
-        },
-        {
-            "model": "technicians.technicianType",
-            "pk": 3,
-            "fields": {
-                "name": "Τεχνικός Κλιματισμού"
-            }
-        },
-        {
-            "model": "technicians.technicianType",
-            "pk": 4,
-            "fields": {
-                "name": "Ελαιοχρωματιστής"
-            }
-        },
-        {
-            "model": "technicians.technicianType",
-            "pk": 5,
-            "fields": {
-                "name": "Ξυλουργός"
-            }
-        },
-        {
-            "model": "technicians.technicianType",
-            "pk": 6,
-            "fields": {
-                "name": "Κλειδαράς"
-            }
-        },
-        {
-            "model": "technicians.technicianType",
-            "pk": 7,
-            "fields": {
-                "name": "Τζαμάς"
-            }
-        },
-        {
-            "model": "technicians.technicianType",
-            "pk": 8,
-            "fields": {
-                "name": "Γυψοσανιδάς"
-            }
-        },
-        {
-            "model": "technicians.technicianType",
-            "pk": 9,
-            "fields": {
-                "name": "Τεχνικός Λευκών Συσκευών"
-            }
-        },
-        {
-            "model": "technicians.technicianType",
-            "pk": 10,
-            "fields": {
-                "name": "Κηπουρός"
-            }
-        },
-        {
-            "model": "technicians.technicianType",
-            "pk": 11,
-            "fields": {
-                "name": "Καθαριστής/τρια"
-            }
-        },
-        {
-            "model": "technicians.technicianType",
-            "pk": 12,
-            "fields": {
-                "name": "Τεχνικός Ασανσέρ"
-            }
-        },
-        {
-            "model": "technicians.technicianType",
-            "pk": 13,
-            "fields": {
-                "name": "Οικοδόμος"
-            }
-        },
-        {
-            "model": "technicians.technicianType",
-            "pk": 14,
-            "fields": {
-                "name": "Τεχνικός Πισίνας"
-            }
-        },
-        {
-            "model": "technicians.technicianType",
-            "pk": 15,
-            "fields": {
-                "name": "Απεντομωτής"
-            }
-        },
-        {
-            "model": "technicians.technicianType",
-            "pk": 16,
-            "fields": {
-                "name": "Επιδιορθωτής Στέγης"
-            }
-        },
-        {
-            "model": "technicians.technicianType",
-            "pk": 17,
-            "fields": {
-                "name": "Τεχνικός Συναγερμών"
-            }
-        },
-        {
-            "model": "technicians.technicianType",
-            "pk": 18,
-            "fields": {
-                "name": "Τεχνικός Φωτοβολταϊκών"
-            }
-        },
-        {
-            "model": "technicians.technicianType",
-            "pk": 19,
-            "fields": {
-                "name": "Άλλο"
-            }
+[
+    {
+        "model": "technicians.techniciantype",
+        "pk": 1,
+        "fields": {
+            "avatar": "",
+            "name": "Ηλεκτρολόγος"
         }
-    ]
+    },
+    {
+        "model": "technicians.techniciantype",
+        "pk": 2,
+        "fields": {
+            "avatar": "",
+            "name": "Υδραυλικός"
+        }
+    },
+    {
+        "model": "technicians.techniciantype",
+        "pk": 3,
+        "fields": {
+            "avatar": "",
+            "name": "Τεχνικός Κλιματισμού"
+        }
+    },
+    {
+        "model": "technicians.techniciantype",
+        "pk": 4,
+        "fields": {
+            "avatar": "",
+            "name": "Ελαιοχρωματιστής"
+        }
+    },
+    {
+        "model": "technicians.techniciantype",
+        "pk": 5,
+        "fields": {
+            "avatar": "",
+            "name": "Ξυλουργός"
+        }
+    },
+    {
+        "model": "technicians.techniciantype",
+        "pk": 6,
+        "fields": {
+            "avatar": "",
+            "name": "Κλειδαράς"
+        }
+    },
+    {
+        "model": "technicians.techniciantype",
+        "pk": 7,
+        "fields": {
+            "avatar": "",
+            "name": "Τζαμάς"
+        }
+    },
+    {
+        "model": "technicians.techniciantype",
+        "pk": 8,
+        "fields": {
+            "avatar": "",
+            "name": "Γυψοσανιδάς"
+        }
+    },
+    {
+        "model": "technicians.techniciantype",
+        "pk": 9,
+        "fields": {
+            "avatar": "",
+            "name": "Τεχνικός Λευκών Συσκευών"
+        }
+    },
+    {
+        "model": "technicians.techniciantype",
+        "pk": 10,
+        "fields": {
+            "avatar": "",
+            "name": "Κηπουρός"
+        }
+    },
+    {
+        "model": "technicians.techniciantype",
+        "pk": 11,
+        "fields": {
+            "avatar": "",
+            "name": "Καθαριστής/τρια"
+        }
+    },
+    {
+        "model": "technicians.techniciantype",
+        "pk": 12,
+        "fields": {
+            "avatar": "",
+            "name": "Τεχνικός Ασανσέρ"
+        }
+    },
+    {
+        "model": "technicians.techniciantype",
+        "pk": 13,
+        "fields": {
+            "avatar": "",
+            "name": "Οικοδόμος"
+        }
+    },
+    {
+        "model": "technicians.techniciantype",
+        "pk": 14,
+        "fields": {
+            "avatar": "",
+            "name": "Τεχνικός Πισίνας"
+        }
+    },
+    {
+        "model": "technicians.techniciantype",
+        "pk": 15,
+        "fields": {
+            "avatar": "",
+            "name": "Απεντομωτής"
+        }
+    },
+    {
+        "model": "technicians.techniciantype",
+        "pk": 16,
+        "fields": {
+            "avatar": "",
+            "name": "Επιδιορθωτής Στέγης"
+        }
+    },
+    {
+        "model": "technicians.techniciantype",
+        "pk": 17,
+        "fields": {
+            "avatar": "",
+            "name": "Τεχνικός Συναγερμών"
+        }
+    },
+    {
+        "model": "technicians.techniciantype",
+        "pk": 18,
+        "fields": {
+            "avatar": "",
+            "name": "Τεχνικός Φωτοβολταϊκών"
+        }
+    },
+    {
+        "model": "technicians.techniciantype",
+        "pk": 19,
+        "fields": {
+            "avatar": "",
+            "name": "Άλλο"
+        }
+    },
+    {
+        "model": "technicians.technician",
+        "pk": 1,
+        "fields": {
+            "full_name": "Γιώργος Παπαδόπουλος",
+            "phone_1": "6971234567",
+            "phone_2": null,
+            "description": "Έμπειρος ηλεκτρολόγος, διαθέσιμος για επείγουσες βλάβες.",
+            "created_at": "2026-03-12T10:20:00Z",
+            "updated_at": null,
+            "is_deleted": false,
+            "deleted_at": null,
+            "technicianType": 1,
+            "user": "00000000-0000-0000-0000-000000000001"
+        }
+    },
+    {
+        "model": "technicians.technician",
+        "pk": 2,
+        "fields": {
+            "full_name": "Νίκος Αναστασίου",
+            "phone_1": "6982345678",
+            "phone_2": "2101234567",
+            "description": "Υδραυλικός με 15 χρόνια εμπειρίας σε επισκευές και εγκαταστάσεις.",
+            "created_at": "2026-03-15T09:10:00Z",
+            "updated_at": null,
+            "is_deleted": false,
+            "deleted_at": null,
+            "technicianType": 2,
+            "user": "00000000-0000-0000-0000-000000000001"
+        }
+    },
+    {
+        "model": "technicians.technician",
+        "pk": 3,
+        "fields": {
+            "full_name": "Ελένη Δημητρίου",
+            "phone_1": "6993456789",
+            "phone_2": null,
+            "description": "Τεχνικός κλιματισμού, service και τοποθέτηση split units.",
+            "created_at": "2026-04-02T14:30:00Z",
+            "updated_at": null,
+            "is_deleted": false,
+            "deleted_at": null,
+            "technicianType": 3,
+            "user": "00000000-0000-0000-0000-000000000002"
+        }
+    },
+    {
+        "model": "technicians.technician",
+        "pk": 4,
+        "fields": {
+            "full_name": "Κώστας Βασιλείου",
+            "phone_1": "6944567890",
+            "phone_2": null,
+            "description": null,
+            "created_at": "2026-05-20T11:45:00Z",
+            "updated_at": null,
+            "is_deleted": false,
+            "deleted_at": null,
+            "technicianType": 6,
+            "user": "00000000-0000-0000-0000-000000000002"
+        }
+    }
+]

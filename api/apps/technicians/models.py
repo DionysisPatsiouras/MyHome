@@ -18,6 +18,7 @@ class Technician(models.Model):
     full_name = models.CharField(max_length=200, null=False)
     phone_1 = models.CharField(max_length=10, null=True)
     phone_2 = models.CharField(max_length=10, null=True)
+    description = models.CharField(max_length=200, null=True, blank=True)
 
 
     created_at = models.DateTimeField(auto_now_add=True)
