@@ -122,7 +122,13 @@ export default function Maintenances() {
     return (
         <>
             <CreateButton />
-            <Accordion variant="separated" radius="md" value={openMaintenance} onChange={setOpenMaintenance}>
+            <Accordion
+                variant="separated"
+                radius="md"
+                value={openMaintenance}
+                onChange={setOpenMaintenance}
+                styles={{ item: { backgroundColor: 'var(--mantine-color-body)', border: '1px solid var(--mantine-color-default-border)' } }}
+            >
                 {maintenances.map(m => (
                     <MaintenanceProvider key={m.id} maintenance={m}>
                         <MaintenanceAccordionItem
