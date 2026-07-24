@@ -96,6 +96,15 @@ export type MaintenancePayload = {
     recurrence: number
 }
 
+export const NewMaintenanceHistorySchema = z.object({
+    comments: z.string().max(500, { message: "Μέγιστο μήκος 500 χαρακτήρων" }).optional().or(z.literal('')),
+    cost: z.number({ message: "Υποχρεωτικό πεδίο" }).nonnegative({ message: "Δεν μπορεί να είναι αρνητικό" }),
+    date: z.string({ message: "Υποχρεωτικό πεδίο" }).min(1, { message: "Υποχρεωτικό πεδίο" })
+        .refine(date => date <= new Date().toISOString().slice(0, 10), { message: "Η ημερομηνία δεν μπορεί να είναι μελλοντική" }),
+})
+
+export type NewMaintenanceHistoryFormValues = z.infer<typeof NewMaintenanceHistorySchema>
+
 export const NewTechnicianSchema = z.object({
     full_name: z.string({ message: "Υποχρεωτικό πεδίο" }).min(1, { message: "Υποχρεωτικό πεδίο" }),
     technicianType_id: z.number({ message: "Επιλέξτε ειδικότητα" }),

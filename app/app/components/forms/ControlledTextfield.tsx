@@ -8,7 +8,7 @@ import { Controller } from 'react-hook-form'
 export default function ControlledTextfield({
     label, control, name, errors, placeholder, onChange, type = 'text',
     disabled, loading, helpText, autoComplete, inputMode, leftSection,
-    required, minLength, maxLength, pattern,
+    required, minLength, maxLength, pattern, min, max,
 }: any) {
     const fieldError = errors?.[name]?.message as string | undefined
 
@@ -21,6 +21,8 @@ export default function ControlledTextfield({
                 <TextInput
                     label={label}
                     type={type}
+                    min={min}
+                    max={max}
                     // placeholder={placeholder}
                     // autoComplete={autoComplete}
                     // inputMode={inputMode}
