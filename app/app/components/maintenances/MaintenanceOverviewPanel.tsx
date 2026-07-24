@@ -9,7 +9,7 @@ import { MaintenanceHistoryTable } from '@/app/components/maintenances/Maintenan
 import { MaintenanceHistoryModal } from '@/app/components/maintenances/MaintenanceHistoryModal'
 import type { MaintenanceHistoryEntry, MaintenanceOverview } from '@/app/lib/types'
 
-const INLINE_HISTORY_LIMIT = 5
+const INLINE_HISTORY_LIMIT = 3
 
 type MaintenanceOverviewPanelProps = {
     overview?: MaintenanceOverview

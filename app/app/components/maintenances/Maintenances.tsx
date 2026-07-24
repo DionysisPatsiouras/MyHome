@@ -132,7 +132,6 @@ export default function Maintenances() {
                 {maintenances.map(m => (
                     <MaintenanceProvider key={m.id} maintenance={m}>
                         <MaintenanceAccordionItem
-                            isOpen={openMaintenance === String(m.id)}
                             onEdit={setEditingMaintenance}
                             onDelete={setDeleteTarget}
                         />

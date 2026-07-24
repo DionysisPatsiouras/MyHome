@@ -1,8 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Accordion, ActionIcon, Flex, Group, Stack, Tooltip } from '@mantine/core'
-import { IconPencil, IconPlus, IconRefresh, IconTool, IconTrash } from '@tabler/icons-react'
+import { Accordion, ActionIcon, Badge, Flex, Group, Stack, Tooltip } from '@mantine/core'
+import { IconAlertTriangle, IconPencil, IconPlus, IconRefresh, IconTool, IconTrash } from '@tabler/icons-react'
 
 import { useMaintenance } from '@/app/contexts/MaintenanceContext'
 import { NewMaintenanceHistoryModal } from '@/app/components/maintenances/NewMaintenanceHistoryModal'
@@ -22,12 +22,11 @@ const buttonsProps = {
 } as const
 
 type MaintenanceAccordionItemProps = {
-    isOpen: boolean
     onEdit: (maintenance: Maintenance) => void
     onDelete: (maintenance: Maintenance) => void
 }
 
-export function MaintenanceAccordionItem({ isOpen, onEdit, onDelete }: MaintenanceAccordionItemProps) {
+export function MaintenanceAccordionItem({ onEdit, onDelete }: MaintenanceAccordionItemProps) {
     const { maintenance, overview, loading, fetchOverview, logHistory, deleteHistory } = useMaintenance()
 
     const [fetched, setFetched] = useState(false)
@@ -39,10 +38,12 @@ export function MaintenanceAccordionItem({ isOpen, onEdit, onDelete }: Maintenan
     const [deletingHistory, setDeletingHistory] = useState(false)
 
     useEffect(() => {
-        if (!isOpen || fetched) return
+        if (fetched) return
         setFetched(true)
         fetchOverview()
-    }, [isOpen, fetched, fetchOverview])
+    }, [fetched, fetchOverview])
+
+    const isOverdue = !!overview?.next_maintenance && new Date(overview.next_maintenance) < new Date()
 
     const handleLogHistory = async (values: NewMaintenanceHistoryFormValues) => {
         setLoggingSubmitting(true)
@@ -75,7 +76,20 @@ export function MaintenanceAccordionItem({ isOpen, onEdit, onDelete }: Maintenan
             >
                 <Flex direction={{ base: 'column', sm: 'row' }} justify="space-between" align={{ base: 'stretch', sm: 'center' }} gap="xs">
                     <Stack gap={2} style={{ minWidth: 0 }}>
-                        <span style={{ fontWeight: 600, fontSize: '1rem' }}>{maintenance.title}</span>
+                        <Group gap={6} align="center">
+                            <span style={{ fontWeight: 600, fontSize: '1rem' }}>{maintenance.title}</span>
+                            {isOverdue && (
+                                <Badge
+                                    variant="light"
+                                    color="red"
+                                    size="sm"
+                                    radius="sm"
+                                    leftSection={<IconAlertTriangle size={12} />}
+                                >
+                                    Ληξιπρoθεσμη
+                                </Badge>
+                            )}
+                        </Group>
                         <Group gap={4} align="center" style={{ color: COLORS.muted, fontSize: '0.8rem' }}>
                             <IconRefresh size={12} />
                             Κάθε {maintenance.recurrence} ημέρες
