@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
-import { Accordion, Button, Group } from '@mantine/core'
-import { IconPlus } from '@tabler/icons-react'
+import { useCallback, useState } from 'react'
+import { Accordion, Button, Flex, Group } from '@mantine/core'
+import { IconCoin, IconPlus } from '@tabler/icons-react'
 
 import { useResidence } from '@/app/contexts/ResidenceContext'
 import { MaintenanceProvider } from '@/app/contexts/MaintenanceContext'
@@ -33,6 +33,12 @@ export default function Maintenances() {
     const [deleting, setDeleting] = useState(false)
 
     const [openMaintenance, setOpenMaintenance] = useState<string | null>(null)
+
+    const [costsByMaintenance, setCostsByMaintenance] = useState<Record<number, number>>({})
+    const handleTotalCost = useCallback((maintenanceId: number, totalCost: number) => {
+        setCostsByMaintenance(prev => (prev[maintenanceId] === totalCost ? prev : { ...prev, [maintenanceId]: totalCost }))
+    }, [])
+    const totalCost = Object.values(costsByMaintenance).reduce((sum, cost) => sum + cost, 0)
 
     const handleCreate = async (values: MaintenancePayload) => {
         setSubmitting(true)
@@ -80,11 +86,19 @@ export default function Maintenances() {
     }
 
     const CreateButton = () => (
-        <Group justify="flex-end" mb="md">
-            <Button leftSection={<IconPlus size={16} />} onClick={() => setCreating(true)}>
+        <Flex direction={{ base: 'column', sm: 'row' }} justify="space-between" align={{ base: 'stretch', sm: 'center' }} gap="sm" mb="md">
+            {maintenances.length > 0 && (
+                <Group align="center" gap={8}>
+                    <IconCoin size={16} style={{ color: COLORS.iconFg }} />
+                    <span style={{ color: COLORS.muted, fontSize: '0.9rem' }}>
+                        Σύνολο εξόδων: <strong style={{ color: 'inherit' }}>{totalCost.toFixed(2)}€</strong>
+                    </span>
+                </Group>
+            )}
+            <Button leftSection={<IconPlus size={16} />} onClick={() => setCreating(true)} ml={{ base: 0, sm: 'auto' }}>
                 Νέα Συντήρηση
             </Button>
-        </Group>
+        </Flex>
     )
 
     const modals = (
@@ -134,6 +148,7 @@ export default function Maintenances() {
                         <MaintenanceAccordionItem
                             onEdit={setEditingMaintenance}
                             onDelete={setDeleteTarget}
+                            onTotalCost={handleTotalCost}
                         />
                     </MaintenanceProvider>
                 ))}

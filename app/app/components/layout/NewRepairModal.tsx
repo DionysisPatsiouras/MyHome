@@ -50,7 +50,7 @@ export function NewRepairModal({ opened, onClose, onSubmit, submitting, repair }
             <Stack gap="sm">
                 <ControlledTextarea name="description" {...formProps} label="Περιγραφή" minRows={3} autosize />
 
-                <ControlledTextfield name="date" {...formProps} type="date" label="Ημερομηνία" />
+                <ControlledTextfield name="date" {...formProps} type="date" label="Ημερομηνία επισκευής" />
                 <Controller
                     name="cost"
                     control={control}

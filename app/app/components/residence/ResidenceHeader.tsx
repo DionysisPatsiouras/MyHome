@@ -1,9 +1,10 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 
-import { Badge, Button, Divider, Group, Paper, Skeleton, Stack, Text, Title } from '@mantine/core'
+
+import { Badge, Box, Button, Divider, Group, Paper, Skeleton, Stack, Text, Title } from '@mantine/core'
+
 import {
     IconArrowLeft,
     IconBolt,
@@ -50,8 +51,6 @@ function Stat({ icon: Icon, label, value }: { icon: React.ComponentType<IconProp
 
 export default function ResidenceHeader() {
     const { residence, loading, maintenances } = useResidence()
-    const pathname = usePathname()
-    const isEditPage = pathname?.endsWith('/edit')
 
     if (loading || !residence?.address) {
         return (
@@ -112,17 +111,17 @@ export default function ResidenceHeader() {
                         </Group>
                     )}
                 </Stack>
-
-                {!isEditPage && (
-                    <Button
-                        component={Link}
-                        href={`/dashboard/residences/${residence.id}/edit`}
-                        variant="light"
-                        leftSection={<IconPencil size={16} />}
-                    >
+                <Button
+                    component={Link}
+                    href={`/dashboard/residences/${residence.id}/edit`}
+                    variant="light"
+                    leftSection={<IconPencil size={20} />}
+                >
+                    <Box component="span" visibleFrom="sm">
                         Επεξεργασία
-                    </Button>
-                )}
+                    </Box>
+                </Button>
+
             </Group>
 
             <Divider my="md" />

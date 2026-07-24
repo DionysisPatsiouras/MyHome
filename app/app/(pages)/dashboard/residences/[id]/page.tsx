@@ -36,20 +36,20 @@ export default function ResidenceView() {
 
             <Tabs defaultValue="info" keepMountedMode="display-none">
 
-                <Tabs.List style={{ marginBottom: 15 }}>
-                    <Tabs.Tab value="info" leftSection={<IconInfoCircle size={16} />}>
+                <Tabs.List style={{ marginBottom: 15, flexWrap: 'nowrap', overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+                    <Tabs.Tab value="info" leftSection={<IconInfoCircle size={16} />} style={{ flexShrink: 0 }}>
                         Στοιχεία
                     </Tabs.Tab>
-                    <Tabs.Tab value="location" leftSection={<IconMap size={16} />}>
+                    <Tabs.Tab value="location" leftSection={<IconMap size={16} />} style={{ flexShrink: 0 }}>
                         Τοποθεσία
                     </Tabs.Tab>
-                    <Tabs.Tab value="contracts" leftSection={<IconFile size={16} />}>
+                    <Tabs.Tab value="contracts" leftSection={<IconFile size={16} />} style={{ flexShrink: 0 }}>
                         Συμβόλαια
                     </Tabs.Tab>
-                    <Tabs.Tab value="repairs" leftSection={<IconHammer size={16} />}>
+                    <Tabs.Tab value="repairs" leftSection={<IconHammer size={16} />} style={{ flexShrink: 0 }}>
                         Ιστορικό επισκευών
                     </Tabs.Tab>
-                    <Tabs.Tab value="maintenances" leftSection={<IconTool size={16} />}>
+                    <Tabs.Tab value="maintenances" leftSection={<IconTool size={16} />} style={{ flexShrink: 0 }}>
                         Συντηρήσεις
                     </Tabs.Tab>
                 </Tabs.List>

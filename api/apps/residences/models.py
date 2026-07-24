@@ -32,7 +32,7 @@ class ResidenceType(models.Model):
 
 class Residence(models.Model):
 
-    # uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     uniqueId = models.CharField(default=generate_uniqueId, unique=True)

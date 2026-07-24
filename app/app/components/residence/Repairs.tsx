@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { ActionIcon, Button, Card, Group, Stack } from '@mantine/core'
-import { IconCalendar, IconHammer, IconPencil, IconPlus, IconTrash } from '@tabler/icons-react'
+import { ActionIcon, Box, Button, Card, Flex, Group, Stack } from '@mantine/core'
+import { IconCalendar, IconCoin, IconHammer, IconPencil, IconPlus, IconTrash } from '@tabler/icons-react'
 
 import { useResidence } from '@/app/contexts/ResidenceContext'
 import { useCRUD } from '@/app/lib/hooks/useCRUD'
@@ -76,12 +76,22 @@ export default function Repairs() {
         setEditingRepair(null)
     }
 
+    const totalCost = repairs.reduce((sum, repair) => sum + (parseFloat(repair.cost) || 0), 0)
+
     const CreateButton = () => (
-        <Group justify="flex-end" mb="md">
-            <Button leftSection={<IconPlus size={16} />} onClick={() => setCreating(true)}>
+        <Flex direction={{ base: 'column', sm: 'row' }} justify="space-between" align={{ base: 'stretch', sm: 'center' }} gap="sm" mb="md">
+            {repairs.length > 0 && (
+                <Group align="center" gap={8}>
+                    <IconCoin size={16} style={{ color: COLORS.iconFg }} />
+                    <span style={{ color: COLORS.muted, fontSize: '0.9rem' }}>
+                        Σύνολο εξόδων: <strong style={{ color: 'inherit' }}>{totalCost.toFixed(2)}€</strong>
+                    </span>
+                </Group>
+            )}
+            <Button leftSection={<IconPlus size={16} />} onClick={() => setCreating(true)} ml={{ base: 0, sm: 'auto' }}>
                 Νέα Επισκευή
             </Button>
-        </Group>
+        </Flex>
     )
 
     const modals = (
@@ -122,17 +132,22 @@ export default function Repairs() {
             <Stack gap="md">
                 {repairs.map(repair => (
                     <Card key={repair.id} withBorder padding="md" radius="md">
-                        <Group justify="space-between" align="flex-start">
-                            <Group align="center" gap={12}>
-                                <div style={{ background: COLORS.iconBg, borderRadius: '50%', width: '2.2rem', height: '2.2rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <Flex direction={{ base: 'column', sm: 'row' }} justify="space-between" align={{ base: 'stretch', sm: 'flex-start' }} gap="sm">
+                            <Group align="center" gap={12} style={{ minWidth: 0 }}>
+                                <Box
+                                    visibleFrom="sm"
+                                    style={{ background: COLORS.iconBg, borderRadius: '50%', width: '2.2rem', height: '2.2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}
+                                >
                                     <IconHammer size={16} style={{ color: COLORS.iconFg }} />
-                                </div>
-                                <Stack gap={4}>
+                                </Box>
+                                <Stack gap={4} style={{ minWidth: 0 }}>
                                     <span style={{ fontWeight: 600, fontSize: '1rem' }}>{repair.description}</span>
-                                    <span style={{ color: COLORS.muted, fontSize: '0.85rem', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-                                        <IconCalendar size={14} />
-                                        {new Date(repair.date).toLocaleDateString('el-GR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
-                                    </span>
+                                    <Group gap={4} align="flex-start" wrap="nowrap">
+                                        <IconCalendar size={14} style={{ marginTop: 2, flexShrink: 0, color: COLORS.muted }} />
+                                        <span style={{ color: COLORS.muted, fontSize: '0.85rem' }}>
+                                            Ημ/νία επισκευής: <strong>{new Date(repair.date).toLocaleDateString('el-GR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</strong>
+                                        </span>
+                                    </Group>
                                 </Stack>
                             </Group>
                             <Group align="center" gap={12}>
@@ -146,7 +161,7 @@ export default function Repairs() {
                                     </ActionIcon>
                                 </Group>
                             </Group>
-                        </Group>
+                        </Flex>
                     </Card>
                 ))}
             </Stack>
