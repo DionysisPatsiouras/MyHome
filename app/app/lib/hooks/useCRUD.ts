@@ -15,6 +15,39 @@ export type CRUDNotificationOptions = {
 export const useCRUD = () => {
 
 
+    const GET = async (endpoint: string, unauthenticated = false, notificationOptions?: CRUDNotificationOptions | boolean) => {
+
+        const token: any = await cookieStore.get("token")
+
+        const config = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                ...(unauthenticated ? {} : { Authorization: `Bearer ${token?.value}` }),
+            },
+        };
+
+        const res = await fetch(endpoint, config)
+        const data = await res.json()
+
+        if (!res.ok) {
+            if (notificationOptions) {
+                const options = typeof notificationOptions === 'boolean' ? {} : notificationOptions
+                notifications.show({
+                    color: 'red',
+                    title: options.error?.title ?? 'Σφάλμα',
+                    message: options.error?.message ?? 'Η ενέργεια απέτυχε'
+                })
+            }
+            throw data
+        }
+
+        return data
+
+    }
+
+
+
     const POST = async (endpoint: string, body: any, unauthenticated = false, notificationOptions?: CRUDNotificationOptions | boolean) => {
 
         const token: any = await cookieStore.get("token")
@@ -148,6 +181,6 @@ export const useCRUD = () => {
 
 
 
-    return { POST, PATCH, DELETE }
+    return { GET, POST, PATCH, DELETE }
 
 }

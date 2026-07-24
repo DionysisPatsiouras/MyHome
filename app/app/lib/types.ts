@@ -44,6 +44,31 @@ export interface Maintenance {
     residence: number
 }
 
+export interface MaintenanceHistoryEntry {
+    id: number
+    maintenanceId: number
+    comments: string | null
+    date: string
+    cost: number | null
+}
+
+export interface MaintenanceOverview {
+    maintenance: Maintenance[]
+    maintenance_history: MaintenanceHistoryEntry[]
+    last_maintenance: string | null
+    next_maintenance: string | null
+    days_left: number | null
+    total_cost: number
+}
+
+export interface Repair {
+    id: number
+    description: string
+    cost: string
+    date: string
+    user: number
+}
+
 export interface Technician extends BaseModel {
     id: number
     full_name: string

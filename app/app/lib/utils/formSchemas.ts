@@ -18,16 +18,16 @@ export const SignInFormSchema = z.object({
 })
 
 export const SignUpFormSchema = z.object({
-    full_name: z.string({ error: 'Please enter your full name.' }).min(1, { error: 'Please enter your full name.' }).trim(),
-    email: z.email({ error: 'Please enter a valid email.' }).trim(),
+    full_name: z.string({ error: 'Υποχρεωτικό πεδίο' }).min(1, { error: 'Υποχρεωτικό πεδίο' }).trim(),
+    email: z.email({ error: 'Μη έγκυρο email' }).trim(),
     password: z
         .string()
         .min(Number(process.env.NEXT_PUBLIC_PASSWORD_LENGTH),
-            { error: `Be at least ${Number(process.env.NEXT_PUBLIC_PASSWORD_LENGTH)} characters long` })
+            { error: `Πρέπει να έχει τουλάχιστον ${Number(process.env.NEXT_PUBLIC_PASSWORD_LENGTH)} χαρακτήρες` })
         .trim(),
     confirm_password: z.string().trim(),
 }).refine(data => data.password === data.confirm_password, {
-    error: 'Passwords do not match',
+    error: 'Οι κωδικοί δεν ταιριάζουν',
     path: ['confirm_password'],
 })
 
@@ -66,6 +66,35 @@ export const NewContractSchema = z.object({
 })
 
 export type NewContractFormValues = z.infer<typeof NewContractSchema>
+
+export const NewRepairSchema = z.object({
+    description: z.string().max(200, { message: "Μέγιστο μήκος 200 χαρακτήρων" }).optional().or(z.literal('')),
+    cost: z.number({ message: "Υποχρεωτικό πεδίο" }).nonnegative({ message: "Δεν μπορεί να είναι αρνητικό" }),
+    date: z.string({ message: "Υποχρεωτικό πεδίο" }).min(1, { message: "Υποχρεωτικό πεδίο" }),
+})
+
+export type NewRepairFormValues = z.infer<typeof NewRepairSchema>
+
+export const RECURRENCE_UNITS = ['days', 'months', 'years'] as const
+
+export const RECURRENCE_UNIT_IN_DAYS: Record<typeof RECURRENCE_UNITS[number], number> = {
+    days: 1,
+    months: 30,
+    years: 365,
+}
+
+export const NewMaintenanceSchema = z.object({
+    title: z.string({ message: "Υποχρεωτικό πεδίο" }).min(1, { message: "Υποχρεωτικό πεδίο" }),
+    recurrenceValue: z.number({ message: "Υποχρεωτικό πεδίο" }).positive({ message: "Πρέπει να είναι μεγαλύτερο από 0" }),
+    recurrenceUnit: z.enum(RECURRENCE_UNITS, { message: "Υποχρεωτικό πεδίο" }),
+})
+
+export type NewMaintenanceFormValues = z.infer<typeof NewMaintenanceSchema>
+
+export type MaintenancePayload = {
+    title: string
+    recurrence: number
+}
 
 export const NewTechnicianSchema = z.object({
     full_name: z.string({ message: "Υποχρεωτικό πεδίο" }).min(1, { message: "Υποχρεωτικό πεδίο" }),

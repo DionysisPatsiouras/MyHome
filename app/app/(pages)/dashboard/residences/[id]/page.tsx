@@ -70,9 +70,9 @@ export default function ResidenceView() {
                     <Repairs />
                 </Tabs.Panel>
 
-                {/* <Tabs.Panel value="maintenances">
-                            <Maintenances />
-                        </Tabs.Panel> */}
+                <Tabs.Panel value="maintenances">
+                    <Maintenances />
+                </Tabs.Panel>
 
             </Tabs>
 
