@@ -47,24 +47,7 @@ import { PageLoader } from '@/app/components/layout/PageLoader'
 import { DataNotFound } from '@/app/components/layout/DataNotFound'
 import { useResidence } from '@/app/contexts/ResidenceContext'
 import type { City, ResidenceType } from '@/app/lib/types'
-
-const ENERGY_CLASSES = ['A+', 'A', 'B', 'C', 'D', 'E', 'F', 'G']
-
-const FLOOR_OPTIONS = [
-    { value: '-2', label: 'Υπόγειο 2' },
-    { value: '-1', label: 'Υπόγειο' },
-    { value: '0', label: 'Ισόγειο' },
-    { value: '1', label: '1ος' },
-    { value: '2', label: '2ος' },
-    { value: '3', label: '3ος' },
-    { value: '4', label: '4ος' },
-    { value: '5', label: '5ος' },
-    { value: '6', label: '6ος' },
-    { value: '7', label: '7ος' },
-    { value: '8', label: '8ος' },
-    { value: '9', label: '9ος' },
-    { value: '10', label: '10ος' },
-]
+import { ENERGY_CLASSES, FLOOR_OPTIONS } from '@/app/lib/constants/ResidenceOptions'
 
 function SectionTitle({ label, icon: Icon }: { label: string; icon: React.ComponentType<{ size?: number; style?: React.CSSProperties }> }) {
     return (
@@ -127,7 +110,7 @@ export default function ResidenceEdit() {
         if (!residence) return
 
         reset({
-            residenceType: residence.residenceType?.id,
+            residenceType_id: residence.residenceType?.id,
             city_id: residence.city?.id,
             address: residence.address,
             road_number: residence.road_number,
@@ -210,7 +193,7 @@ export default function ResidenceEdit() {
                         </SimpleGrid>
                     ) : (
                         <Controller
-                            name="residenceType"
+                            name="residenceType_id"
                             control={control}
                             render={({ field }) => (
                                 <SimpleGrid cols={{ base: 2, sm: 3 }} spacing="sm">
@@ -226,8 +209,8 @@ export default function ResidenceEdit() {
                             )}
                         />
                     )}
-                    {errors.residenceType && (
-                        <Text size="xs" c="red">{errors.residenceType.message}</Text>
+                    {errors.residenceType_id && (
+                        <Text size="xs" c="red">{errors.residenceType_id.message}</Text>
                     )}
                 </Stack>
             </Paper>

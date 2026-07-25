@@ -33,7 +33,7 @@ export const SignUpFormSchema = z.object({
 
 
 export const NewResidenceSchema = z.object({
-    residenceType: z.number({ message: "Επιλέξτε κατηγορία" }),
+    residenceType_id: z.number({ message: "Επιλέξτε κατηγορία" }),
     city_id: z.number({ message: "Επιλέξτε πόλη" }),
     address: z.string({ message: "Υποχρεωτικό πεδίο" }).min(1, { message: "Υποχρεωτικό πεδίο" }),
     road_number: z.string({ message: "Υποχρεωτικό πεδίο" }).min(1, { message: "Υποχρεωτικό πεδίο" }),
