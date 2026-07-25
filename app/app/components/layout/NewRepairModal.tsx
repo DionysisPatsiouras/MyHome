@@ -48,7 +48,14 @@ export function NewRepairModal({ opened, onClose, onSubmit, submitting, repair }
     return (
         <Modal opened={opened} onClose={close} title={repair ? 'Επεξεργασία Επισκευής' : 'Νέα Επισκευή'} size="26rem">
             <Stack gap="sm">
-                <ControlledTextarea name="description" {...formProps} label="Περιγραφή" minRows={3} autosize />
+                <ControlledTextarea
+                    name="description"
+                    {...formProps}
+                    label="Περιγραφή"
+                    placeholder="π.χ. Αντικατάσταση θερμοσίφωνα στο μπάνιο"
+                    minRows={3}
+                    autosize
+                />
 
                 <ControlledTextfield name="date" {...formProps} type="date" label="Ημερομηνία επισκευής" />
                 <Controller

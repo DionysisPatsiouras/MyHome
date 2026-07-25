@@ -20,7 +20,7 @@ export default function ControlledTextarea({
             render={({ field }) => (
                 <Textarea
                     label={label}
-                    // placeholder={placeholder}
+                    placeholder={placeholder}
                     // autoComplete={autoComplete}
                     rows={rows}
                     autosize={autosize}
