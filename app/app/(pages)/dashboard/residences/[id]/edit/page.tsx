@@ -255,19 +255,13 @@ export default function ResidenceEdit() {
 
                     <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
 
-                        <Controller
+                        <ControlledSelect
                             name="floor"
-                            control={control}
-                            render={({ field }) => (
-                                <Select
-                                    label="Όροφος"
-                                    data={FLOOR_OPTIONS}
-                                    error={errors.floor?.message}
-                                    value={field.value !== undefined ? String(field.value) : null}
-                                    onChange={value => field.onChange(value === null ? undefined : Number(value))}
-                                    clearable
-                                />
-                            )}
+                            {...formProps}
+                            label="Όροφος"
+                            data={FLOOR_OPTIONS}
+                            valueAsNumber
+                            clearable
                         />
                         <ControlledTextfield
                             name="flat_number"
