@@ -99,3 +99,17 @@ export const NewTechnicianSchema = z.object({
 })
 
 export type NewTechnicianFormValues = z.infer<typeof NewTechnicianSchema>
+
+export const NewRentalSchema = z.object({
+    residence_id: z.number({ message: "Επιλέξτε ακίνητο" }),
+    tenant_id: z.number({ message: "Επιλέξτε ενοικιαστή" }),
+    rent_amount: z.number({ message: "Υποχρεωτικό πεδίο" }).positive({ message: "Πρέπει να είναι μεγαλύτερο από 0" }),
+    start_date: z.string({ message: "Υποχρεωτικό πεδίο" }).min(1, { message: "Υποχρεωτικό πεδίο" }),
+    end_date: z.string({ message: "Υποχρεωτικό πεδίο" }).min(1, { message: "Υποχρεωτικό πεδίο" }),
+    declaration_number: z.string().optional().or(z.literal('')),
+}).refine(data => data.end_date >= data.start_date, {
+    error: "Η λήξη πρέπει να είναι μετά την έναρξη",
+    path: ['end_date'],
+})
+
+export type NewRentalFormValues = z.infer<typeof NewRentalSchema>

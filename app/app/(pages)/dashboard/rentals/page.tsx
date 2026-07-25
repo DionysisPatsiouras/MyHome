@@ -1,7 +1,9 @@
 'use client'
 
-import { Alert, Badge, Group, Stack, Tabs, Text, Title } from '@mantine/core'
-import { IconAlertTriangle, IconCalendarOff } from '@tabler/icons-react'
+import Link from 'next/link'
+
+import { Alert, Badge, Button, Group, Stack, Tabs, Text, Title } from '@mantine/core'
+import { IconAlertTriangle, IconCalendarOff, IconPlus } from '@tabler/icons-react'
 
 import { useFetch } from '@/app/lib/hooks/useFetch'
 import { Routes } from '@/app/lib/Routes'
@@ -55,6 +57,8 @@ export default function Rentals() {
                 icon={IconCalendarOff}
                 title="Δεν υπάρχουν μισθωτήρια"
                 description="Δεν έχετε προσθέσει ακόμα κάποιο μισθωτήριο."
+                actionLabel="Νέο μισθωτήριο"
+                actionHref="/dashboard/rentals/new"
             />
         )
     }
@@ -62,11 +66,16 @@ export default function Rentals() {
     return (
         <Stack gap="lg">
 
-            <Group gap="xs" align="center">
-                <Title order={2}>Μισθωτήρια</Title>
-                <Badge variant="light" color="blue" size="lg" circle>
-                    {(rentals as Rental[]).length}
-                </Badge>
+            <Group justify="space-between">
+                <Group gap="xs" align="center">
+                    <Title order={2}>Μισθωτήρια</Title>
+                    <Badge variant="light" color="blue" size="lg" circle>
+                        {(rentals as Rental[]).length}
+                    </Badge>
+                </Group>
+                <Button component={Link} href="/dashboard/rentals/new" leftSection={<IconPlus size={16} />}>
+                    Νέο μισθωτήριο
+                </Button>
             </Group>
 
             {endingSoonRentals.length > 0 && (
