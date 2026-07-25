@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import *
 
 
-# from residences.serializers import ResidenceSerializer
+from residences.serializers import ResidenceSerializer
 # from residences.models import Residence
 
 from tenants.serializers import TenantSerializer
@@ -11,11 +11,11 @@ from tenants.models import Tenant
 
 class RentalSerializer(serializers.ModelSerializer):
 
-    # residence = ResidenceSerializer(many=False, read_only=True)
+    residence = ResidenceSerializer(many=False, read_only=True)
 
-    # residence_id = serializers.PrimaryKeyRelatedField(
-    #     queryset=Residence.objects.all(), source='residence', write_only=True
-    # )
+    residence_id = serializers.PrimaryKeyRelatedField(
+        queryset=Residence.objects.all(), source='residence', write_only=True
+    )
 
     tenant = TenantSerializer(many=False, read_only=True)
 

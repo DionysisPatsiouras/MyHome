@@ -40,6 +40,8 @@ const user = {
 const navLinks = [
     { label: 'Αρχική', url: '/dashboard' },
     { label: 'Ακίνητα', url: '/dashboard/residences' },
+    { label: 'Μισθωτήρια', url: '/dashboard/rentals' },
+    { label: 'Ενοικιαστές', url: '/dashboard/tenants' },
     { label: 'Τεχνικοί', url: '/dashboard/technicians' },
 ];
 

@@ -87,3 +87,23 @@ export interface Technician extends BaseModel {
     user: number
 
 }
+
+export interface Tenant extends BaseModel {
+    id: number
+    first_name: string
+    last_name: string
+    afm: string
+    phone?: string | null
+    user: number
+}
+
+export interface Rental {
+    id: number
+    residence: Residence
+    tenant: Tenant
+    rent_amount: string
+    start_date: string
+    end_date?: string | null
+    duration: number
+    declaration_number?: string | null
+}

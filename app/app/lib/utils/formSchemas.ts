@@ -52,24 +52,6 @@ export const NewResidenceSchema = z.object({
 
 export type NewResidenceFormValues = z.infer<typeof NewResidenceSchema>
 
-export const NewContractSchema = z.object({
-    tenant: z.string().min(1, { message: "Υποχρεωτικό πεδίο" }),
-    phone: z.string().min(1, { message: "Υποχρεωτικό πεδίο" }).regex(PHONE_REGEX, { message: "Μη έγκυρο τηλέφωνο" }),
-    email: z.email({ error: 'Μη έγκυρο email' }),
-    start_date: z.string().min(1, { message: "Υποχρεωτικό πεδίο" }),
-    end_date: z.string().min(1, { message: "Υποχρεωτικό πεδίο" }),
-    monthly_rent: z.number({ message: "Υποχρεωτικό πεδίο" }).positive({ message: "Πρέπει να είναι μεγαλύτερο από 0" }),
-    deposit: z.number({ message: "Υποχρεωτικό πεδίο" }).nonnegative({ message: "Δεν μπορεί να είναι αρνητικό" }),
-    status: z.enum(['Ενεργό', 'Ληγμένο']),
-    notes: z.string().optional(),
-
-}).refine(data => data.end_date >= data.start_date, {
-    error: 'Η λήξη πρέπει να είναι μετά την έναρξη',
-    path: ['end_date'],
-})
-
-export type NewContractFormValues = z.infer<typeof NewContractSchema>
-
 export const NewRepairSchema = z.object({
     description: z.string().max(200, { message: "Μέγιστο μήκος 200 χαρακτήρων" }).optional().or(z.literal('')),
     cost: z.number({ message: "Υποχρεωτικό πεδίο" }).nonnegative({ message: "Δεν μπορεί να είναι αρνητικό" }),
