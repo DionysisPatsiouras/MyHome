@@ -30,12 +30,14 @@ import {
     IconCalendar,
     IconCheck,
     IconDoor,
+    IconDroplet,
     IconFlame,
     IconMapPin,
     IconRulerMeasure,
 } from '@tabler/icons-react'
 
 import ControlledTextfield from '@/app/components/forms/ControlledTextfield'
+import ControlledSelect from '@/app/components/forms/ControlledSelect'
 import { LocationPicker } from '@/app/components/map'
 import { NewResidenceSchema, type NewResidenceFormValues } from '@/app/lib/utils/formSchemas'
 import { useFetch } from '@/app/lib/hooks/useFetch'
@@ -44,7 +46,7 @@ import { Routes } from '@/app/lib/Routes'
 import { PageLoader } from '@/app/components/layout/PageLoader'
 import { DataNotFound } from '@/app/components/layout/DataNotFound'
 import { useResidence } from '@/app/contexts/ResidenceContext'
-import type { ResidenceType } from '@/app/lib/types'
+import type { City, ResidenceType } from '@/app/lib/types'
 
 const ENERGY_CLASSES = ['A+', 'A', 'B', 'C', 'D', 'E', 'F', 'G']
 
@@ -107,6 +109,7 @@ export default function ResidenceEdit() {
     const { residence, loading, notFound, refetchResidence } = useResidence()
 
     const { data: residenceTypes, loading: loadingTypes } = useFetch(Routes('residences/types').list)
+    const { data: cities, loading: loadingCities } = useFetch(Routes('residences/cities').list)
 
     const [submitError, setSubmitError] = useState(false)
     const [submitting, setSubmitting] = useState(false)
@@ -125,6 +128,7 @@ export default function ResidenceEdit() {
 
         reset({
             residenceType: residence.residenceType?.id,
+            city_id: residence.city?.id,
             address: residence.address,
             road_number: residence.road_number,
             zip_code: residence.zip_code ?? undefined,
@@ -136,8 +140,8 @@ export default function ResidenceEdit() {
             construction_year: residence.construction_year,
             energy_class: residence.energy_class ?? undefined,
             power_supply_number: residence.power_supply_number ?? undefined,
-            // not exist in database yet
-            // gas_supply_number: (residence as any).gas_supply_number ?? undefined,
+            gas_supply_number: residence.gas_supply_number ?? undefined,
+            water_supply_number: residence.water_supply_number ?? undefined,
         })
     }, [residence, reset])
 
@@ -245,14 +249,29 @@ export default function ResidenceEdit() {
                             label="Αριθμός"
                             placeholder="π.χ. 12"
                         />
-                    </SimpleGrid>
+                        <ControlledSelect
+                            name="city_id"
+                            {...formProps}
+                            label="Πόλη"
+                            placeholder="Επιλέξτε πόλη"
+                            data={(cities ?? []).map((city: City) => ({ value: String(city.id), label: city.name }))}
+                            disabled={loadingCities}
+                            valueAsNumber
+                            searchable
+                            clearable
+                        />
 
-                    <SimpleGrid cols={{ base: 2, sm: 3 }} spacing="md">
                         <ControlledTextfield
                             name="zip_code"
                             {...formProps}
                             label="ΤΚ"
                         />
+                    </SimpleGrid>
+
+
+
+                    <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+
                         <Controller
                             name="floor"
                             control={control}
@@ -360,7 +379,7 @@ export default function ResidenceEdit() {
 
                     <Divider label="Παροχές" labelPosition="left" />
 
-                    <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+                    <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="md">
                         <ControlledTextfield
                             name="power_supply_number"
                             {...formProps}
@@ -372,6 +391,12 @@ export default function ResidenceEdit() {
                             {...formProps}
                             label="Αρ. Παροχής Αερίου"
                             leftSection={<IconFlame size={14} />}
+                        />
+                        <ControlledTextfield
+                            name="water_supply_number"
+                            {...formProps}
+                            label="Αρ. Παροχής Νερού"
+                            leftSection={<IconDroplet size={14} />}
                         />
                     </SimpleGrid>
                 </Stack>

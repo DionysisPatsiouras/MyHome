@@ -7,7 +7,6 @@ import { Badge, Box, Button, Divider, Group, Paper, Skeleton, Stack, Text, Title
 
 import {
     IconArrowLeft,
-    IconBolt,
     IconBuildingSkyscraper,
     IconCalendar,
     IconDoor,
@@ -104,10 +103,12 @@ export default function ResidenceHeader() {
                         )}
                     </Group>
 
-                    {residence.zip_code && (
+                    {(residence.city || residence.zip_code) && (
                         <Group gap={4} c="dimmed">
                             <IconMapPin size={14} />
-                            <Text size="sm">ΤΚ {residence.zip_code}</Text>
+                            <Text size="sm">
+                                {[residence.city?.name, residence.zip_code && `ΤΚ ${residence.zip_code}`].filter(Boolean).join(' · ')}
+                            </Text>
                         </Group>
                     )}
                 </Stack>
@@ -135,7 +136,7 @@ export default function ResidenceHeader() {
                     label="Έτος κατασκευής"
                     value={residence.construction_year ? `${residence.construction_year} (${constructionAge} έτη)` : null}
                 />
-                <Stat icon={IconBolt} label="Παροχή ρεύματος" value={residence.power_supply_number} />
+
             </Group>
         </Paper>
     )

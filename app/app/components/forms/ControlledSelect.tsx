@@ -7,7 +7,7 @@ import { Controller } from 'react-hook-form'
 export default function ControlledSelect({
     label, control, name, errors, placeholder, onChange, data,
     disabled, loading, helpText, leftSection, clearable, searchable,
-    required, nothingFoundMessage,
+    required, nothingFoundMessage, valueAsNumber,
 }: any) {
     const fieldError = errors?.[name]?.message as string | undefined
 
@@ -29,10 +29,11 @@ export default function ControlledSelect({
                     searchable={searchable}
                     nothingFoundMessage={nothingFoundMessage}
                     {...field}
-                    value={field.value ?? null}
+                    value={field.value !== undefined && field.value !== null ? String(field.value) : null}
                     onChange={(value, option) => {
-                        field.onChange(value ?? undefined);
-                        onChange?.(value, option);
+                        const nextValue = value === null ? undefined : valueAsNumber ? Number(value) : value;
+                        field.onChange(nextValue);
+                        onChange?.(nextValue, option);
                     }}
                 />
             )}

@@ -33,6 +33,7 @@ export default function ResidenceInfo() {
             <SectionTitle label="Γενικα" icon="pi-home" />
             <InfoRow label="Διεύθυνση" value={`${residence.address} ${residence.road_number}`} />
             <InfoRow label="Τύπος" value={residence.residenceType?.name} />
+            <InfoRow label="Πόλη" value={residence.city?.name} />
             <InfoRow label="ΤΚ" value={residence.zip_code} />
             <InfoRow label="Όροφος" value={residence.floor} />
             <InfoRow label="Διαμέρισμα" value={residence.flat_number} />
@@ -49,8 +50,14 @@ export default function ResidenceInfo() {
             />
             <InfoRow label="Ενεργειακή κλάση" value={residence.energy_class} />
 
-            <SectionTitle label="Ρευμα" icon="pi-bolt" />
-            <InfoRow label="Αρ. Παροχής Ρεύματος" value={residence.power_supply_number} />
+            {(residence.power_supply_number || residence.gas_supply_number || residence.water_supply_number) && (
+                <>
+                    <SectionTitle label="Παροχες" icon="pi-bolt" />
+                    <InfoRow label="Αρ. Παροχής Ρεύματος" value={residence.power_supply_number} />
+                    <InfoRow label="Αρ. Παροχής Αερίου" value={residence.gas_supply_number} />
+                    <InfoRow label="Αρ. Παροχής Νερού" value={residence.water_supply_number} />
+                </>
+            )}
         </div>
 
     )

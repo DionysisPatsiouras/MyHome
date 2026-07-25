@@ -12,14 +12,14 @@ from tenants.models import *
 from users.models import CustomUser
 
 
-def generate_uniqueId():
-    minute = datetime.datetime.now().minute
-    second = datetime.datetime.now().second
-    randomNumber = random.randrange(1, 500)
+class City(models.Model):
 
-    id = str(minute * second * randomNumber) + str(randomNumber * 2)
+    name = models.CharField(max_length=200, null=False)
 
-    return id
+    class Meta:
+        db_table = "cities"
+
+
 
 
 class ResidenceType(models.Model):
@@ -35,7 +35,7 @@ class Residence(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
-    uniqueId = models.CharField(default=generate_uniqueId, unique=True)
+    # uniqueId = models.CharField(default=generate_uniqueId, unique=True)
 
 
     address = models.CharField(max_length=200, null=False)
@@ -47,6 +47,8 @@ class Residence(models.Model):
 
     energy_class = models.CharField(max_length=10, null=True, blank=False)
     power_supply_number = models.CharField(max_length=50, null=True, blank=False)
+    gas_supply_number = models.CharField(max_length=50, null=True, blank=False)
+    water_supply_number = models.CharField(max_length=50, null=True, blank=False)
     zip_code = models.CharField(max_length=5, null=True, blank=False)
 
     latitude = models.CharField(max_length=200, null=True)
@@ -59,6 +61,7 @@ class Residence(models.Model):
     deleted_at = models.DateTimeField(null=True, blank=True)
 
     residenceType = models.ForeignKey(ResidenceType, on_delete=models.CASCADE)
+    city = models.ForeignKey(City, on_delete=models.CASCADE)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
     class Meta:

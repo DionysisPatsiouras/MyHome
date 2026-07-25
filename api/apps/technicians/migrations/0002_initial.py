@@ -10,14 +10,19 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('repairs', '0001_initial'),
+        ('technicians', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='repair',
+            model_name='technician',
             name='user',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+        ),
+        migrations.AddField(
+            model_name='technician',
+            name='technicianType',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='technicians.techniciantype'),
         ),
     ]

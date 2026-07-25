@@ -12,6 +12,11 @@ export interface ResidenceType {
     name: string
 }
 
+export interface City {
+    id: number
+    name: string
+}
+
 export interface TechnicianType {
     id: number
     avatar: string
@@ -24,6 +29,7 @@ export interface Residence extends BaseModel {
     address: string
     construction_year?: number
     residenceType: ResidenceType
+    city?: City
     latitude?: string
     longitude?: string
     road_number: string
@@ -32,6 +38,8 @@ export interface Residence extends BaseModel {
     flat_number?: string | null
     energy_class?: string | null
     power_supply_number?: string | null
+    gas_supply_number?: string | null
+    water_supply_number?: string | null
     zip_code?: string | null
     user: number
 

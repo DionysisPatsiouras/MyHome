@@ -10,6 +10,13 @@ class ResidenceTypeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class CitySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = City
+        fields = '__all__'
+
+
 
 
 class ResidenceSerializer(serializers.ModelSerializer):
@@ -18,6 +25,12 @@ class ResidenceSerializer(serializers.ModelSerializer):
 
     residenceType_id = serializers.PrimaryKeyRelatedField(
         queryset=ResidenceType.objects.all(), source='residenceType', write_only=True
+    )
+
+    city = CitySerializer(many=False, read_only=True)
+
+    city_id = serializers.PrimaryKeyRelatedField(
+        queryset=City.objects.all(), source='city', write_only=True
     )
 
     class Meta:

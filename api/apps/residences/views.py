@@ -27,3 +27,8 @@ def list(request):
 @api_view(["GET"])
 def retrieveTypes(request):
     return retrieveAll(ResidenceType, ResidenceTypeSerializer)
+
+
+@api_view(["GET"])
+def retrieveCities(request):
+    return retrieveAll(City, CitySerializer)

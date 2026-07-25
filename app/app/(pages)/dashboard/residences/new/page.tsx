@@ -15,7 +15,6 @@ import {
     Group,
     NumberInput,
     Paper,
-    Select,
     SimpleGrid,
     Skeleton,
     Stack,
@@ -30,6 +29,7 @@ import {
     IconCalendar,
     IconCheck,
     IconDoor,
+    IconDroplet,
     IconFlame,
     IconMapPin,
     IconRulerMeasure,
@@ -37,12 +37,13 @@ import {
 
 // import { ControlledTextfield } from '@/app/components/forms/ControlledTextfield'
 import ControlledTextfield from '@/app/components/forms/ControlledTextfield'
+import ControlledSelect from '@/app/components/forms/ControlledSelect'
 import { LocationPicker } from '@/app/components/map'
 import { NewResidenceSchema, type NewResidenceFormValues } from '@/app/lib/utils/formSchemas'
 import { useFetch } from '@/app/lib/hooks/useFetch'
 import { useCRUD } from '@/app/lib/hooks/useCRUD'
 import { Routes } from '@/app/lib/Routes'
-import type { ResidenceType } from '@/app/lib/types'
+import type { City, ResidenceType } from '@/app/lib/types'
 
 const ENERGY_CLASSES = ['A+', 'A', 'B', 'C', 'D', 'E', 'F', 'G']
 
@@ -104,6 +105,7 @@ export default function NewResidence() {
     const { POST } = useCRUD()
 
     const { data: residenceTypes, loading: loadingTypes } = useFetch(Routes('residences/types').list)
+    const { data: cities, loading: loadingCities } = useFetch(Routes('residences/cities').list)
 
     const [submitError, setSubmitError] = useState(false)
     const [submitting, setSubmitting] = useState(false)
@@ -203,27 +205,35 @@ export default function NewResidence() {
                             label="Αριθμός"
                             placeholder="π.χ. 12"
                         />
-                    </SimpleGrid>
-
-                    <SimpleGrid cols={{ base: 2, sm: 3 }} spacing="md">
+                        <ControlledSelect
+                            name="city_id"
+                            {...formProps}
+                            label="Πόλη"
+                            placeholder="Επιλέξτε πόλη"
+                            data={(cities ?? []).map((city: City) => ({ value: String(city.id), label: city.name }))}
+                            disabled={loadingCities}
+                            valueAsNumber
+                            searchable
+                            clearable
+                        />
                         <ControlledTextfield
                             name="zip_code"
                             {...formProps}
                             label="ΤΚ"
                         />
-                        <Controller
+                    </SimpleGrid>
+
+
+
+                    <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+
+                        <ControlledSelect
                             name="floor"
-                            control={control}
-                            render={({ field }) => (
-                                <Select
-                                    label="Όροφος"
-                                    data={FLOOR_OPTIONS}
-                                    error={errors.floor?.message}
-                                    value={field.value !== undefined ? String(field.value) : null}
-                                    onChange={value => field.onChange(value === null ? undefined : Number(value))}
-                                    clearable
-                                />
-                            )}
+                            {...formProps}
+                            label="Όροφος"
+                            data={FLOOR_OPTIONS}
+                            valueAsNumber
+                            clearable
                         />
                         <ControlledTextfield
                             name="flat_number"
@@ -300,25 +310,18 @@ export default function NewResidence() {
                                 />
                             )}
                         />
-                        <Controller
+                        <ControlledSelect
                             name="energy_class"
-                            control={control}
-                            render={({ field }) => (
-                                <Select
-                                    label="Ενεργειακή κατάταξη"
-                                    data={ENERGY_CLASSES}
-                                    error={errors.energy_class?.message}
-                                    value={field.value ?? null}
-                                    onChange={value => field.onChange(value ?? undefined)}
-                                    clearable
-                                />
-                            )}
+                            {...formProps}
+                            label="Ενεργειακή κατάταξη"
+                            data={ENERGY_CLASSES}
+                            clearable
                         />
                     </SimpleGrid>
 
                     <Divider label="Παροχές" labelPosition="left" />
 
-                    <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+                    <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="md">
                         <ControlledTextfield
                             name="power_supply_number"
                             {...formProps}
@@ -330,6 +333,12 @@ export default function NewResidence() {
                             {...formProps}
                             label="Αρ. Παροχής Αερίου"
                             leftSection={<IconFlame size={14} />}
+                        />
+                        <ControlledTextfield
+                            name="water_supply_number"
+                            {...formProps}
+                            label="Αρ. Παροχής Νερού"
+                            leftSection={<IconDroplet size={14} />}
                         />
                     </SimpleGrid>
                 </Stack>

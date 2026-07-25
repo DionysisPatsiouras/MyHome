@@ -10,5 +10,6 @@ urlpatterns = [
     path("", views.list), # GET, POST
     path("<uuid:id>", views.record), # GET, PATCH, DELETE
     path("types", views.retrieveTypes),
+    path("cities", views.retrieveCities),
 ]
 
