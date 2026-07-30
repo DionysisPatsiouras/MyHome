@@ -3,7 +3,7 @@
 import Link from 'next/link'
 
 import { Badge, Button, Card, Group, Menu, SimpleGrid, Stack, Text, Title } from '@mantine/core'
-import { IconRulerMeasure, IconChevronDown, IconPencil, IconTrash } from '@tabler/icons-react'
+import { IconRulerMeasure, IconChevronDown, IconPencil, IconTrash, IconMapPin } from '@tabler/icons-react'
 
 import { meters } from '@/app/lib/utils/formatter'
 import { LocationsMap } from '@/app/components/map'
@@ -27,12 +27,12 @@ export default function CardView({ residences, onDelete }: CardViewProps) {
                             locations={
                                 residence.latitude && residence.longitude
                                     ? [
-                                          {
-                                              id: residence.id,
-                                              lat: Number(residence.latitude),
-                                              lng: Number(residence.longitude),
-                                          },
-                                      ]
+                                        {
+                                            id: residence.id,
+                                            lat: Number(residence.latitude),
+                                            lng: Number(residence.longitude),
+                                        },
+                                    ]
                                     : []
                             }
                         />
@@ -54,6 +54,14 @@ export default function CardView({ residences, onDelete }: CardViewProps) {
                                     </Text>
                                 </Group>
                             </Group>
+                            {residence.city && (
+                                <Group gap={4} c="dimmed" mt={4}>
+                                    <IconMapPin size={14} />
+                                    <Text size="sm" c="dimmed">
+                                        {residence.city.name}
+                                    </Text>
+                                </Group>
+                            )}
                         </div>
 
 

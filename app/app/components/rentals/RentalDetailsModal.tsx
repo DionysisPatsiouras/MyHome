@@ -59,7 +59,6 @@ export function RentalDetailsModal({ rental, opened, onClose }: { rental: Rental
                     <InfoRow label="Μηνιαίο ενοίκιο" value={`${rental.rent_amount} €`} />
                     <InfoRow label="Αριθμός Δήλωσης" value={rental.declaration_number} />
                 </Stack>
-
                 <Button
                     component={Link}
                     href={`/dashboard/residences/${rental.residence.id}`}
