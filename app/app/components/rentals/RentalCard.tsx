@@ -1,15 +1,15 @@
 'use client'
 
-import Link from 'next/link'
 import { Badge, Card, Group, Stack, Text } from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks'
 import {
     IconAlertTriangle,
-    IconArrowLeft,
-    IconArrowRight,
     IconClock,
     IconHome,
     IconUser,
 } from '@tabler/icons-react'
+
+import { RentalDetailsModal } from '@/app/components/rentals/RentalDetailsModal'
 
 import type { Rental } from '@/app/lib/types'
 
@@ -54,19 +54,30 @@ function renderResidence(residence: Rental['residence']) {
 
 function DateBadge({ date, variant }: { date: string; variant: 'start' | 'end' }) {
     const isStart = variant === 'start'
-    const Icon = isStart ? IconArrowRight : IconArrowLeft
     return (
         <span
             style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 5,
                 background: isStart ? COLORS.startBg : COLORS.endBg,
                 color: isStart ? COLORS.startFg : COLORS.endFg,
-                borderRadius: '0.375rem',
-                padding: '0.15rem 0.5rem',
+                borderRadius: '999px',
+                padding: '0.2rem 0.6rem',
                 fontSize: '0.78rem',
                 fontWeight: 500,
+                lineHeight: 1,
             }}
         >
-            <Icon size={12} style={{ marginRight: 4, verticalAlign: 'middle' }} />
+            <span
+                style={{
+                    width: 6,
+                    height: 6,
+                    borderRadius: '50%',
+                    background: isStart ? COLORS.startFg : COLORS.endFg,
+                    flexShrink: 0,
+                }}
+            />
             {new Date(date).toLocaleDateString('el-GR')}
         </span>
     )
@@ -87,6 +98,7 @@ function RemainingBadge({ endDate }: { endDate: string }) {
 }
 
 export function RentalCard({ rental, showResidence = true }: { rental: Rental; showResidence?: boolean }) {
+    const [opened, { open, close }] = useDisclosure(false)
     const today = new Date().toISOString().slice(0, 10)
     const active = !rental.end_date || rental.end_date >= today
 
@@ -129,24 +141,12 @@ export function RentalCard({ rental, showResidence = true }: { rental: Rental; s
         </Group>
     )
 
-    if (showResidence) {
-        return (
-            <Card
-                component={Link}
-                href={`/dashboard/residences/${rental.residence.id}`}
-                withBorder
-                padding="md"
-                radius="md"
-                style={{ cursor: 'pointer' }}
-            >
+    return (
+        <>
+            <Card withBorder padding="md" radius="md" onClick={open} style={{ cursor: 'pointer' }}>
                 {body}
             </Card>
-        )
-    }
-
-    return (
-        <Card withBorder padding="md" radius="md">
-            {body}
-        </Card>
+            <RentalDetailsModal rental={rental} opened={opened} onClose={close} />
+        </>
     )
 }
