@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { getCookie } from '@/app/lib/utils/cookies'
 
 
 // import { useSession } from 'next-auth/react'
@@ -29,12 +30,12 @@ export const useFetch = (endpoint: string, unauthenticated = false, enabled = tr
 
             try {
 
-                const token: any = await cookieStore.get("token")
+                const token = getCookie("token")
 
                 const res = await fetch(endpoint, {
                     headers: {
                         "Content-Type": "application/json",
-                        ...(unauthenticated ? {} : { Authorization: `Bearer ${token?.value}` }),
+                        ...(unauthenticated ? {} : { Authorization: `Bearer ${token}` }),
                     },
                 });
 

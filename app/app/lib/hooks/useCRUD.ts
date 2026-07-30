@@ -1,6 +1,7 @@
 'use client'
 
 import { notifications } from '@mantine/notifications'
+import { getCookie } from '@/app/lib/utils/cookies'
 
 type NotificationOption = {
     title?: string
@@ -17,13 +18,13 @@ export const useCRUD = () => {
 
     const GET = async (endpoint: string, unauthenticated = false, notificationOptions?: CRUDNotificationOptions | boolean) => {
 
-        const token: any = await cookieStore.get("token")
+        const token = getCookie("token")
 
         const config = {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                ...(unauthenticated ? {} : { Authorization: `Bearer ${token?.value}` }),
+                ...(unauthenticated ? {} : { Authorization: `Bearer ${token}` }),
             },
         };
 
@@ -50,14 +51,14 @@ export const useCRUD = () => {
 
     const POST = async (endpoint: string, body: any, unauthenticated = false, notificationOptions?: CRUDNotificationOptions | boolean) => {
 
-        const token: any = await cookieStore.get("token")
+        const token = getCookie("token")
 
         const config = {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 //  'Content-Type': 'multipart/form-data'
-                ...(unauthenticated ? {} : { Authorization: `Bearer ${token?.value}` }),
+                ...(unauthenticated ? {} : { Authorization: `Bearer ${token}` }),
             },
             body: JSON.stringify(body)
         };
@@ -94,13 +95,13 @@ export const useCRUD = () => {
 
     const PATCH = async (endpoint: string, body: any, unauthenticated = false, notificationOptions?: CRUDNotificationOptions | boolean) => {
 
-        const token: any = await cookieStore.get("token")
+        const token = getCookie("token")
 
         const config = {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
-                ...(unauthenticated ? {} : { Authorization: `Bearer ${token?.value}` }),
+                ...(unauthenticated ? {} : { Authorization: `Bearer ${token}` }),
             },
             body: JSON.stringify(body)
         };
@@ -137,7 +138,7 @@ export const useCRUD = () => {
 
     const DELETE = async (endpoint: string, unauthenticated = false, notificationOptions: CRUDNotificationOptions | boolean = true) => {
 
-        const token: any = await cookieStore.get("token")
+        const token = getCookie("token")
 
         const config = {
             method: 'DELETE',
@@ -145,7 +146,7 @@ export const useCRUD = () => {
             headers: {
 
                 "Content-Type": "application/json",
-                ...(unauthenticated ? {} : { Authorization: `Bearer ${token?.value}` }),
+                ...(unauthenticated ? {} : { Authorization: `Bearer ${token}` }),
             }
         }
 

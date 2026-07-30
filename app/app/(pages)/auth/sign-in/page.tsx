@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { SignInFormSchema } from "@/app/lib/utils/formSchemas"
 import { useCRUD } from "@/app/lib/hooks/useCRUD"
+import { setCookie } from "@/app/lib/utils/cookies"
 
 import { AuthRoutes } from "@/app/lib/Routes"
 
@@ -35,7 +36,7 @@ export default function SignIn() {
     const signIn = (formData: any) => {
 
         POST(AuthRoutes.signin, formData).then((res) => {
-            cookieStore.set("token", res.access)
+            setCookie("token", res.access)
             router.push("/dashboard/")
         }).catch(() => { })
     }
