@@ -32,6 +32,10 @@ export const SignUpFormSchema = z.object({
 })
 
 
+export const ForgotPasswordFormSchema = z.object({
+    email: z.email({ error: 'Μη έγκυρο email' }).trim(),
+})
+
 export const NewResidenceSchema = z.object({
     residenceType_id: z.number({ message: "Επιλέξτε κατηγορία" }),
     city_id: z.number({ message: "Επιλέξτε πόλη" }),

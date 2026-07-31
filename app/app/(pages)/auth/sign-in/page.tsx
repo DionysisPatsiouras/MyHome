@@ -1,5 +1,8 @@
 'use client'
 
+import { useRouter } from "next/navigation"
+import Link from "next/link"
+
 import ControlledTextfield from "@/app/components/forms/ControlledTextfield"
 import { useForm } from "react-hook-form"
 
@@ -7,10 +10,11 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { SignInFormSchema } from "@/app/lib/utils/formSchemas"
 import { useCRUD } from "@/app/lib/hooks/useCRUD"
 import { setCookie } from "@/app/lib/utils/cookies"
-
 import { AuthRoutes } from "@/app/lib/Routes"
 
-import { useRouter } from "next/navigation"
+import { Anchor, Box, Button, Paper, Stack, Text, ThemeIcon, Title } from '@mantine/core'
+import { IconBuildingEstate } from "@tabler/icons-react"
+
 
 
 interface FormData {
@@ -21,8 +25,6 @@ interface FormData {
 export default function SignIn() {
 
     const router = useRouter()
-
-
 
     const { POST } = useCRUD()
 
@@ -46,22 +48,17 @@ export default function SignIn() {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-slate-100">
-            <div className="w-full max-w-md px-4">
-                {/* Logo / Brand */}
-                <div className="flex flex-col items-center mb-8">
-                    <div className="w-14 h-14 rounded-2xl bg-indigo-600 flex items-center justify-center shadow-md mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 9.75L12 3l9 6.75V21a1 1 0 01-1 1H4a1 1 0 01-1-1V9.75z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 22V12h6v10" />
-                        </svg>
-                    </div>
-                    <h1 className="text-2xl font-bold text-slate-800 tracking-tight">MyHome</h1>
-                    <p className="text-slate-500 text-sm mt-1">Sign in to your account</p>
-                </div>
+            <Box w="100%" maw={400} px="md">
+                <Stack align="center" mb="xl" gap="xs">
+                    <ThemeIcon size={56} radius="lg" variant="gradient" gradient={{ from: 'blue', to: 'grape', deg: 90 }}>
+                        <IconBuildingEstate size={28} stroke={1.75} />
+                    </ThemeIcon>
+                    <Title order={1} size="h2" fw={700} c="dark">MyHome</Title>
+                    <Text c="dimmed" size="sm">Sign in to your account</Text>
+                </Stack>
 
-                {/* Card */}
-                <div className="bg-white border border-slate-200 rounded-2xl p-8 shadow-lg">
-                    <div className="flex flex-col gap-5">
+                <Paper withBorder shadow="md" radius="lg" p="xl">
+                    <Stack gap="md">
                         <ControlledTextfield
                             label="Email"
                             name="email"
@@ -76,15 +73,26 @@ export default function SignIn() {
                             {...formProps}
                         />
 
-                        <button
+                        <Box ta="right" mt={-8}>
+                            <Anchor component={Link} href="/auth/forgot-password" size="sm" fw={500}>
+                                Ξέχασα τον κωδικό μου
+                            </Anchor>
+                        </Box>
+
+                        <Button
                             onClick={handleSubmit(signIn)}
-                            className="mt-2 w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-semibold rounded-xl transition-colors duration-150 shadow-sm cursor-pointer"
+                            fullWidth
+                            size="md"
+                            radius="md"
+                            mt="xs"
+                            variant="gradient"
+                            gradient={{ from: 'blue', to: 'grape', deg: 90 }}
                         >
-                            Sign in
-                        </button>
-                    </div>
-                </div>
-            </div>
+                            Σύνδεση
+                        </Button>
+                    </Stack>
+                </Paper>
+            </Box>
         </div>
     )
 }

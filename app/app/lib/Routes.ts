@@ -39,6 +39,8 @@ export const Routes = (resourceName: string) => ({
 
 export const AuthRoutes = {
     signin: `${prefix}/auth/token/`,
+    forgotPassword: `${prefix}/auth/forgot-password`
+
 }
 
 export const customRoute = (endpoint: string) => `${prefix}/${endpoint}`
