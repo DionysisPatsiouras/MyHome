@@ -13,7 +13,7 @@ import {
     Group,
     NumberInput,
     Paper,
-    Select,
+    SegmentedControl,
     SimpleGrid,
     Stack,
     Text,
@@ -27,13 +27,16 @@ import {
     IconFileText,
     IconHome,
     IconUser,
+    IconUserPlus,
 } from '@tabler/icons-react'
 
+import ControlledSelect from '@/app/components/forms/ControlledSelect'
 import ControlledTextfield from '@/app/components/forms/ControlledTextfield'
 import { NewRentalSchema, type NewRentalFormValues } from '@/app/lib/utils/formSchemas'
 import { useFetch } from '@/app/lib/hooks/useFetch'
 import { useCRUD } from '@/app/lib/hooks/useCRUD'
 import { Routes } from '@/app/lib/Routes'
+import { getCurrentUserId } from '@/app/lib/utils/auth'
 import type { Residence, Tenant } from '@/app/lib/types'
 
 function SectionTitle({ label, icon: Icon }: { label: string; icon: React.ComponentType<{ size?: number; style?: React.CSSProperties }> }) {
@@ -49,7 +52,7 @@ function SectionTitle({ label, icon: Icon }: { label: string; icon: React.Compon
 
 export default function NewRental() {
     const router = useRouter()
-    const { POST } = useCRUD()
+    const { GET, POST } = useCRUD()
 
     const { data: residences, loading: loadingResidences } = useFetch(Routes('residences').list)
     const { data: tenants, loading: loadingTenants } = useFetch(Routes('tenants').list)
@@ -60,17 +63,46 @@ export default function NewRental() {
     const {
         control,
         handleSubmit,
+        watch,
+        setValue,
         formState: { errors },
     } = useForm<NewRentalFormValues>({
         resolver: zodResolver(NewRentalSchema),
+        defaultValues: { tenantMode: 'existing' },
     })
+
+    const tenantMode = watch('tenantMode')
 
     const onSubmit = async (formData: NewRentalFormValues) => {
         setSubmitError(false)
         setSubmitting(true)
-
         try {
-            await POST(Routes('rentals').add, formData, false, {
+            let tenantId = formData.tenant_id
+
+            if (formData.tenantMode === 'new') {
+                await POST(Routes('tenants').add, {
+                    first_name: formData.tenant_first_name,
+                    last_name: formData.tenant_last_name,
+                    afm: formData.tenant_afm,
+                    phone: formData.tenant_phone || null,
+                    user: await getCurrentUserId(),
+                })
+
+                const freshTenants = await GET(Routes('tenants').list)
+                const createdTenant = freshTenants.find((tenant: Tenant) => tenant.afm === formData.tenant_afm)
+
+                if (!createdTenant) throw new Error('Ο νέος ενοικιαστής δεν βρέθηκε')
+                tenantId = createdTenant.id
+            }
+
+            await POST(Routes('rentals').add, {
+                residence_id: formData.residence_id,
+                tenant_id: tenantId,
+                rent_amount: formData.rent_amount,
+                start_date: formData.start_date,
+                end_date: formData.end_date,
+                declaration_number: formData.declaration_number,
+            }, false, {
                 success: { title: 'Επιτυχία', message: 'Το μισθωτήριο καταχωρήθηκε με επιτυχία' },
                 error: { title: 'Σφάλμα', message: 'Δεν ήταν δυνατή η καταχώρηση του μισθωτηρίου' },
             })
@@ -108,50 +140,92 @@ export default function NewRental() {
                 <Stack gap="md">
                     <SectionTitle label="Ακίνητο & Ενοικιαστής" icon={IconHome} />
 
-                    <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
-                        <Controller
-                            name="residence_id"
-                            control={control}
-                            render={({ field }) => (
-                                <Select
-                                    label="Ακίνητο"
-                                    placeholder="Επιλέξτε ακίνητο"
-                                    leftSection={<IconHome size={14} />}
-                                    data={(residences ?? []).map((residence: Residence) => ({
-                                        value: String(residence.id),
-                                        label: `${residence.address} ${residence.road_number ?? ''}`.trim(),
-                                    }))}
-                                    disabled={loadingResidences}
-                                    searchable
-                                    nothingFoundMessage="Δεν βρέθηκαν ακίνητα"
-                                    error={errors.residence_id?.message}
-                                    value={field.value != null ? String(field.value) : null}
-                                    onChange={(value) => field.onChange(value ? Number(value) : undefined)}
-                                />
-                            )}
-                        />
-                        <Controller
+                    <ControlledSelect
+                        name="residence_id"
+                        {...formProps}
+                        label="Ακίνητο"
+                        placeholder="Επιλέξτε ακίνητο"
+                        leftSection={<IconHome size={14} />}
+                        data={(residences ?? []).map((residence: Residence) => ({
+                            value: String(residence.id),
+                            label: `${residence.address} ${residence.road_number ?? ''}`.trim(),
+                        }))}
+                        disabled={loadingResidences}
+                        searchable
+                        nothingFoundMessage="Δεν βρέθηκαν ακίνητα"
+                    />
+
+                    <Controller
+                        name="tenantMode"
+                        control={control}
+                        render={({ field }) => (
+                            <SegmentedControl
+                                {...field}
+                                fullWidth
+                                data={[
+                                    { label: 'Υπάρχων ενοικιαστής', value: 'existing' },
+                                    { label: 'Νέος ενοικιαστής', value: 'new' },
+                                ]}
+                                onChange={(value) => {
+                                    field.onChange(value)
+                                    if (value === 'new') {
+                                        setValue('tenant_id', undefined)
+                                    } else {
+                                        setValue('tenant_first_name', '')
+                                        setValue('tenant_last_name', '')
+                                        setValue('tenant_afm', '')
+                                        setValue('tenant_phone', '')
+                                    }
+                                }}
+                            />
+                        )}
+                    />
+
+                    {tenantMode === 'new' ? (
+                        <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+                            <ControlledTextfield
+                                name="tenant_first_name"
+                                {...formProps}
+                                label="Όνομα"
+                                placeholder="π.χ. Γιώργος"
+                                leftSection={<IconUserPlus size={14} />}
+                            />
+                            <ControlledTextfield
+                                name="tenant_last_name"
+                                {...formProps}
+                                label="Επώνυμο"
+                                placeholder="π.χ. Παπαδόπουλος"
+                            />
+                            <ControlledTextfield
+                                name="tenant_afm"
+                                {...formProps}
+                                label="ΑΦΜ"
+                                placeholder="π.χ. 123456789"
+                            />
+                            <ControlledTextfield
+                                name="tenant_phone"
+                                {...formProps}
+                                label="Τηλέφωνο"
+                                placeholder="π.χ. 6912345678"
+                            />
+                        </SimpleGrid>
+                    ) : (
+                        <ControlledSelect
                             name="tenant_id"
-                            control={control}
-                            render={({ field }) => (
-                                <Select
-                                    label="Ενοικιαστής"
-                                    placeholder="Επιλέξτε ενοικιαστή"
-                                    leftSection={<IconUser size={14} />}
-                                    data={(tenants ?? []).map((tenant: Tenant) => ({
-                                        value: String(tenant.id),
-                                        label: `${tenant.first_name} ${tenant.last_name}`,
-                                    }))}
-                                    disabled={loadingTenants}
-                                    searchable
-                                    nothingFoundMessage="Δεν βρέθηκαν ενοικιαστές"
-                                    error={errors.tenant_id?.message}
-                                    value={field.value != null ? String(field.value) : null}
-                                    onChange={(value) => field.onChange(value ? Number(value) : undefined)}
-                                />
-                            )}
+                            {...formProps}
+                            label="Ενοικιαστής"
+                            placeholder="Επιλέξτε ενοικιαστή"
+                            leftSection={<IconUser size={14} />}
+                            data={(tenants ?? []).map((tenant: Tenant) => ({
+                                value: String(tenant.id),
+                                label: `${tenant.first_name} ${tenant.last_name}`,
+                            }))}
+                            disabled={loadingTenants}
+                            searchable
+                            valueAsNumber
+                            nothingFoundMessage="Δεν βρέθηκαν ενοικιαστές"
                         />
-                    </SimpleGrid>
+                    )}
                 </Stack>
             </Paper>
 

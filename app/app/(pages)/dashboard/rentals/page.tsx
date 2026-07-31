@@ -37,6 +37,10 @@ export default function Rentals() {
         (rental) => rental.end_date && daysUntil(rental.end_date) <= ENDING_SOON_DAYS,
     )
 
+    const ENDING_SOON_VISIBLE = 3
+    const visibleEndingSoonRentals = endingSoonRentals.slice(0, ENDING_SOON_VISIBLE)
+    const hiddenEndingSoonCount = endingSoonRentals.length - visibleEndingSoonRentals.length
+
     const renderCards = (rows: Rental[], emptyText: string) => {
         if (rows.length === 0) {
             return <DataNotFound title={emptyText} />
@@ -86,13 +90,18 @@ export default function Rentals() {
                     title={`${endingSoonRentals.length} μισθωτήρι${endingSoonRentals.length === 1 ? 'ο λήγει' : 'α λήγουν'} σύντομα`}
                 >
                     <Stack gap={4}>
-                        {endingSoonRentals.map((rental) => (
+                        {visibleEndingSoonRentals.map((rental) => (
                             <Text key={rental.id} size="sm">
                                 {renderResidence(rental.residence)} — {rental.tenant.first_name} {rental.tenant.last_name}{' '}
                                 ({new Date(rental.end_date!).toLocaleDateString('el-GR')},{' '}
                                 {daysUntil(rental.end_date!) === 0 ? 'σήμερα' : `σε ${daysUntil(rental.end_date!)} ημέρες`})
                             </Text>
                         ))}
+                        {hiddenEndingSoonCount > 0 && (
+                            <Text size="sm" fw={500}>
+                                +{hiddenEndingSoonCount} ακόμα
+                            </Text>
+                        )}
                     </Stack>
                 </Alert>
             )}

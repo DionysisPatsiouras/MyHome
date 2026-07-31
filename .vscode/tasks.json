@@ -31,6 +31,18 @@
       "type": "shell",
       "command": "bash database.sh",
       "options": { "cwd": "${workspaceFolder}/api/utils/scripts" }
+    },
+    {
+      "label": "Cron Tab remove",
+      "type": "shell",
+      "command": "python3 manage.py crontab remove",
+      "options": { "cwd": "${workspaceFolder}/api" }
+    },
+    {
+      "label": "Cron Tab add",
+      "type": "shell",
+      "command": "python3 manage.py crontab add",
+      "options": { "cwd": "${workspaceFolder}/api" }
     }
   ]
 }

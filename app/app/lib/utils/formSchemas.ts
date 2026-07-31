@@ -1,5 +1,5 @@
 import * as z from 'zod'
-import { PHONE_REGEX, ZIP_CODE_REGEX } from './regex'
+import { AFM_REGEX, PHONE_REGEX, ZIP_CODE_REGEX } from './regex'
 
 export const SignInFormSchema = z.object({
     email: z.email({ error: 'Please enter a valid email.' }).trim(),
@@ -104,9 +104,16 @@ export const NewTechnicianSchema = z.object({
 
 export type NewTechnicianFormValues = z.infer<typeof NewTechnicianSchema>
 
+export const TENANT_MODES = ['existing', 'new'] as const
+
 export const NewRentalSchema = z.object({
-    residence_id: z.number({ message: "Επιλέξτε ακίνητο" }),
-    tenant_id: z.number({ message: "Επιλέξτε ενοικιαστή" }),
+    residence_id: z.string({ message: "Επιλέξτε ακίνητο" }),
+    tenantMode: z.enum(TENANT_MODES),
+    tenant_id: z.number().optional(),
+    tenant_first_name: z.string().optional().or(z.literal('')),
+    tenant_last_name: z.string().optional().or(z.literal('')),
+    tenant_afm: z.string().optional().or(z.literal('')),
+    tenant_phone: z.string().optional().or(z.literal('')),
     rent_amount: z.number({ message: "Υποχρεωτικό πεδίο" }).positive({ message: "Πρέπει να είναι μεγαλύτερο από 0" }),
     start_date: z.string({ message: "Υποχρεωτικό πεδίο" }).min(1, { message: "Υποχρεωτικό πεδίο" }),
     end_date: z.string({ message: "Υποχρεωτικό πεδίο" }).min(1, { message: "Υποχρεωτικό πεδίο" }),
@@ -114,6 +121,26 @@ export const NewRentalSchema = z.object({
 }).refine(data => data.end_date >= data.start_date, {
     error: "Η λήξη πρέπει να είναι μετά την έναρξη",
     path: ['end_date'],
+}).superRefine((data, ctx) => {
+    if (data.tenantMode === 'existing') {
+        if (!data.tenant_id) {
+            ctx.addIssue({ code: 'custom', message: 'Επιλέξτε ενοικιαστή', path: ['tenant_id'] })
+        }
+        return
+    }
+
+    if (!data.tenant_first_name) {
+        ctx.addIssue({ code: 'custom', message: 'Υποχρεωτικό πεδίο', path: ['tenant_first_name'] })
+    }
+    if (!data.tenant_last_name) {
+        ctx.addIssue({ code: 'custom', message: 'Υποχρεωτικό πεδίο', path: ['tenant_last_name'] })
+    }
+    if (!data.tenant_afm || !AFM_REGEX.test(data.tenant_afm)) {
+        ctx.addIssue({ code: 'custom', message: 'Μη έγκυρο ΑΦΜ', path: ['tenant_afm'] })
+    }
+    if (data.tenant_phone && !PHONE_REGEX.test(data.tenant_phone)) {
+        ctx.addIssue({ code: 'custom', message: 'Μη έγκυρο τηλέφωνο', path: ['tenant_phone'] })
+    }
 })
 
 export type NewRentalFormValues = z.infer<typeof NewRentalSchema>

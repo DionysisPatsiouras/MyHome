@@ -3,3 +3,6 @@ export const PHONE_REGEX = /^(69\d{8}|2\d{9})$/
 
 // Greek postal code, 5 digits
 export const ZIP_CODE_REGEX = /^\d{5}$/
+
+// Greek ΑΦΜ (tax id), 9 digits
+export const AFM_REGEX = /^\d{9}$/
