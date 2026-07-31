@@ -9,5 +9,7 @@ urlpatterns = [
     path("", views.getRoutes),
     path("token/", MyTokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-    path("verify", views.verifyRequest)
+    path("verify", views.verifyRequest),
+    path("forgot-password", views.forgotPassword),
+    path("reset-password", views.resetPassword)
 ]

@@ -48,6 +48,22 @@ class LoginAttempts(models.Model):
         db_table = "login_attempts"
 
 
+class ResetPassword(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    token = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    expires_at = models.DateTimeField(default=default_verify_expiry)
+    used_at = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = "reset_password"
+
+    @property
+    def is_valid(self):
+        return self.used_at is None and self.expires_at >= timezone.now()
+
 class VerifyRequests(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
