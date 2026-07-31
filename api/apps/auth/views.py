@@ -1,11 +1,12 @@
 
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 
 from django.contrib.auth.hashers import check_password
+from django.utils import timezone
 
 
-from users.models import CustomUser, LoginAttempts
+from users.models import CustomUser, LoginAttempts, VerifyRequests
 
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -13,8 +14,46 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 # import jwt, datetime
 
-from django.contrib.auth import authenticate
+# from django.contrib.auth import authenticate
 # from django.utils.timezone import now
+
+
+@api_view(["POST"])
+@permission_classes([])
+def verifyRequest(request):
+    token = request.query_params.get("token")
+    requestId = request.query_params.get("requestId")
+
+    if not token or not requestId:
+        return Response(
+            {
+                "code": 108,
+                "message": "Verification token and request ID are required"
+            },
+            status=400,
+        )
+
+    try:
+        verify_request = VerifyRequests.objects.get(pk=requestId, token=token)
+    except VerifyRequests.DoesNotExist:
+        raise AuthenticationFailed(
+            {"code": 105, "message": "Invalid verification token"}
+        )
+
+    if verify_request.date_verified:
+        return Response({"code": 106, "message": "Already verified"}, status=400)
+
+    if verify_request.expires_at < timezone.now():
+        return Response({"code": 107, "message": "Token expired"}, status=400)
+
+    verify_request.date_verified = timezone.now()
+    verify_request.save(update_fields=["date_verified"])
+
+    user = verify_request.user
+    user.is_verified = True
+    user.save(update_fields=["is_verified"])
+
+    return Response({"code": 200, "message": "Account verified successfully"})
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -58,12 +97,9 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
                 raise AuthenticationFailed(
                     {"code": 102, "message": "Wrong password"}
                 )
-            
-           
+        
             else:
-
                 LoginAttempts.objects.filter(user_id=user.id).delete()
-                # print(current_ip_address)
 
                 data = super().validate(attrs)
                 return data

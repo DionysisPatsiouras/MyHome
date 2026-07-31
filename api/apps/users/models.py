@@ -1,10 +1,16 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from .managers import CustomUserManager
 
+from datetime import timedelta
 import uuid
+
+
+def default_verify_expiry():
+    return timezone.now() + timedelta(hours=24)
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
 
@@ -40,4 +46,20 @@ class LoginAttempts(models.Model):
 
     class Meta:
         db_table = "login_attempts"
+
+
+class VerifyRequests(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    token = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    expires_at = models.DateTimeField(default=default_verify_expiry)
+    date_verified = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = "verify_requests"
+
+
 

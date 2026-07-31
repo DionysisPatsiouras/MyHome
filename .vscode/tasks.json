@@ -1,0 +1,36 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Make Migrations",
+      "type": "shell",
+      "command": "python3 manage.py makemigrations",
+      "options": { "cwd": "${workspaceFolder}/api" }
+    },
+    {
+      "label": "Migrate",
+      "type": "shell",
+      "command": "python3 manage.py migrate",
+      "options": { "cwd": "${workspaceFolder}/api" }
+    },
+    {
+      "label": "Run Server",
+      "type": "shell",
+      "command": "python3 manage.py runserver",
+      "options": { "cwd": "${workspaceFolder}/api" },
+      "group": { "kind": "build", "isDefault": true }
+    },
+    {
+      "label": "Show Migrations",
+      "type": "shell",
+      "command": "python3 manage.py showmigrations",
+      "options": { "cwd": "${workspaceFolder}/api" }
+    },
+    {
+      "label": "Rebuild DB",
+      "type": "shell",
+      "command": "bash database.sh",
+      "options": { "cwd": "${workspaceFolder}/api/utils/scripts" }
+    }
+  ]
+}
