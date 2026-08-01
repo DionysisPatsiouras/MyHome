@@ -4,17 +4,17 @@ from rest_framework.decorators import api_view, permission_classes
 
 from django.conf import settings
 from django.contrib.auth.hashers import check_password, make_password
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import render_to_string
 from django.utils import timezone
-from django.utils.html import strip_tags
-
 
 from users.models import CustomUser, LoginAttempts, ResetPassword, VerifyRequests
 
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+
+from infra.EmailService import EmailService
+
+from decouple import config
 
 
 
@@ -50,19 +50,12 @@ def resetPassword(request):
     reset_request.used_at = timezone.now()
     reset_request.save(update_fields=["used_at"])
 
-    html_content = render_to_string(
-        "emails/reset_password_success.html",
+    EmailService(
+        'reset_password_success.html', 
+        'Ο κωδικός σου άλλαξε - MyHome',
         {"first_name": user.first_name},
+        [user.email]
     )
-
-    email_message = EmailMultiAlternatives(
-        subject="Ο κωδικός σου άλλαξε - MyHome",
-        body=strip_tags(html_content),
-        from_email=settings.DEFAULT_FROM_EMAIL,
-        to=[user.email],
-    )
-    email_message.attach_alternative(html_content, "text/html")
-    email_message.send(fail_silently=False)
 
     return Response({"code": 200, "message": "Password reset successfully"})
 
@@ -91,29 +84,24 @@ def forgotPassword(request):
 
     reset_request = ResetPassword.objects.create(user=user)
 
-    reset_url = f"{settings.FRONTEND_URL}/reset-password?token={reset_request.token}&requestId={reset_request.id}"
+    reset_url = f"{config("FRONTEND_URL")}/reset-password?token={reset_request.token}&requestId={reset_request.id}"
 
-    html_content = render_to_string(
-        "emails/reset_password.html",
+    EmailService(
+        'reset_password.html', 
+        'Επαναφορά κωδικού πρόσβασης - MyHome',
         {"first_name": user.first_name, "reset_url": reset_url},
+        [user.email]
     )
-
-    email_message = EmailMultiAlternatives(
-        subject="Επαναφορά κωδικού πρόσβασης - MyHome",
-        body=strip_tags(html_content),
-        from_email=settings.DEFAULT_FROM_EMAIL,
-        to=[user.email],
-    )
-    email_message.attach_alternative(html_content, "text/html")
-    email_message.send(fail_silently=False)
 
     return Response({"code": 200, "message": "Reset link sent"})
 
+
 @api_view(["POST"])
 @permission_classes([])
-def verifyRequest(request):
-    token = request.query_params.get("token")
-    requestId = request.query_params.get("requestId")
+def verifyEmail(request):
+
+    token = request.data.get("token")
+    requestId = request.data.get("requestId")
 
     if not token or not requestId:
         return Response(
@@ -144,6 +132,15 @@ def verifyRequest(request):
     user.is_verified = True
     user.save(update_fields=["is_verified"])
 
+
+    EmailService(
+        'verify_success.html', 
+        'Το email σου επιβεβαιώθηκε - MyHome',
+        {"first_name": user.first_name, "login_url": config("FRONTEND_LOGIN_URL")},
+        [user.email]
+    )
+
+
     return Response({"code": 200, "message": "Account verified successfully"})
 
 
@@ -163,6 +160,15 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         try:
          
             user = CustomUser.objects.get(email=attrs.get("email"))
+
+            if not user.is_verified:
+                raise AuthenticationFailed(
+                    {
+                        "code": 109,
+                        "message": "Account is not verified",
+                    }
+                )
+
             login_attempts = LoginAttempts.objects.filter(user=user.id).count()
             current_ip_address = self.context.get("request").META.get("REMOTE_ADDR")
 
