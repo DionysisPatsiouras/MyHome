@@ -18,7 +18,8 @@ export const SignInFormSchema = z.object({
 })
 
 export const SignUpFormSchema = z.object({
-    full_name: z.string({ error: 'Υποχρεωτικό πεδίο' }).min(1, { error: 'Υποχρεωτικό πεδίο' }).trim(),
+    first_name: z.string({ error: 'Υποχρεωτικό πεδίο' }).min(1, { error: 'Υποχρεωτικό πεδίο' }).trim(),
+    last_name: z.string({ error: 'Υποχρεωτικό πεδίο' }).min(1, { error: 'Υποχρεωτικό πεδίο' }).trim(),
     email: z.email({ error: 'Μη έγκυρο email' }).trim(),
     password: z
         .string()

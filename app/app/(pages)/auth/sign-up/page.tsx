@@ -1,10 +1,14 @@
 'use client'
 
+import { useState } from "react"
 import ControlledTextfield from "@/app/components/forms/ControlledTextfield"
 import { useForm } from "react-hook-form"
+import { useRouter } from "next/navigation"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { SignUpFormSchema } from "@/app/lib/utils/formSchemas"
+import { useCRUD } from "@/app/lib/hooks/useCRUD"
+import { Routes } from "@/app/lib/Routes"
 
 import { Button } from "@mantine/core"
 import { IconBuildingEstate } from "@tabler/icons-react"
@@ -14,7 +18,8 @@ import Link from "next/link"
 
 
 interface FormData {
-    full_name: string
+    first_name: string
+    last_name: string
     email: string
     password: string
     confirm_password: string
@@ -22,15 +27,40 @@ interface FormData {
 
 export default function SignUp() {
 
-    const { control, handleSubmit, formState: { errors }, } = useForm<FormData>({
+    const router = useRouter()
+
+    const { POST } = useCRUD()
+
+    const [submitting, setSubmitting] = useState(false)
+
+    const { control, handleSubmit, reset, formState: { errors }, } = useForm<FormData>({
         resolver: zodResolver(SignUpFormSchema),
+        // defaultValues: process.env.NODE_ENV === 'development' ? {
+        //     first_name: 'Dionysis',
+        //     last_name: 'Patsiouras',
+        //     email: 'dion.patsiouras@gmail.com',
+        //     password: 'Password123!',
+        //     confirm_password: 'Password123!',
+        // } : undefined,
     })
 
-    const formProps = { control, errors }
+    const formProps = { control, errors, disabled: submitting }
 
 
-    const signUp = (formData: any) => {
-        console.log(formData)
+    const signUp = (formData: FormData) => {
+
+        setSubmitting(true)
+
+        POST(Routes('users').add, formData, true, {
+            success: { title: 'Επιτυχία', message: 'Ο λογαριασμός δημιουργήθηκε με επιτυχία' },
+            error: { title: 'Σφάλμα', message: 'Δεν ήταν δυνατή η δημιουργία λογαριασμού' },
+        }).then(() => {
+            reset()
+            // router.push('/auth/sign-in')
+            alert("completed")
+        })
+            .catch(() => setSubmitting(false))
+            .finally(() => setSubmitting(false))
     }
 
 
@@ -59,9 +89,15 @@ export default function SignUp() {
 
                         <div className="flex flex-col gap-4">
                             <ControlledTextfield
-                                label="Ονοματεπώνυμο"
-                                name="full_name"
-                                placeholder="Γιάννης Παπαδόπουλος"
+                                label="Όνομα"
+                                name="first_name"
+                                placeholder="Γιάννης"
+                                {...formProps}
+                            />
+                            <ControlledTextfield
+                                label="Επώνυμο"
+                                name="last_name"
+                                placeholder="Παπαδόπουλος"
                                 {...formProps}
                             />
                             <ControlledTextfield
@@ -87,6 +123,7 @@ export default function SignUp() {
 
                             <Button
                                 onClick={handleSubmit(signUp)}
+                                loading={submitting}
                                 fullWidth
                                 size="md"
                                 radius="md"
