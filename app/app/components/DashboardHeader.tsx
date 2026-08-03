@@ -1,6 +1,6 @@
 import { useState, type ComponentType } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import {
     IconChevronDown,
     IconLogout,
@@ -28,6 +28,8 @@ import {
     useMantineTheme,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks'
+
+import { deleteCookie } from '@/app/lib/utils/cookies'
 
 import classes from '../styles/DashboardHeader.module.css'
 
@@ -70,8 +72,14 @@ export function DashboardHeader() {
     const theme = useMantineTheme()
     const { toggleColorScheme } = useMantineColorScheme()
     const pathname = usePathname()
+    const router = useRouter()
     const [opened, { toggle, close }] = useDisclosure(false)
     const [userMenuOpened, setUserMenuOpened] = useState(false)
+
+    const handleLogout = () => {
+        deleteCookie('token')
+        router.push('/auth/sign-in')
+    }
 
     const activeLink = navLinks
         .filter((link) => pathname === link.url || pathname.startsWith(`${link.url}/`))
@@ -92,7 +100,7 @@ export function DashboardHeader() {
         { type: 'label', label: 'Ρυθμίσεις' },
         { type: 'item', label: 'Εναλλαγή θέματος', icon: ThemeMenuIcon, onClick: () => toggleColorScheme() },
         { type: 'item', label: 'Ρυθμίσεις', icon: IconSettings },
-        { type: 'item', label: 'Αποσύνδεση', icon: IconLogout },
+        { type: 'item', label: 'Αποσύνδεση', icon: IconLogout, onClick: handleLogout },
         { type: 'divider' },
         { type: 'label', label: 'Ζώνη κινδύνου' },
         { type: 'item', label: 'Παύση συνδρομής', icon: IconPlayerPause },

@@ -105,6 +105,15 @@ export const NewTechnicianSchema = z.object({
 
 export type NewTechnicianFormValues = z.infer<typeof NewTechnicianSchema>
 
+export const EditTenantSchema = z.object({
+    first_name: z.string({ message: "Υποχρεωτικό πεδίο" }).min(1, { message: "Υποχρεωτικό πεδίο" }),
+    last_name: z.string({ message: "Υποχρεωτικό πεδίο" }).min(1, { message: "Υποχρεωτικό πεδίο" }),
+    afm: z.string({ message: "Υποχρεωτικό πεδίο" }).regex(AFM_REGEX, { message: "Μη έγκυρο ΑΦΜ" }),
+    phone: z.string().regex(PHONE_REGEX, { message: "Μη έγκυρο τηλέφωνο" }).optional().or(z.literal('')),
+})
+
+export type EditTenantFormValues = z.infer<typeof EditTenantSchema>
+
 export const TENANT_MODES = ['existing', 'new'] as const
 
 export const NewRentalSchema = z.object({
