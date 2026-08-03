@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 
 import {
@@ -17,20 +18,24 @@ import {
 import {
     IconArrowRight,
     IconBuildingEstate,
-    IconChevronRight,
+    IconCalendarOff,
+    IconCoin,
+    IconHammer,
     IconPlus,
-    IconRefresh,
-    IconRulerMeasure,
     IconTool,
-    IconUsers,
 } from '@tabler/icons-react'
 
 import { useFetch } from '@/app/lib/hooks/useFetch'
+import { useCRUD } from '@/app/lib/hooks/useCRUD'
 import { Routes } from '@/app/lib/Routes'
 import { PageLoader } from '@/app/components/layout/PageLoader'
-import { meters } from '@/app/lib/utils/formatter'
+import { ENDING_SOON_DAYS, RentalCard } from '@/app/components/rentals/RentalCard'
 
-import type { Maintenance, Residence } from '@/app/lib/types'
+import type { Maintenance, MaintenanceOverview, Rental, Repair, Residence } from '@/app/lib/types'
+
+const MAINTENANCE_DUE_SOON_DAYS = 14
+const REPAIR_COST_WINDOW_DAYS = 30
+const WIDGET_ITEM_LIMIT = 4
 
 function getGreeting() {
     const hour = new Date().getHours()
@@ -65,10 +70,41 @@ function StatCard({
 
 export default function Dashboard() {
     const { data: residences, loading: loadingResidences, dataNotFound } = useFetch(Routes('residences').list)
-    const { data: technicians, loading: loadingTechnicians } = useFetch(Routes('technicians').list)
     const { data: maintenances, loading: loadingMaintenances } = useFetch(Routes('maintenances').list)
+    const { data: rentals, loading: loadingRentals } = useFetch(Routes('rentals').list)
+    const { data: repairs, loading: loadingRepairs } = useFetch(Routes('repairs').list)
 
-    if (loadingResidences || loadingTechnicians || loadingMaintenances) return <PageLoader />
+    const { GET } = useCRUD()
+    const [maintenanceOverviews, setMaintenanceOverviews] = useState<Record<number, MaintenanceOverview>>({})
+
+    useEffect(() => {
+        const list = maintenances as Maintenance[]
+        if (list.length === 0) return
+
+        let cancelled = false
+
+        Promise.all(
+            list.map((maintenance) =>
+                GET(Routes('maintenances').overview(String(maintenance.id)))
+                    .then((overview: MaintenanceOverview) => [maintenance.id, overview] as const)
+                    .catch(() => null),
+            ),
+        ).then((results) => {
+            if (cancelled) return
+            const map: Record<number, MaintenanceOverview> = {}
+            results.forEach((result) => {
+                if (result) map[result[0]] = result[1]
+            })
+            setMaintenanceOverviews(map)
+        })
+
+        return () => {
+            cancelled = true
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [maintenances])
+
+    if (loadingResidences || loadingMaintenances || loadingRentals || loadingRepairs) return <PageLoader />
 
     if (dataNotFound) {
         return (
@@ -98,17 +134,33 @@ export default function Dashboard() {
         )
     }
 
-    const totalSquareMeters = residences.reduce(
-        (sum: number, r: Residence) => sum + (Number(r.square_meters) || 0),
-        0,
-    )
+    const now = new Date()
+    const today = now.toISOString().slice(0, 10)
 
-    const recentResidences = [...residences]
-        .sort((a: Residence, b: Residence) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-        .slice(0, 4)
+    const daysUntil = (date: string) =>
+        Math.round((new Date(date).getTime() - new Date(today).getTime()) / 86400000)
 
-    const residenceById = new Map(residences.map((r: Residence) => [r.id, r]))
-    const upcomingMaintenances = maintenances.slice(0, 5)
+    const endingSoonRentals = (rentals as Rental[])
+        .filter((rental) => !rental.end_date || rental.end_date >= today)
+        .filter((rental) => rental.end_date && daysUntil(rental.end_date) <= ENDING_SOON_DAYS)
+        .sort((a, b) => a.end_date!.localeCompare(b.end_date!))
+
+    const dueMaintenances = (maintenances as Maintenance[])
+        .map((maintenance) => ({ maintenance, overview: maintenanceOverviews[maintenance.id] }))
+        .filter((row): row is { maintenance: Maintenance, overview: MaintenanceOverview } => !!row.overview?.next_maintenance)
+        .map((row) => ({ ...row, daysLeft: daysUntil(row.overview.next_maintenance!) }))
+        .filter((row) => row.daysLeft <= MAINTENANCE_DUE_SOON_DAYS)
+        .sort((a, b) => a.daysLeft - b.daysLeft)
+
+    const overdueMaintenancesCount = dueMaintenances.filter((row) => row.daysLeft < 0).length
+
+    const recentRepairs = [...(repairs as Repair[])]
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+        .slice(0, WIDGET_ITEM_LIMIT)
+
+    const recentRepairsCost = (repairs as Repair[])
+        .filter((repair) => (now.getTime() - new Date(repair.date).getTime()) / 86400000 <= REPAIR_COST_WINDOW_DAYS)
+        .reduce((sum, repair) => sum + (parseFloat(repair.cost) || 0), 0)
 
     return (
         <Stack gap="xl">
@@ -133,47 +185,75 @@ export default function Dashboard() {
             </Group>
 
             <SimpleGrid cols={{ base: 2, sm: 4 }} spacing="md">
-                <StatCard icon={IconBuildingEstate} color="blue" value={residences.length} label="Ακίνητα" />
-                <StatCard icon={IconUsers} color="violet" value={technicians.length} label="Τεχνικοί" />
-                <StatCard icon={IconRulerMeasure} color="teal" value={meters(String(totalSquareMeters))} label="Συνολικά τ.μ." />
-                <StatCard icon={IconRefresh} color="orange" value={maintenances.length} label="Συντηρήσεις" />
+                <StatCard icon={IconBuildingEstate} color="blue" value={(residences as Residence[]).length} label="Ακίνητα" />
+                <StatCard
+                    icon={IconCalendarOff}
+                    color={endingSoonRentals.length > 0 ? 'orange' : 'gray'}
+                    value={endingSoonRentals.length}
+                    label="Συμβόλαια που λήγουν"
+                />
+                <StatCard
+                    icon={IconTool}
+                    color={overdueMaintenancesCount > 0 ? 'red' : 'gray'}
+                    value={overdueMaintenancesCount}
+                    label="Εκπρόθεσμες συντηρήσεις"
+                />
+                <StatCard icon={IconCoin} color="teal" value={`${recentRepairsCost.toFixed(2)}€`} label="Κόστος επισκευών (30 ημ.)" />
             </SimpleGrid>
 
-            <SimpleGrid cols={{ base: 1, lg: 2 }} spacing="lg">
+            <SimpleGrid cols={{ base: 1, lg: 3 }} spacing="lg">
                 <Card withBorder radius="lg" padding="lg">
                     <Group justify="space-between" mb="md">
-                        <Title order={4}>Πρόσφατα ακίνητα</Title>
-                        <Button component={Link} href="/dashboard/residences" variant="subtle" size="xs">
+                        <Title order={4}>Συμβόλαια που λήγουν</Title>
+                        <Button component={Link} href="/dashboard/rentals" variant="subtle" size="xs">
                             Όλα
                         </Button>
                     </Group>
 
-                    {recentResidences.length === 0 && (
-                        <Text c="dimmed" size="sm" ta="center" py="md">Δεν υπάρχουν ακίνητα</Text>
+                    {endingSoonRentals.length === 0 && (
+                        <Text c="dimmed" size="sm" ta="center" py="md">Δεν υπάρχουν συμβόλαια που λήγουν σύντομα</Text>
                     )}
 
                     <Stack gap="xs">
-                        {recentResidences.map((residence: Residence) => (
+                        {endingSoonRentals.slice(0, WIDGET_ITEM_LIMIT).map((rental) => (
+                            <RentalCard key={rental.id} rental={rental} />
+                        ))}
+                    </Stack>
+                </Card>
+
+                <Card withBorder radius="lg" padding="lg">
+                    <Group justify="space-between" mb="md">
+                        <Title order={4}>Εκπρόθεσμες συντηρήσεις</Title>
+                    </Group>
+
+                    {dueMaintenances.length === 0 && (
+                        <Text c="dimmed" size="sm" ta="center" py="md">Δεν υπάρχουν συντηρήσεις σε εκκρεμότητα</Text>
+                    )}
+
+                    <Stack gap="xs">
+                        {dueMaintenances.slice(0, WIDGET_ITEM_LIMIT).map(({ maintenance, overview, daysLeft }) => (
                             <UnstyledButton
-                                key={residence.id}
+                                key={maintenance.id}
                                 component={Link}
-                                href={`/dashboard/residences/${residence.id}`}
+                                href={`/dashboard/residences/${maintenance.residence}`}
                                 p="sm"
                                 className="rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800"
                             >
                                 <Group justify="space-between" wrap="nowrap">
-                                    <div>
-                                        <Text fw={600} size="sm">
-                                            {`${residence.address} ${residence.road_number ?? ''}`}
-                                        </Text>
-                                        <Group gap={6} mt={2}>
-                                            <Badge variant="light" color="violet" size="xs">
-                                                {residence.residenceType?.name}
-                                            </Badge>
-                                            <Text size="xs" c="dimmed">{meters(residence.square_meters)}</Text>
-                                        </Group>
-                                    </div>
-                                    <IconChevronRight size={16} className="text-zinc-400 shrink-0" />
+                                    <Group gap="sm" wrap="nowrap">
+                                        <ThemeIcon size={36} radius="md" variant="light" color={daysLeft < 0 ? 'red' : 'orange'}>
+                                            <IconTool size={18} />
+                                        </ThemeIcon>
+                                        <div>
+                                            <Text fw={600} size="sm">{maintenance.title}</Text>
+                                            <Text size="xs" c="dimmed">
+                                                {new Date(overview.next_maintenance!).toLocaleDateString('el-GR')}
+                                            </Text>
+                                        </div>
+                                    </Group>
+                                    <Badge variant="light" color={daysLeft < 0 ? 'red' : 'orange'} size="sm">
+                                        {daysLeft < 0 ? 'Εκπρόθεσμη' : daysLeft === 0 ? 'Σήμερα' : `σε ${daysLeft} ημέρες`}
+                                    </Badge>
                                 </Group>
                             </UnstyledButton>
                         ))}
@@ -181,36 +261,29 @@ export default function Dashboard() {
                 </Card>
 
                 <Card withBorder radius="lg" padding="lg">
-                    <Group mb="md">
-                        <Title order={4}>Επερχόμενες συντηρήσεις</Title>
+                    <Group justify="space-between" mb="md">
+                        <Title order={4}>Πρόσφατες επισκευές</Title>
                     </Group>
 
-                    {upcomingMaintenances.length === 0 && (
-                        <Text c="dimmed" size="sm" ta="center" py="md">Δεν υπάρχουν προγραμματισμένες συντηρήσεις</Text>
+                    {recentRepairs.length === 0 && (
+                        <Text c="dimmed" size="sm" ta="center" py="md">Δεν υπάρχουν επισκευές</Text>
                     )}
 
                     <Stack gap="xs">
-                        {upcomingMaintenances.map((maintenance: Maintenance) => {
-                            const residence = residenceById.get(maintenance.residence) as Residence | undefined
-                            return (
-                                <Group key={maintenance.id} justify="space-between" wrap="nowrap" p="sm">
-                                    <Group gap="sm" wrap="nowrap">
-                                        <ThemeIcon size={36} radius="md" variant="light" color="orange">
-                                            <IconTool size={18} />
-                                        </ThemeIcon>
-                                        <div>
-                                            <Text fw={600} size="sm">{maintenance.title}</Text>
-                                            <Text size="xs" c="dimmed">
-                                                {residence ? `${residence.address} ${residence.road_number ?? ''}` : 'Άγνωστο ακίνητο'}
-                                            </Text>
-                                        </div>
-                                    </Group>
-                                    <Badge variant="light" color="gray" size="sm">
-                                        Κάθε {maintenance.recurrence} ημέρες
-                                    </Badge>
+                        {recentRepairs.map((repair) => (
+                            <Group key={repair.id} justify="space-between" wrap="nowrap" p="sm">
+                                <Group gap="sm" wrap="nowrap">
+                                    <ThemeIcon size={36} radius="md" variant="light" color="yellow">
+                                        <IconHammer size={18} />
+                                    </ThemeIcon>
+                                    <div>
+                                        <Text fw={600} size="sm">{repair.description}</Text>
+                                        <Text size="xs" c="dimmed">{new Date(repair.date).toLocaleDateString('el-GR')}</Text>
+                                    </div>
                                 </Group>
-                            )
-                        })}
+                                <Text fw={600} size="sm">{repair.cost}€</Text>
+                            </Group>
+                        ))}
                     </Stack>
                 </Card>
             </SimpleGrid>

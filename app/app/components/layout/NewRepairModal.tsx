@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, Group, Modal, NumberInput, Stack } from '@mantine/core'
-import ControlledTextfield from '@/app/components/forms/ControlledTextfield'
+import ControlledDatePicker from '@/app/components/forms/ControlledDatePicker'
 import ControlledTextarea from '@/app/components/forms/ControlledTextarea'
 import { NewRepairSchema, type NewRepairFormValues } from '@/app/lib/utils/formSchemas'
 import type { Repair } from '@/app/lib/types'
@@ -57,7 +57,7 @@ export function NewRepairModal({ opened, onClose, onSubmit, submitting, repair }
                     autosize
                 />
 
-                <ControlledTextfield name="date" {...formProps} type="date" label="Ημερομηνία επισκευής" />
+                <ControlledDatePicker name="date" {...formProps} label="Ημερομηνία επισκευής" maxDate={new Date()} />
                 <Controller
                     name="cost"
                     control={control}
