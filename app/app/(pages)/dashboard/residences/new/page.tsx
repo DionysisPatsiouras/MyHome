@@ -34,6 +34,7 @@ import {
     IconMapPin,
     IconRulerMeasure,
 } from '@tabler/icons-react'
+import { notifications } from '@mantine/notifications'
 
 // import { ControlledTextfield } from '@/app/components/forms/ControlledTextfield'
 import ControlledTextfield from '@/app/components/forms/ControlledTextfield'
@@ -115,6 +116,11 @@ export default function NewResidence() {
 
         try {
             await POST(Routes('residences').add, submittedData)
+            notifications.show({
+                color: 'green',
+                title: 'Επιτυχία',
+                message: 'Το ακίνητο καταχωρήθηκε με επιτυχία',
+            })
             router.push('/dashboard/residences')
         } catch (err) {
             console.error(err)

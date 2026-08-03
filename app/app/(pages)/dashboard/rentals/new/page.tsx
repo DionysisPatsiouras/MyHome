@@ -32,6 +32,7 @@ import {
 
 import ControlledSelect from '@/app/components/forms/ControlledSelect'
 import ControlledTextfield from '@/app/components/forms/ControlledTextfield'
+import ControlledDatePicker from '@/app/components/forms/ControlledDatePicker'
 import { NewRentalSchema, type NewRentalFormValues } from '@/app/lib/utils/formSchemas'
 import { useFetch } from '@/app/lib/hooks/useFetch'
 import { useCRUD } from '@/app/lib/hooks/useCRUD'
@@ -72,6 +73,7 @@ export default function NewRental() {
     })
 
     const tenantMode = watch('tenantMode')
+    const startDate = watch('start_date')
 
     const onSubmit = async (formData: NewRentalFormValues) => {
         setSubmitError(false)
@@ -234,17 +236,20 @@ export default function NewRental() {
                     <SectionTitle label="Στοιχεία Μίσθωσης" icon={IconCalendar} />
 
                     <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
-                        <ControlledTextfield
+                        <ControlledDatePicker
                             name="start_date"
                             {...formProps}
-                            type="date"
                             label="Έναρξη"
+                            placeholder="Επιλέξτε ημερομηνία"
+                            leftSection={<IconCalendar size={14} />}
                         />
-                        <ControlledTextfield
+                        <ControlledDatePicker
                             name="end_date"
                             {...formProps}
-                            type="date"
                             label="Λήξη"
+                            placeholder="Επιλέξτε ημερομηνία"
+                            leftSection={<IconCalendar size={14} />}
+                            minDate={startDate ? new Date(startDate) : undefined}
                         />
                     </SimpleGrid>
 
