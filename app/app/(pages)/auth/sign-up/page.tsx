@@ -35,13 +35,13 @@ export default function SignUp() {
 
     const { control, handleSubmit, reset, formState: { errors }, } = useForm<FormData>({
         resolver: zodResolver(SignUpFormSchema),
-        // defaultValues: process.env.NODE_ENV === 'development' ? {
-        //     first_name: 'Dionysis',
-        //     last_name: 'Patsiouras',
-        //     email: 'dion.patsiouras@gmail.com',
-        //     password: 'Password123!',
-        //     confirm_password: 'Password123!',
-        // } : undefined,
+        defaultValues: process.env.NODE_ENV === 'development' ? {
+            first_name: 'Dionysis',
+            last_name: 'Patsiouras',
+            email: 'dion.patsiouras@gmail.com',
+            password: 'Password123!',
+            confirm_password: 'Password123!',
+        } : undefined,
     })
 
     const formProps = { control, errors, disabled: submitting }

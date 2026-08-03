@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 
@@ -13,7 +14,11 @@ import { setCookie } from "@/app/lib/utils/cookies"
 import { AuthRoutes } from "@/app/lib/Routes"
 
 import { Anchor, Box, Button, Paper, Stack, Text, ThemeIcon, Title } from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks'
 import { IconBuildingEstate } from "@tabler/icons-react"
+import { UnverifiedAccountModal } from "@/app/components/layout/UnverifiedAccountModal"
+
+import { notifications } from '@mantine/notifications'
 
 
 
@@ -28,19 +33,53 @@ export default function SignIn() {
 
     const { POST } = useCRUD()
 
-    const { control, handleSubmit, formState: { errors }, } = useForm<FormData>({
+    const [unverifiedOpened, { open: openUnverified, close: closeUnverified }] = useDisclosure(false)
+    const [resending, setResending] = useState(false)
+
+    const { control, handleSubmit, getValues, formState: { errors }, } = useForm<FormData>({
         resolver: zodResolver(SignInFormSchema),
     })
 
     const formProps = { control, errors }
 
+    const handleResendVerification = () => {
+        const email = getValues("email")
+
+        setResending(true)
+
+        POST(AuthRoutes.resendVerification, { email }, true, {
+            success: { title: 'Επιτυχία', message: 'Το email επιβεβαίωσης εστάλη' },
+            error: { title: 'Σφάλμα', message: 'Δεν ήταν δυνατή η αποστολή του email' },
+        })
+            .then(() => closeUnverified())
+            .finally(() => setResending(false))
+    }
+
 
     const signIn = (formData: any) => {
 
-        POST(AuthRoutes.signin, formData).then((res) => {
-            setCookie("token", res.access)
-            router.push("/dashboard/")
-        }).catch(() => { })
+        POST(AuthRoutes.signin, formData, true).then((res) => {
+            if (res.success) {
+                setCookie("token", res.access)
+                router.push("/dashboard/")
+                return
+            } else if (res.code === 109) {
+                openUnverified()
+            } else {
+                notifications.show({
+                    color: 'red',
+                    title: 'Σφάλμα',
+                    message: res.message_gr ?? 'Η ενέργεια απέτυχε'
+                })
+            }
+        })
+            .catch((err) => {
+                notifications.show({
+                    color: 'red',
+                    title: 'Σφάλμα',
+                    message: err.message_gr ?? 'Η ενέργεια απέτυχε'
+                })
+            })
     }
 
 
@@ -48,6 +87,14 @@ export default function SignIn() {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-slate-100">
+
+            <UnverifiedAccountModal
+                opened={unverifiedOpened}
+                onClose={closeUnverified}
+                onResend={handleResendVerification}
+                loading={resending}
+            />
+
             <Box w="100%" maw={400} px="md">
                 <Stack align="center" mb="xl" gap="xs">
                     <ThemeIcon size={56} radius="lg" variant="gradient" gradient={{ from: 'blue', to: 'grape', deg: 90 }}>
@@ -93,6 +140,8 @@ export default function SignIn() {
                     </Stack>
                 </Paper>
             </Box>
+
+
         </div>
     )
 }

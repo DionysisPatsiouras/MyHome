@@ -11,5 +11,6 @@ urlpatterns = [
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("verify-email", views.verifyEmail),
     path("forgot-password", views.forgotPassword),
-    path("reset-password", views.resetPassword)
+    path("reset-password", views.resetPassword),
+    path("resend-verification", views.resendVerification)
 ]

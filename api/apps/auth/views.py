@@ -27,7 +27,12 @@ def resetPassword(request):
 
     if not token or not requestId or not password:
         return Response(
-            {"code": 108, "message": "Token, request ID and password are required"},
+            {
+                "success": False,
+                "code": 108,
+                "message": "Token, request ID and password are required",
+                "message_gr": "Το token, το request ID και ο κωδικός είναι υποχρεωτικά",
+            },
             status=400,
         )
 
@@ -35,12 +40,23 @@ def resetPassword(request):
         reset_request = ResetPassword.objects.get(pk=requestId, token=token)
     except ResetPassword.DoesNotExist:
         raise AuthenticationFailed(
-            {"code": 105, "message": "Invalid reset token"}
+            {
+                "success": False,
+                "code": 105,
+                "message": "Invalid reset token",
+                "message_gr": "Μη έγκυρο token επαναφοράς",
+            }
         )
 
     if not reset_request.is_valid:
         return Response(
-            {"code": 107, "message": "Token expired or already used"}, status=400
+            {
+                "success": False,
+                "code": 107,
+                "message": "Token expired or already used",
+                "message_gr": "Το token έχει λήξει ή έχει ήδη χρησιμοποιηθεί",
+            },
+            status=400,
         )
 
     user = reset_request.user
@@ -57,7 +73,12 @@ def resetPassword(request):
         [user.email]
     )
 
-    return Response({"code": 200, "message": "Password reset successfully"})
+    return Response({
+        "success": True,
+        "code": 200,
+        "message": "Password reset successfully",
+        "message_gr": "Ο κωδικός άλλαξε με επιτυχία",
+    })
 
 
 @api_view(["POST"])
@@ -67,7 +88,12 @@ def forgotPassword(request):
 
     if not email:
         return Response(
-            {"code": 108, "message": "Email is required"},
+            {
+                "success": False,
+                "code": 108,
+                "message": "Email is required",
+                "message_gr": "Το email είναι υποχρεωτικό",
+            },
             status=400,
         )
 
@@ -76,9 +102,10 @@ def forgotPassword(request):
     except CustomUser.DoesNotExist:
         raise AuthenticationFailed(
             {
+                "success": False,
                 "code": 101,
                 "message": "User not exist",
-                "messageGR": "Δεν βρέθηκε λογαρισμός με αυτά τα στοιχεία",
+                "message_gr": "Δεν βρέθηκε λογαριασμός με αυτά τα στοιχεία",
             }
         )
 
@@ -93,7 +120,70 @@ def forgotPassword(request):
         [user.email]
     )
 
-    return Response({"code": 200, "message": "Reset link sent"})
+    return Response({
+        "success": True,
+        "code": 200,
+        "message": "Reset link sent",
+        "message_gr": "Ο σύνδεσμος επαναφοράς εστάλη",
+    })
+
+
+@api_view(["POST"])
+@permission_classes([])
+def resendVerification(request):
+    email = request.data.get("email")
+
+    if not email:
+        return Response(
+            {
+                "success": False,
+                "code": 108,
+                "message": "Email is required",
+                "message_gr": "Το email είναι υποχρεωτικό",
+            },
+            status=400,
+        )
+
+    try:
+        user = CustomUser.objects.get(email=email)
+    except CustomUser.DoesNotExist:
+        raise AuthenticationFailed(
+            {
+                "success": False,
+                "code": 101,
+                "message": "User not exist",
+                "message_gr": "Δεν βρέθηκε λογαριασμός με αυτά τα στοιχεία",
+            }
+        )
+
+    if user.is_verified:
+        return Response(
+            {
+                "success": False,
+                "code": 106,
+                "message": "Already verified",
+                "message_gr": "Έχει ήδη επιβεβαιωθεί",
+            },
+            status=400,
+        )
+
+    verify_request = VerifyRequests.objects.create(user=user)
+
+    verify_url = f"{config("FRONTEND_URL")}/auth/verify?token={verify_request.token}&requestId={verify_request.id}"
+
+    EmailService(
+        'verify_email.html',
+        'Επιβεβαίωση email - MyHome',
+        {"first_name": user.first_name, "verify_url": verify_url},
+        [user.email]
+    )
+
+    return Response({
+        "success": True,
+        "code": 200,
+        "message": "Verification email sent",
+        "message_gr": "Το email επιβεβαίωσης εστάλη",
+    })
 
 
 @api_view(["POST"])
@@ -106,8 +196,10 @@ def verifyEmail(request):
     if not token or not requestId:
         return Response(
             {
+                "success": False,
                 "code": 108,
-                "message": "Verification token and request ID are required"
+                "message": "Verification token and request ID are required",
+                "message_gr": "Το token επιβεβαίωσης και το request ID είναι υποχρεωτικά",
             },
             status=400,
         )
@@ -116,14 +208,33 @@ def verifyEmail(request):
         verify_request = VerifyRequests.objects.get(pk=requestId, token=token)
     except VerifyRequests.DoesNotExist:
         raise AuthenticationFailed(
-            {"code": 105, "message": "Invalid verification token"}
+            {
+                "success": False,
+                "code": 105,
+                "message": "Invalid verification token",
+                "message_gr": "Μη έγκυρο token επιβεβαίωσης",
+            }
         )
 
     if verify_request.date_verified:
-        return Response({"code": 106, "message": "Already verified"}, status=400)
+        return Response(
+            {
+                "code": 106,
+                "message": "Already verified",
+                "message_gr": "Έχει ήδη επιβεβαιωθεί",
+            },
+            status=400,
+        )
 
     if verify_request.expires_at < timezone.now():
-        return Response({"code": 107, "message": "Token expired"}, status=400)
+        return Response(
+            {
+                "code": 107,
+                "message": "Token expired",
+                "message_gr": "Το token έχει λήξει",
+            },
+            status=400,
+        )
 
     verify_request.date_verified = timezone.now()
     verify_request.save(update_fields=["date_verified"])
@@ -141,7 +252,12 @@ def verifyEmail(request):
     )
 
 
-    return Response({"code": 200, "message": "Account verified successfully"})
+    return Response({
+        "success": False,
+        "code": 200,
+        "message": "Account verified successfully",
+        "message_gr": "Ο λογαριασμός επιβεβαιώθηκε με επιτυχία",
+    })
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -153,7 +269,12 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         if not email or not password:
             raise AuthenticationFailed(
-                {"code": 100, "message": "Email and password are required"}
+                {
+                    "success": False,
+                    "code": 100,
+                    "message": "Email and password are required",
+                    "message_gr": "Το email και ο κωδικός είναι υποχρεωτικά",
+                }
             )
         
 
@@ -164,8 +285,10 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
             if not user.is_verified:
                 raise AuthenticationFailed(
                     {
+                        "success": False,
                         "code": 109,
                         "message": "Account is not verified",
+                        "message_gr": "Ο λογαριασμός δεν έχει επιβεβαιωθεί",
                     }
                 )
 
@@ -175,7 +298,12 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
             if login_attempts >= 3:
                 raise AuthenticationFailed(
-                    {"code": 104, "message": "Too many attempts"}
+                    {
+                        "success": False,
+                        "code": 104,
+                        "message": "Too many attempts",
+                        "message_gr": "Πάρα πολλές προσπάθειες",
+                    }
             )
 
             if not check_password(password, user.password):
@@ -188,17 +316,28 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
                 if login_attempts >= 2:
                     raise AuthenticationFailed(
-                        {"code": 104, "message": "Too many attempts"}
+                        {
+                            "success": False,
+                            "code": 104,
+                            "message": "Too many attempts",
+                            "message_gr": "Πάρα πολλές προσπάθειες",
+                        }
                     )
 
                 raise AuthenticationFailed(
-                    {"code": 102, "message": "Wrong password"}
+                    {
+                        "success": False,
+                        "code": 102,
+                        "message": "Wrong password",
+                        "message_gr": "Λανθασμένος κωδικός",
+                    }
                 )
         
             else:
                 LoginAttempts.objects.filter(user_id=user.id).delete()
 
                 data = super().validate(attrs)
+                data["success"] = True
                 return data
 
 
@@ -206,9 +345,10 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         except CustomUser.DoesNotExist:
             raise AuthenticationFailed(
                 {
+                    "success": False,
                     "code": 101,
                     "message": "User not exist",
-                    "messageGR": "Δεν βρέθηκε λογαρισμός με αυτά τα στοιχεία",
+                    "message_gr": "Δεν βρέθηκε λογαριασμός με αυτά τα στοιχεία",
                 }
             )
 

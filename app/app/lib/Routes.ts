@@ -39,7 +39,9 @@ export const Routes = (resourceName: string) => ({
 
 export const AuthRoutes = {
     signin: `${prefix}/auth/token/`,
-    forgotPassword: `${prefix}/auth/forgot-password`
+    forgotPassword: `${prefix}/auth/forgot-password`,
+    resendVerification: `${prefix}/auth/resend-verification`,
+    verifyEmail: `${prefix}/auth/verify-email`,
 
 }
 
