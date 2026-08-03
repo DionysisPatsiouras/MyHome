@@ -1,1 +1,1 @@
-# Resend Verification Email
+# Send email with the residence location
