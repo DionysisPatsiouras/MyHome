@@ -44,7 +44,7 @@ export default function ResidenceView() {
                         Τοποθεσία
                     </Tabs.Tab>
                     <Tabs.Tab value="contracts" leftSection={<IconFile size={16} />} style={{ flexShrink: 0 }}>
-                        Συμβόλαια
+                        Μισθωτήρια
                     </Tabs.Tab>
                     <Tabs.Tab value="repairs" leftSection={<IconHammer size={16} />} style={{ flexShrink: 0 }}>
                         Ιστορικό επισκευών
