@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from "react"
+import { Suspense, useEffect, useRef, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"
 
@@ -13,6 +13,22 @@ import { IconBuildingEstate, IconCheck, IconX } from "@tabler/icons-react"
 type VerifyState = 'loading' | 'success' | 'error'
 
 export default function Verify() {
+    return (
+        <Suspense fallback={<VerifyFallback />}>
+            <VerifyContent />
+        </Suspense>
+    )
+}
+
+function VerifyFallback() {
+    return (
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-slate-100">
+            <Loader size="md" />
+        </div>
+    )
+}
+
+function VerifyContent() {
 
     const searchParams = useSearchParams()
     const token = searchParams.get('token')
