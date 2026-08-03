@@ -2,8 +2,8 @@
 
 import Link from 'next/link'
 
-import { Badge, Button, Group, Menu, Table, Text } from '@mantine/core'
-import { IconRulerMeasure, IconChevronDown, IconPencil, IconTrash } from '@tabler/icons-react'
+import { Badge, Button, Group, Table, Text } from '@mantine/core'
+import { IconRulerMeasure, IconPencil } from '@tabler/icons-react'
 
 import { meters } from '@/app/lib/utils/formatter'
 
@@ -11,10 +11,9 @@ import type { Residence } from '@/app/lib/types'
 
 interface ListViewProps {
     residences: Residence[]
-    onDelete: (residence: Residence) => void
 }
 
-export default function ListView({ residences, onDelete }: ListViewProps) {
+export default function ListView({ residences }: ListViewProps) {
     return (
         <Table.ScrollContainer minWidth={600}>
             <Table verticalSpacing="sm" highlightOnHover>
@@ -50,29 +49,18 @@ export default function ListView({ residences, onDelete }: ListViewProps) {
                                     <Button component={Link} href={`/dashboard/residences/${residence.id}`} size="xs" variant="light">
                                         Άνοιγμα
                                     </Button>
-                                    <Menu position="bottom-end" withinPortal zIndex={9999}>
-                                        <Menu.Target>
-                                            <Button size="xs" px="xs" variant="light">
-                                                <IconChevronDown size={14} />
-                                            </Button>
-                                        </Menu.Target>
-                                        <Menu.Dropdown>
-                                            <Menu.Item
-                                                component={Link}
-                                                href={`/dashboard/residences/${residence.id}/edit`}
-                                                leftSection={<IconPencil size={16} />}
-                                            >
-                                                Επεξεργασία
-                                            </Menu.Item>
-                                            <Menu.Item
-                                                color="red"
-                                                leftSection={<IconTrash size={16} />}
-                                                onClick={() => onDelete(residence)}
-                                            >
-                                                Διαγραφή
-                                            </Menu.Item>
-                                        </Menu.Dropdown>
-                                    </Menu>
+
+                                    <Button
+                                        component={Link}
+                                        href={`/dashboard/residences/${residence.id}/edit`}
+                                        size="xs"
+                                        px="xs"
+                                        variant="light"
+                                        color="gray"
+                                    >
+                                        <IconPencil size={14} />
+                                    </Button>
+
                                 </Group>
                             </Table.Td>
                         </Table.Tr>

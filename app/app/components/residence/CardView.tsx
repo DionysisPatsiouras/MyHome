@@ -2,8 +2,8 @@
 
 import Link from 'next/link'
 
-import { Badge, Button, Card, Group, Menu, SimpleGrid, Stack, Text, Title } from '@mantine/core'
-import { IconRulerMeasure, IconChevronDown, IconPencil, IconTrash, IconMapPin } from '@tabler/icons-react'
+import { Badge, Button, Card, Group, SimpleGrid, Stack, Text, Title } from '@mantine/core'
+import { IconRulerMeasure, IconPencil, IconMapPin } from '@tabler/icons-react'
 
 import { meters } from '@/app/lib/utils/formatter'
 import { LocationsMap } from '@/app/components/map'
@@ -12,10 +12,9 @@ import type { Residence } from '@/app/lib/types'
 
 interface CardViewProps {
     residences: Residence[]
-    onDelete: (residence: Residence) => void
 }
 
-export default function CardView({ residences, onDelete }: CardViewProps) {
+export default function CardView({ residences }: CardViewProps) {
     return (
         <SimpleGrid cols={{ base: 1, sm: 2, lg: 2 }} spacing="lg">
             {residences.map((residence: Residence) => (
@@ -65,34 +64,27 @@ export default function CardView({ residences, onDelete }: CardViewProps) {
                         </div>
 
 
-                        <Button.Group>
-                            <Button component={Link} href={`/dashboard/residences/${residence.id}`} size="xs">
+                        <Group gap="xs">
+                            <Button
+                                component={Link}
+                                href={`/dashboard/residences/${residence.id}`}
+                                size="xs"
+                            >
                                 Άνοιγμα
                             </Button>
-                            <Menu position="bottom-end" withinPortal zIndex={9999}>
-                                <Menu.Target>
-                                    <Button size="xs" px="xs">
-                                        <IconChevronDown size={14} />
-                                    </Button>
-                                </Menu.Target>
-                                <Menu.Dropdown>
-                                    <Menu.Item
-                                        component={Link}
-                                        href={`/dashboard/residences/${residence.id}/edit`}
-                                        leftSection={<IconPencil size={16} />}
-                                    >
-                                        Επεξεργασία
-                                    </Menu.Item>
-                                    <Menu.Item
-                                        color="red"
-                                        leftSection={<IconTrash size={16} />}
-                                        onClick={() => onDelete(residence)}
-                                    >
-                                        Διαγραφή
-                                    </Menu.Item>
-                                </Menu.Dropdown>
-                            </Menu>
-                        </Button.Group>
+
+                            <Button
+                                component={Link}
+                                href={`/dashboard/residences/${residence.id}/edit`}
+                                size="xs"
+                                px="xs"
+                                variant="light"
+                                color="gray"
+                            >
+                                <IconPencil size={14} />
+                            </Button>
+
+                        </Group>
                     </Stack>
                 </Card>
             ))}

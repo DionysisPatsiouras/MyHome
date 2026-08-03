@@ -13,37 +13,17 @@ import ListView from '@/app/components/residence/ListView'
 import { LocationsMap } from '@/app/components/map'
 import { DataNotFound } from '@/app/components/layout/DataNotFound'
 import { PageLoader } from '@/app/components/layout/PageLoader'
-import { DeleteModal } from '@/app/components/layout/DeleteModal'
 
 import type { Residence } from '@/app/lib/types'
 
-import { useCRUD } from '@/app/lib/hooks/useCRUD'
 
 
 export default function Residences() {
 
-    const { DELETE } = useCRUD()
-    const { data: residences, loading, dataNotFound, fetchData } = useFetch(Routes('residences').list)
+    const { data: residences, loading, dataNotFound } = useFetch(Routes('residences').list)
 
-    const [deleteTarget, setDeleteTarget] = useState<Residence | null>(null)
-    const [deleting, setDeleting] = useState(false)
     const [view, setView] = useState<'grid' | 'list' | 'map'>('grid')
 
-    const handleDelete = async () => {
-        if (!deleteTarget) return
-
-        setDeleting(true)
-
-        try {
-            await DELETE(Routes('residences').delete(String(deleteTarget.id)))
-            setDeleteTarget(null)
-            fetchData()
-        } catch (err) {
-            console.error(err)
-        } finally {
-            setDeleting(false)
-        }
-    }
 
     if (loading) return <PageLoader />
 
@@ -60,16 +40,6 @@ export default function Residences() {
 
     return (
         <Stack gap="lg">
-
-            <DeleteModal
-                opened={!!deleteTarget}
-                onClose={() => setDeleteTarget(null)}
-                onConfirm={handleDelete}
-                loading={deleting}
-                title="Διαγραφή ακινήτου"
-                description={`Είστε σίγουροι ότι θέλετε να διαγράψετε το ακίνητο "${deleteTarget?.address ?? ''} ${deleteTarget?.road_number ?? ''}"; Η ενέργεια αυτή δεν μπορεί να αναιρεθεί.`}
-            />
-
 
             <Group justify="space-between">
                 <Group gap="xs" align="center">
@@ -94,8 +64,8 @@ export default function Residences() {
                 </Group>
             </Group>
 
-            {view === 'grid' && <CardView residences={residences} onDelete={setDeleteTarget} />}
-            {view === 'list' && <ListView residences={residences} onDelete={setDeleteTarget} />}
+            {view === 'grid' && <CardView residences={residences} />}
+            {view === 'list' && <ListView residences={residences} />}
             {view === 'map' && (
                 <Card padding={0} radius="md" withBorder style={{ overflow: 'hidden' }}>
                     <LocationsMap
