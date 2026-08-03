@@ -94,6 +94,7 @@ export interface Tenant extends BaseModel {
     last_name: string
     afm: string
     phone?: string | null
+    is_deleted: boolean
     user: number
 }
 

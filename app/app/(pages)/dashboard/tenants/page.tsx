@@ -1,33 +1,67 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-import { ActionIcon, Badge, Group, Stack, Table, Text, TextInput, Title } from '@mantine/core'
-import { IconId, IconPencil, IconPhone, IconSearch } from '@tabler/icons-react'
+import { ActionIcon, Badge, Group, Pagination, Stack, Table, Text, TextInput, Title } from '@mantine/core'
+import { IconId, IconPencil, IconPhone, IconSearch, IconTrash } from '@tabler/icons-react'
 
 import { useFetch } from '@/app/lib/hooks/useFetch'
+import { useCRUD } from '@/app/lib/hooks/useCRUD'
 import { Routes } from '@/app/lib/Routes'
 import { DataNotFound } from '@/app/components/layout/DataNotFound'
 import { PageLoader } from '@/app/components/layout/PageLoader'
+import { DeleteModal } from '@/app/components/layout/DeleteModal'
 import { TenantEditModal } from '@/app/components/tenants/TenantEditModal'
 
 import type { Tenant } from '@/app/lib/types'
+
+const PAGE_SIZE = 10
 
 export default function Tenants() {
 
     const normalize = (str: string) =>
         str.normalize('NFD').replace(/[̀-ͯ]/g, '').toLocaleLowerCase('el')
 
+    const { DELETE } = useCRUD()
     const { data: tenants, loading, dataNotFound, fetchData } = useFetch(Routes('tenants').list)
 
     const [searchValue, setSearchValue] = useState<string>('')
     const [selectedTenant, setSelectedTenant] = useState<Tenant | null>(null)
+    const [deleteTarget, setDeleteTarget] = useState<Tenant | null>(null)
+    const [deleting, setDeleting] = useState(false)
+    const [page, setPage] = useState(1)
 
-    const filteredTenants = tenants.filter((tenant: Tenant) => {
-        if (searchValue === '') return true
-        const fullName = `${tenant.first_name} ${tenant.last_name}`
-        return normalize(fullName).includes(normalize(searchValue)) || tenant.afm?.includes(searchValue)
-    })
+    const handleDelete = async () => {
+        if (!deleteTarget) return
+
+        setDeleting(true)
+
+        try {
+            await DELETE(Routes('tenants').delete(String(deleteTarget.id)))
+            setDeleteTarget(null)
+        } catch (err) {
+            console.error(err)
+        } finally {
+            setDeleting(false)
+            fetchData()
+        }
+    }
+
+    const filteredTenants = tenants
+        .filter((tenant: Tenant) => {
+            if (searchValue === '') return true
+            const fullName = `${tenant.first_name} ${tenant.last_name}`
+            return normalize(fullName).includes(normalize(searchValue)) || tenant.afm?.includes(searchValue)
+        })
+        .sort((a: Tenant, b: Tenant) =>
+            `${a.first_name} ${a.last_name}`.localeCompare(`${b.first_name} ${b.last_name}`, 'el'))
+
+    const totalPages = Math.ceil(filteredTenants.length / PAGE_SIZE)
+    const paginatedTenants = filteredTenants.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+
+    useEffect(() => {
+        setPage(1)
+    }, [searchValue])
 
     if (loading) return <PageLoader />
 
@@ -48,6 +82,15 @@ export default function Tenants() {
                 opened={!!selectedTenant}
                 onClose={() => setSelectedTenant(null)}
                 onSaved={fetchData}
+            />
+
+            <DeleteModal
+                opened={!!deleteTarget}
+                onClose={() => setDeleteTarget(null)}
+                onConfirm={handleDelete}
+                loading={deleting}
+                title="Διαγραφή ενοικιαστή"
+                description={`Είστε σίγουροι ότι θέλετε να διαγράψετε τον ενοικιαστή "${deleteTarget ? `${deleteTarget.first_name} ${deleteTarget.last_name}` : ''}";`}
             />
 
             <Group justify="space-between">
@@ -85,10 +128,7 @@ export default function Tenants() {
                             </Table.Tr>
                         </Table.Thead>
                         <Table.Tbody>
-                            {filteredTenants
-                                .slice()
-                                .sort((a: Tenant, b: Tenant) =>
-                                    `${a.first_name} ${a.last_name}`.localeCompare(`${b.first_name} ${b.last_name}`, 'el'))
+                            {paginatedTenants
                                 .map((tenant: Tenant) => (
                                     <Table.Tr
                                         key={tenant.id}
@@ -111,7 +151,7 @@ export default function Tenants() {
                                             </Group>
                                         </Table.Td>
                                         <Table.Td>
-                                            <Group justify="flex-end">
+                                            <Group justify="flex-end" gap="xs">
                                                 <ActionIcon
                                                     variant="light"
                                                     onClick={(e) => {
@@ -121,6 +161,16 @@ export default function Tenants() {
                                                 >
                                                     <IconPencil size={16} />
                                                 </ActionIcon>
+                                                <ActionIcon
+                                                    variant="light"
+                                                    color="red"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation()
+                                                        setDeleteTarget(tenant)
+                                                    }}
+                                                >
+                                                    <IconTrash size={16} />
+                                                </ActionIcon>
                                             </Group>
                                         </Table.Td>
                                     </Table.Tr>
@@ -128,6 +178,12 @@ export default function Tenants() {
                         </Table.Tbody>
                     </Table>
                 </Table.ScrollContainer>
+            )}
+
+            {totalPages > 1 && (
+                <Group justify="center">
+                    <Pagination total={totalPages} value={page} onChange={setPage} />
+                </Group>
             )}
 
         </Stack>

@@ -38,6 +38,11 @@ export function RentalDetailsModal({ rental, opened, onClose }: { rental: Rental
                         <Group gap={8} align="center" c="dimmed" fz="0.9rem">
                             <IconUser size={14} />
                             {`${rental.tenant.first_name} ${rental.tenant.last_name}`}
+                            {rental.tenant.is_deleted && (
+                                <Badge color="red" variant="light" size="xs">
+                                    Διαγραμμένος ενοικιαστής
+                                </Badge>
+                            )}
                         </Group>
                     </Stack>
                     <Badge color={active ? 'green' : 'gray'} variant="light">

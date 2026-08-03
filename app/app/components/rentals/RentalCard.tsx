@@ -120,6 +120,11 @@ export function RentalCard({ rental, showResidence = true }: { rental: Rental; s
                 >
                     <IconUser size={showResidence ? 14 : 16} style={showResidence ? undefined : { color: COLORS.muted }} />
                     {`${rental.tenant.first_name} ${rental.tenant.last_name}`}
+                    {rental.tenant.is_deleted && (
+                        <Badge color="red" variant="light" size="xs">
+                            Διαγραμμένος ενοικιαστής
+                        </Badge>
+                    )}
                 </Group>
                 <Group gap={8} align="center" mt={4}>
                     <DateBadge date={rental.start_date} variant="start" />
