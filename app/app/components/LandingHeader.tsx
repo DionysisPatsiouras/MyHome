@@ -11,18 +11,22 @@ import {
   Text,
   ThemeIcon,
   UnstyledButton,
-  useMantineColorScheme,
+  // useMantineColorScheme,
 } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import { IconBuildingEstate, IconMoon, IconSun } from '@tabler/icons-react'
+import {
+  IconBuildingEstate,
+  // IconMoon, IconSun
+} from '@tabler/icons-react'
 
 const navLinks = [
   { label: 'Λειτουργίες', href: '#features' },
   { label: 'Πώς λειτουργεί', href: '#how-it-works' },
+  { label: 'Τιμές', href: '#pricing' },
 ]
 
 export function LandingHeader() {
-  const { toggleColorScheme } = useMantineColorScheme()
+  // const { toggleColorScheme } = useMantineColorScheme()
   const [opened, { toggle, close }] = useDisclosure(false)
 
   return (
@@ -57,14 +61,16 @@ export function LandingHeader() {
           </Group>
 
           <Group gap="sm" visibleFrom="sm">
-            <UnstyledButton
+
+            {/* <UnstyledButton
               onClick={() => toggleColorScheme()}
               aria-label="Εναλλαγή θέματος"
               className="grid h-9 w-9 place-items-center rounded-md text-zinc-600 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800"
             >
               <IconSun size={18} className="mantine-dark-hidden" />
               <IconMoon size={18} className="mantine-light-hidden" />
-            </UnstyledButton>
+            </UnstyledButton> */}
+
             <Button component={Link} href="/auth/sign-in" variant="default" radius="md">
               Σύνδεση
             </Button>
