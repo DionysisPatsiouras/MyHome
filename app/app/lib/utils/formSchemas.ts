@@ -154,3 +154,26 @@ export const NewRentalSchema = z.object({
 })
 
 export type NewRentalFormValues = z.infer<typeof NewRentalSchema>
+
+export const AccountDetailsSchema = z.object({
+    first_name: z.string({ error: 'Υποχρεωτικό πεδίο' }).min(1, { error: 'Υποχρεωτικό πεδίο' }).trim(),
+    last_name: z.string({ error: 'Υποχρεωτικό πεδίο' }).min(1, { error: 'Υποχρεωτικό πεδίο' }).trim(),
+    email: z.email({ error: 'Μη έγκυρο email' }).trim(),
+})
+
+export type AccountDetailsFormValues = z.infer<typeof AccountDetailsSchema>
+
+export const ChangePasswordSchema = z.object({
+    current_password: z.string({ error: 'Υποχρεωτικό πεδίο' }).min(1, { error: 'Υποχρεωτικό πεδίο' }).trim(),
+    new_password: z
+        .string()
+        .min(Number(process.env.NEXT_PUBLIC_PASSWORD_LENGTH),
+            { error: `Πρέπει να έχει τουλάχιστον ${Number(process.env.NEXT_PUBLIC_PASSWORD_LENGTH)} χαρακτήρες` })
+        .trim(),
+    confirm_password: z.string().trim(),
+}).refine(data => data.new_password === data.confirm_password, {
+    error: 'Οι κωδικοί δεν ταιριάζουν',
+    path: ['confirm_password'],
+})
+
+export type ChangePasswordFormValues = z.infer<typeof ChangePasswordSchema>

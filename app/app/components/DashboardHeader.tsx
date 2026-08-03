@@ -96,7 +96,7 @@ export function DashboardHeader() {
     ));
 
     const userMenuData: UserMenuEntry[] = [
-        { type: 'item', label: 'Ο λογαριασμός μου', icon: IconMessage, iconColor: theme.colors.blue[6] },
+        { type: 'item', label: 'Ο λογαριασμός μου', icon: IconMessage, iconColor: theme.colors.blue[6], onClick: () => router.push('/dashboard/account') },
         { type: 'label', label: 'Ρυθμίσεις' },
         { type: 'item', label: 'Εναλλαγή θέματος', icon: ThemeMenuIcon, onClick: () => toggleColorScheme() },
         { type: 'item', label: 'Ρυθμίσεις', icon: IconSettings },
