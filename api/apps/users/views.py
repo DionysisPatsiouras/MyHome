@@ -5,13 +5,40 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 
-from django.conf import settings
 from django.contrib.auth.hashers import make_password
 
 from infra.EmailService import EmailService
 from decouple import config
 
 
+from infra.Helpers import *
+
+
+_UPDATABLE_PROFILE_FIELDS = ("first_name", "last_name", "password")
+
+@api_view(["GET", "PATCH"])
+def me(request):
+
+    user = request.user
+
+    if request.method == "GET":
+
+        serializer = UserSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    if request.method == "PATCH":
+
+        data = {
+            field: request.data[field]
+            for field in _UPDATABLE_PROFILE_FIELDS
+            if field in request.data
+        }
+
+        serializer = UserSerializer(user, data=data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+    return Updated_200()
 
 @api_view(["POST"])
 @permission_classes([])
@@ -49,6 +76,7 @@ def insert(request):
 
     return Response(
         {
+            "success": True,
             "message": "Created",
             "status": 201
         },

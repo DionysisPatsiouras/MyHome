@@ -8,5 +8,6 @@ app_name = __name__.split('.')[0]
 views = importlib.import_module(f"{app_name}.views")
 
 urlpatterns = [
+    path("me", views.me),  # GET, PATCH
     path("", views.insert) # POST
 ]
