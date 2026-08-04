@@ -24,7 +24,7 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
     return (
         <Grid gap="lg">
             <Grid.Col span={{ base: 12, sm: 4, md: 3 }}>
-                <Paper withBorder radius="md" p="xs">
+                <Paper radius="md" p="xs">
                     <Stack gap={2}>
                         {ACCOUNT_NAV_LINKS.map((link) => (
                             <NavLink
@@ -34,7 +34,7 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
                                 label={link.label}
                                 leftSection={<link.icon size={16} />}
                                 active={pathname === link.href}
-                                variant="filled"
+                                // variant="filled"
                                 style={{ borderRadius: 'var(--mantine-radius-sm)' }}
                             />
                         ))}

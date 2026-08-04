@@ -9,5 +9,6 @@ views = importlib.import_module(f"{app_name}.views")
 
 urlpatterns = [
     path("me", views.me),  # GET, PATCH
+    path("change-password", views.changePassword), # POST
     path("", views.insert) # POST
 ]

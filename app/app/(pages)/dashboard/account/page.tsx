@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -15,53 +15,60 @@ import {
     Title,
 } from '@mantine/core'
 import { IconMail, IconUser } from '@tabler/icons-react'
-import { notifications } from '@mantine/notifications'
 
 import ControlledTextfield from '@/app/components/forms/ControlledTextfield'
 import { AccountDetailsSchema, type AccountDetailsFormValues } from '@/app/lib/utils/formSchemas'
-
-function SectionTitle({ label, icon: Icon }: { label: string; icon: React.ComponentType<{ size?: number; style?: React.CSSProperties }> }) {
-    return (
-        <Group gap={8} align="center" style={{ borderLeft: '3px solid var(--mantine-color-blue-6)', paddingLeft: '0.5rem' }}>
-            <Icon size={14} style={{ color: 'var(--mantine-color-blue-6)' }} />
-            <Text fw={600} size="xs" tt="uppercase" style={{ letterSpacing: '0.05em' }} c="blue">
-                {label}
-            </Text>
-        </Group>
-    )
-}
+import { useFetch } from '@/app/lib/hooks/useFetch'
+import { useCRUD } from '@/app/lib/hooks/useCRUD'
+import { customRoute } from '@/app/lib/Routes'
+import { PageLoader } from '@/app/components/layout/PageLoader'
+import SectionTitle from '@/app/components/account/SectionTitle'
+import type { User } from '@/app/lib/types'
 
 export default function Account() {
 
+
+    const { PATCH } = useCRUD()
+
     const [saving, setSaving] = useState(false)
 
-    const {
-        control,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<AccountDetailsFormValues>({
-        resolver: zodResolver(AccountDetailsSchema),
-        defaultValues: {
-            first_name: 'Jane',
-            last_name: 'Spoonfighter',
-            email: 'janspoon@fighter.dev',
-        },
-    })
+    const { data: user, loading: loadingUser } = useFetch(customRoute('users/me'))
+
+    const { control, handleSubmit, reset, formState: { errors } } =
+        useForm<AccountDetailsFormValues>({
+            resolver: zodResolver(AccountDetailsSchema)
+        })
+
+    useEffect(() => {
+        if (!user || Array.isArray(user)) return
+
+        const fetchedUser = user as User
+
+        reset({
+            first_name: fetchedUser.first_name,
+            last_name: fetchedUser.last_name,
+            email: fetchedUser.email,
+        })
+    }, [user, reset])
 
     const formProps = { control, errors }
 
-    const onSave = async () => {
+    const onSave = async (formData: AccountDetailsFormValues) => {
         setSaving(true)
 
-        setTimeout(() => {
-            setSaving(false)
-            notifications.show({
-                color: 'green',
-                title: 'Επιτυχία',
-                message: 'Τα στοιχεία σας ενημερώθηκαν με επιτυχία',
+        try {
+            await PATCH(customRoute('users/me'), formData, false, {
+                success: { title: 'Επιτυχία', message: 'Τα στοιχεία σας ενημερώθηκαν με επιτυχία' },
+                error: { title: 'Σφάλμα', message: 'Δεν ήταν δυνατή η ενημέρωση των στοιχείων σας' },
             })
-        }, 600)
+        } catch (err) {
+            console.error(err)
+        } finally {
+            setSaving(false)
+        }
     }
+
+    if (loadingUser) return <PageLoader />
 
     return (
         <Stack gap="lg">
@@ -74,6 +81,15 @@ export default function Account() {
             <Paper withBorder radius="md" p="lg">
                 <Stack gap="md">
                     <SectionTitle label="Προσωπικά στοιχεία" icon={IconUser} />
+
+                    <ControlledTextfield
+                        name="email"
+                        {...formProps}
+                        label="Email"
+                        placeholder="you@example.com"
+                        disabled
+                        leftSection={<IconMail size={14} />}
+                    />
 
                     <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
                         <ControlledTextfield
@@ -92,13 +108,7 @@ export default function Account() {
                         />
                     </SimpleGrid>
 
-                    <ControlledTextfield
-                        name="email"
-                        {...formProps}
-                        label="Email"
-                        placeholder="you@example.com"
-                        leftSection={<IconMail size={14} />}
-                    />
+
 
                     <Group justify="flex-end">
                         <Button onClick={handleSubmit(onSave)} loading={saving}>

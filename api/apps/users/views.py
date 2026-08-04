@@ -14,7 +14,31 @@ from decouple import config
 from infra.Helpers import *
 
 
-_UPDATABLE_PROFILE_FIELDS = ("first_name", "last_name", "password")
+_UPDATABLE_PROFILE_FIELDS = ("first_name", "last_name")
+
+@api_view(["POST"])
+def changePassword(request):
+
+    user = request.user
+
+    serializer = ChangePasswordSerializer(data=request.data, context={"request": request})
+    serializer.is_valid(raise_exception=True)
+
+    password = serializer.validated_data["new_password"]
+
+    user.password = make_password(password)
+    user.save(update_fields=["password"])
+
+
+    EmailService(
+        'password_changed.html',
+        'Ο κωδικός πρόσβασης άλλαξε',
+        {"first_name": user.first_name},
+        [user.email]
+    )
+
+    return Updated_200()
+
 
 @api_view(["GET", "PATCH"])
 def me(request):

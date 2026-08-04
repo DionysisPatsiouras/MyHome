@@ -1,16 +1,14 @@
 
-import { TextInput } from '@mantine/core'
+import { PasswordInput, TextInput } from '@mantine/core'
 import { Controller } from 'react-hook-form'
 
 
-// CHECK IF PROPS EXIST
-
 export default function ControlledTextfield({
-    label, control, name, errors, placeholder, onChange, type = 'text',
-    disabled, loading, helpText, autoComplete, inputMode, leftSection,
-    required, minLength, maxLength, pattern, min, max,
+    label, control, name, errors, onChange, type = 'text',
+    disabled, loading, required, minLength, maxLength, pattern, min, max,
 }: any) {
     const fieldError = errors?.[name]?.message as string | undefined
+    const Input = type === 'password' ? PasswordInput : TextInput
 
     return (
         <Controller
@@ -18,18 +16,13 @@ export default function ControlledTextfield({
             control={control}
             rules={{ required, minLength, maxLength, pattern }}
             render={({ field }) => (
-                <TextInput
+                <Input
                     label={label}
-                    type={type}
+                    {...(type === 'password' ? {} : { type })}
                     min={min}
                     max={max}
-                    // placeholder={placeholder}
-                    // autoComplete={autoComplete}
-                    // inputMode={inputMode}
-                    // leftSection={leftSection}
                     disabled={disabled || loading}
                     error={fieldError}
-                    // description={!fieldError ? helpText : undefined}
                     {...field}
                     value={field.value ?? ''}
                     onChange={(e) => {

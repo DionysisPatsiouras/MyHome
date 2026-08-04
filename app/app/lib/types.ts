@@ -23,6 +23,13 @@ export interface TechnicianType {
     name: string
 }
 
+export interface User extends BaseModel {
+    id: number
+    first_name: string
+    last_name: string
+    email: string
+}
+
 
 export interface Residence extends BaseModel {
     id: number

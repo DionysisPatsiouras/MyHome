@@ -8,6 +8,7 @@ import { IconArrowRight, IconBuildingEstate } from '@tabler/icons-react'
 import { useFetch } from '@/app/lib/hooks/useFetch'
 import { Routes } from '@/app/lib/Routes'
 import { PageLoader } from '@/app/components/layout/PageLoader'
+import SectionTitle from '@/app/components/account/SectionTitle'
 
 const PLAN_RESIDENCE_LIMIT = 3
 
@@ -21,6 +22,7 @@ export default function AccountResidences() {
 
     return (
         <Stack gap="lg">
+
 
             <Stack gap={6}>
                 <Title order={2} fw={700}>Ακίνητα</Title>

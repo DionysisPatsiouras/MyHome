@@ -24,20 +24,15 @@ import { notifications } from '@mantine/notifications'
 
 import ControlledTextfield from '@/app/components/forms/ControlledTextfield'
 import { DeleteModal } from '@/app/components/layout/DeleteModal'
+import SectionTitle from '@/app/components/account/SectionTitle'
 import { ChangePasswordSchema, type ChangePasswordFormValues } from '@/app/lib/utils/formSchemas'
+import { useCRUD } from '@/app/lib/hooks/useCRUD'
+import { customRoute } from '@/app/lib/Routes'
 
-function SectionTitle({ label, icon: Icon, color = 'blue' }: { label: string; icon: React.ComponentType<{ size?: number; style?: React.CSSProperties }>; color?: string }) {
-    return (
-        <Group gap={8} align="center" style={{ borderLeft: `3px solid var(--mantine-color-${color}-6)`, paddingLeft: '0.5rem' }}>
-            <Icon size={14} style={{ color: `var(--mantine-color-${color}-6)` }} />
-            <Text fw={600} size="xs" tt="uppercase" style={{ letterSpacing: '0.05em' }} c={color}>
-                {label}
-            </Text>
-        </Group>
-    )
-}
 
 export default function Security() {
+
+    const { POST } = useCRUD()
 
     const [savingPassword, setSavingPassword] = useState(false)
     const [deleteOpened, setDeleteOpened] = useState(false)
@@ -54,18 +49,40 @@ export default function Security() {
 
     const formProps = { control, errors }
 
-    const onChangePassword = async () => {
+    const onChangePassword = async (formData: ChangePasswordFormValues) => {
         setSavingPassword(true)
 
-        setTimeout(() => {
-            setSavingPassword(false)
-            reset()
+        try {
+            await POST(customRoute('users/change-password'), formData)
+                .then((res) => {
+                    !res.success ?
+
+                        notifications.show({
+                            color: 'red',
+                            title: 'Σφάλμα',
+                            message: res?.message_gr ?? 'Δεν ήταν δυνατή η αλλαγή του κωδικού',
+                        })
+
+                        : (() => {
+                            reset()
+                            notifications.show({
+                                color: 'green',
+                                title: 'Επιτυχία',
+                                message: 'Ο κωδικός σας άλλαξε με επιτυχία',
+                            })
+                        })()
+                })
+
+
+        } catch (err: any) {
             notifications.show({
-                color: 'green',
-                title: 'Επιτυχία',
-                message: 'Ο κωδικός σας άλλαξε με επιτυχία',
+                color: 'red',
+                title: 'Σφάλμα',
+                message: err?.message_gr ?? 'Δεν ήταν δυνατή η αλλαγή του κωδικού',
             })
-        }, 600)
+        } finally {
+            setSavingPassword(false)
+        }
     }
 
     const handleDeleteAccount = async () => {
