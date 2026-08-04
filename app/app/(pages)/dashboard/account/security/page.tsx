@@ -24,7 +24,7 @@ import { notifications } from '@mantine/notifications'
 
 import ControlledTextfield from '@/app/components/forms/ControlledTextfield'
 import { DeleteModal } from '@/app/components/layout/DeleteModal'
-import SectionTitle from '@/app/components/account/SectionTitle'
+import SectionTitle from '@/app/components/layout/SectionTitle'
 import { ChangePasswordSchema, type ChangePasswordFormValues } from '@/app/lib/utils/formSchemas'
 import { useCRUD } from '@/app/lib/hooks/useCRUD'
 import { customRoute } from '@/app/lib/Routes'

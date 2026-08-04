@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { Badge, Button, Divider, Group, Modal, Stack, Text } from '@mantine/core'
-import { IconExternalLink, IconHome, IconUser } from '@tabler/icons-react'
+import { IconExternalLink, IconHome, IconPencil, IconUser } from '@tabler/icons-react'
 
 import type { Rental } from '@/app/lib/types'
 
@@ -64,15 +64,26 @@ export function RentalDetailsModal({ rental, opened, onClose }: { rental: Rental
                     <InfoRow label="Μηνιαίο ενοίκιο" value={`${rental.rent_amount} €`} />
                     <InfoRow label="Αριθμός Δήλωσης" value={rental.declaration_number} />
                 </Stack>
-                <Button
-                    component={Link}
-                    href={`/dashboard/residences/${rental.residence.id}`}
-                    variant="light"
-                    rightSection={<IconExternalLink size={14} />}
-                    onClick={onClose}
-                >
-                    Προβολή ακινήτου
-                </Button>
+                <Group grow>
+                    <Button
+                        component={Link}
+                        href={`/dashboard/residences/${rental.residence.id}`}
+                        variant="light"
+                        rightSection={<IconExternalLink size={14} />}
+                        onClick={onClose}
+                    >
+                        Προβολή ακινήτου
+                    </Button>
+                    <Button
+                        component={Link}
+                        href={`/dashboard/rentals/${rental.id}/edit`}
+                        variant="light"
+                        rightSection={<IconPencil size={14} />}
+                        onClick={onClose}
+                    >
+                        Επεξεργασία
+                    </Button>
+                </Group>
             </Stack>
         </Modal>
     )

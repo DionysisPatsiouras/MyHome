@@ -22,7 +22,7 @@ import { useFetch } from '@/app/lib/hooks/useFetch'
 import { useCRUD } from '@/app/lib/hooks/useCRUD'
 import { customRoute } from '@/app/lib/Routes'
 import { PageLoader } from '@/app/components/layout/PageLoader'
-import SectionTitle from '@/app/components/account/SectionTitle'
+import SectionTitle from '@/app/components/layout/SectionTitle'
 import type { User } from '@/app/lib/types'
 
 export default function Account() {

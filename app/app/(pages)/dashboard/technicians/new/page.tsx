@@ -35,17 +35,7 @@ import { useCRUD } from '@/app/lib/hooks/useCRUD'
 import { Routes, customRoute } from '@/app/lib/Routes'
 import { getCurrentUserId } from '@/app/lib/utils/auth'
 import type { TechnicianType } from '@/app/lib/types'
-
-function SectionTitle({ label, icon: Icon }: { label: string; icon: React.ComponentType<{ size?: number; style?: React.CSSProperties }> }) {
-    return (
-        <Group gap={8} align="center" style={{ borderLeft: '3px solid var(--mantine-color-blue-6)', paddingLeft: '0.5rem' }}>
-            <Icon size={14} style={{ color: 'var(--mantine-color-blue-6)' }} />
-            <Text fw={600} size="xs" tt="uppercase" style={{ letterSpacing: '0.05em' }} c="blue">
-                {label}
-            </Text>
-        </Group>
-    )
-}
+import SectionTitle from '@/app/components/layout/SectionTitle'
 
 export default function NewTechnician() {
     const router = useRouter()

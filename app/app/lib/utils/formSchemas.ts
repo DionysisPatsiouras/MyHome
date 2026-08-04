@@ -155,6 +155,45 @@ export const NewRentalSchema = z.object({
 
 export type NewRentalFormValues = z.infer<typeof NewRentalSchema>
 
+export const EditRentalSchema = z.object({
+    residence_id: z.string({ message: "Επιλέξτε ακίνητο" }),
+    tenantMode: z.enum(TENANT_MODES),
+    tenant_id: z.number().optional(),
+    tenant_first_name: z.string().optional().or(z.literal('')),
+    tenant_last_name: z.string().optional().or(z.literal('')),
+    tenant_afm: z.string().optional().or(z.literal('')),
+    tenant_phone: z.string().optional().or(z.literal('')),
+    rent_amount: z.number({ message: "Υποχρεωτικό πεδίο" }).positive({ message: "Πρέπει να είναι μεγαλύτερο από 0" }),
+    start_date: z.string({ message: "Υποχρεωτικό πεδίο" }).min(1, { message: "Υποχρεωτικό πεδίο" }),
+    end_date: z.string().optional().or(z.literal('')),
+    declaration_number: z.string().optional().or(z.literal('')),
+}).refine(data => !data.end_date || data.end_date >= data.start_date, {
+    error: "Η λήξη πρέπει να είναι μετά την έναρξη",
+    path: ['end_date'],
+}).superRefine((data, ctx) => {
+    if (data.tenantMode === 'existing') {
+        if (!data.tenant_id) {
+            ctx.addIssue({ code: 'custom', message: 'Επιλέξτε ενοικιαστή', path: ['tenant_id'] })
+        }
+        return
+    }
+
+    if (!data.tenant_first_name) {
+        ctx.addIssue({ code: 'custom', message: 'Υποχρεωτικό πεδίο', path: ['tenant_first_name'] })
+    }
+    if (!data.tenant_last_name) {
+        ctx.addIssue({ code: 'custom', message: 'Υποχρεωτικό πεδίο', path: ['tenant_last_name'] })
+    }
+    if (!data.tenant_afm || !AFM_REGEX.test(data.tenant_afm)) {
+        ctx.addIssue({ code: 'custom', message: 'Μη έγκυρο ΑΦΜ', path: ['tenant_afm'] })
+    }
+    if (data.tenant_phone && !PHONE_REGEX.test(data.tenant_phone)) {
+        ctx.addIssue({ code: 'custom', message: 'Μη έγκυρο τηλέφωνο', path: ['tenant_phone'] })
+    }
+})
+
+export type EditRentalFormValues = z.infer<typeof EditRentalSchema>
+
 export const AccountDetailsSchema = z.object({
     first_name: z.string({ error: 'Υποχρεωτικό πεδίο' }).min(1, { error: 'Υποχρεωτικό πεδίο' }).trim(),
     last_name: z.string({ error: 'Υποχρεωτικό πεδίο' }).min(1, { error: 'Υποχρεωτικό πεδίο' }).trim(),

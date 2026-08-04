@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -33,18 +33,22 @@ import {
 import ControlledSelect from '@/app/components/forms/ControlledSelect'
 import ControlledTextfield from '@/app/components/forms/ControlledTextfield'
 import ControlledDatePicker from '@/app/components/forms/ControlledDatePicker'
-import { NewRentalSchema, type NewRentalFormValues } from '@/app/lib/utils/formSchemas'
+import { EditRentalSchema, type EditRentalFormValues } from '@/app/lib/utils/formSchemas'
 import { useFetch } from '@/app/lib/hooks/useFetch'
 import { useCRUD } from '@/app/lib/hooks/useCRUD'
 import { Routes } from '@/app/lib/Routes'
+import { PageLoader } from '@/app/components/layout/PageLoader'
+import { DataNotFound } from '@/app/components/layout/DataNotFound'
 import { getCurrentUserId } from '@/app/lib/utils/auth'
-import type { Residence, Tenant } from '@/app/lib/types'
+import type { Rental, Residence, Tenant } from '@/app/lib/types'
 import SectionTitle from '@/app/components/layout/SectionTitle'
 
-export default function NewRental() {
+export default function EditRental() {
     const router = useRouter()
-    const { GET, POST } = useCRUD()
+    const { id } = useParams<{ id: string }>()
+    const { GET, POST, PATCH } = useCRUD()
 
+    const { data: rental, loading: loadingRental, dataNotFound } = useFetch(Routes('rentals').id(id))
     const { data: residences, loading: loadingResidences } = useFetch(Routes('residences').list)
     const { data: tenants, loading: loadingTenants } = useFetch(Routes('tenants').list)
 
@@ -56,16 +60,33 @@ export default function NewRental() {
         handleSubmit,
         watch,
         setValue,
+        reset,
         formState: { errors },
-    } = useForm<NewRentalFormValues>({
-        resolver: zodResolver(NewRentalSchema),
+    } = useForm<EditRentalFormValues>({
+        resolver: zodResolver(EditRentalSchema),
         defaultValues: { tenantMode: 'existing' },
     })
 
     const tenantMode = watch('tenantMode')
     const startDate = watch('start_date')
 
-    const onSubmit = async (formData: NewRentalFormValues) => {
+    useEffect(() => {
+        if (!rental || Array.isArray(rental)) return
+
+        const fetchedRental = rental as Rental
+
+        reset({
+            tenantMode: 'existing',
+            residence_id: String(fetchedRental.residence.id),
+            tenant_id: fetchedRental.tenant.id,
+            rent_amount: Number(fetchedRental.rent_amount),
+            start_date: fetchedRental.start_date,
+            end_date: fetchedRental.end_date ?? '',
+            declaration_number: fetchedRental.declaration_number ?? '',
+        })
+    }, [rental, reset])
+
+    const onSubmit = async (formData: EditRentalFormValues) => {
         setSubmitError(false)
         setSubmitting(true)
         try {
@@ -87,16 +108,16 @@ export default function NewRental() {
                 tenantId = createdTenant.id
             }
 
-            await POST(Routes('rentals').add, {
+            await PATCH(Routes('rentals').patch(id), {
                 residence_id: formData.residence_id,
                 tenant_id: tenantId,
                 rent_amount: formData.rent_amount,
                 start_date: formData.start_date,
-                end_date: formData.end_date,
-                declaration_number: formData.declaration_number,
+                end_date: formData.end_date || null,
+                declaration_number: formData.declaration_number || null,
             }, false, {
-                success: { title: 'Επιτυχία', message: 'Το μισθωτήριο καταχωρήθηκε με επιτυχία' },
-                error: { title: 'Σφάλμα', message: 'Δεν ήταν δυνατή η καταχώρηση του μισθωτηρίου' },
+                success: { title: 'Επιτυχία', message: 'Το μισθωτήριο ενημερώθηκε με επιτυχία' },
+                error: { title: 'Σφάλμα', message: 'Δεν ήταν δυνατή η ενημέρωση του μισθωτηρίου' },
             })
             router.push('/dashboard/rentals')
         } catch (err) {
@@ -108,6 +129,19 @@ export default function NewRental() {
     }
 
     const formProps = { control, errors }
+
+    if (loadingRental) return <PageLoader />
+
+    if (dataNotFound || !rental || Array.isArray(rental)) {
+        return (
+            <DataNotFound
+                title="Το μισθωτήριο δεν βρέθηκε"
+                description="Το μισθωτήριο που αναζητάτε δεν υπάρχει ή έχει διαγραφεί."
+                actionLabel="Πίσω στα μισθωτήρια"
+                actionHref="/dashboard/rentals"
+            />
+        )
+    }
 
     return (
         <Stack gap="lg">
@@ -124,8 +158,8 @@ export default function NewRental() {
                 >
                     Μισθωτήρια
                 </Button>
-                <Title order={2} fw={700}>Νέο Μισθωτήριο</Title>
-                <Text size="sm" c="dimmed">Συμπληρώστε τα στοιχεία για να προσθέσετε ένα νέο μισθωτήριο.</Text>
+                <Title order={2} fw={700}>Επεξεργασία Μισθωτηρίου</Title>
+                <Text size="sm" c="dimmed">Ενημερώστε τα στοιχεία για το μισθωτήριο.</Text>
             </Stack>
 
             <Paper withBorder radius="md" p="lg">
@@ -272,7 +306,7 @@ export default function NewRental() {
 
             {submitError && (
                 <Alert color="red" icon={<IconAlertCircle size={16} />} title="Κάτι πήγε στραβά">
-                    Δεν ήταν δυνατή η καταχώρηση του μισθωτηρίου. Δοκιμάστε ξανά.
+                    Δεν ήταν δυνατή η ενημέρωση του μισθωτηρίου. Δοκιμάστε ξανά.
                 </Alert>
             )}
 
@@ -281,7 +315,7 @@ export default function NewRental() {
                     Άκυρο
                 </Button>
                 <Button onClick={handleSubmit(onSubmit)} loading={submitting}>
-                    Καταχώρηση
+                    Αποθήκευση
                 </Button>
             </Group>
         </Stack>
