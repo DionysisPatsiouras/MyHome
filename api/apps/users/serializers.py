@@ -16,6 +16,10 @@ class UserSerializer(serializers.ModelSerializer):
         return validate_email_format(value)
 
 
+class VerifyPasswordSerializer(serializers.Serializer):
+    password = serializers.CharField(required=True, write_only=True, trim_whitespace=False)
+
+
 class ChangePasswordSerializer(serializers.Serializer):
     current_password = serializers.CharField(required=True, write_only=True, trim_whitespace=False)
     new_password = serializers.CharField(required=True, write_only=True, trim_whitespace=False)

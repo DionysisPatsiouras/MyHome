@@ -101,10 +101,10 @@ export function DashboardHeader() {
         { type: 'item', label: 'Εναλλαγή θέματος', icon: ThemeMenuIcon, onClick: () => toggleColorScheme() },
         { type: 'item', label: 'Ρυθμίσεις', icon: IconSettings },
         { type: 'item', label: 'Αποσύνδεση', icon: IconLogout, onClick: handleLogout },
-        { type: 'divider' },
-        { type: 'label', label: 'Ζώνη κινδύνου' },
-        { type: 'item', label: 'Παύση συνδρομής', icon: IconPlayerPause },
-        { type: 'item', label: 'Διαγραφή λογαριασμού', icon: IconTrash, itemColor: 'red' },
+        // { type: 'divider' },
+        // { type: 'label', label: 'Ζώνη κινδύνου' },
+        // { type: 'item', label: 'Παύση συνδρομής', icon: IconPlayerPause },
+        // { type: 'item', label: 'Διαγραφή λογαριασμού', icon: IconTrash, itemColor: 'red' },
     ];
 
     const userMenuItems = userMenuData.map((entry, index) => {

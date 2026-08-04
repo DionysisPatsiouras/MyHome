@@ -130,11 +130,7 @@ export default function Tenants() {
                         <Table.Tbody>
                             {paginatedTenants
                                 .map((tenant: Tenant) => (
-                                    <Table.Tr
-                                        key={tenant.id}
-                                        onClick={() => setSelectedTenant(tenant)}
-                                        style={{ cursor: 'pointer' }}
-                                    >
+                                    <Table.Tr key={tenant.id}>
                                         <Table.Td>
                                             <Text fw={600}>{`${tenant.first_name} ${tenant.last_name}`}</Text>
                                         </Table.Td>

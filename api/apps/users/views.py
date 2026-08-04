@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import check_password, make_password
 
 from infra.EmailService import EmailService
 from decouple import config
@@ -38,6 +38,33 @@ def changePassword(request):
     )
 
     return Updated_200()
+
+
+@api_view(["POST"])
+def verifyPassword(request):
+
+    serializer = VerifyPasswordSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+
+    password = serializer.validated_data["password"]
+
+    if not check_password(password, request.user.password):
+        return Response(
+            {
+                "success": False,
+                "code": 102,
+                "message": "Wrong password",
+                "message_gr": "Λανθασμένος κωδικός",
+            },
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    return Response({
+        "success": True,
+        "code": 200,
+        "message": "Password verified",
+        "message_gr": "Ο κωδικός επιβεβαιώθηκε",
+    })
 
 
 @api_view(["GET", "PATCH"])
