@@ -32,7 +32,7 @@ export interface User extends BaseModel {
 
 
 export interface Residence extends BaseModel {
-    id: number
+    id: string
     address: string
     construction_year?: number
     residenceType: ResidenceType
@@ -56,7 +56,7 @@ export interface Maintenance {
     id: number
     title: string
     recurrence: number
-    residence: number
+    residence: string
 }
 
 export interface MaintenanceHistoryEntry {

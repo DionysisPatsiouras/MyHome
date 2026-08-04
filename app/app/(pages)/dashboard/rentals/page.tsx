@@ -1,9 +1,11 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 
-import { Alert, Badge, Button, Group, Stack, Tabs, Text, Title } from '@mantine/core'
-import { IconAlertTriangle, IconCalendarOff, IconPlus } from '@tabler/icons-react'
+import { Alert, Badge, Button, Group, MultiSelect, Stack, Tabs, Text, Title } from '@mantine/core'
+import { DatePickerInput, type DatesRangeValue } from '@mantine/dates'
+import { IconAlertTriangle, IconCalendarOff, IconPlus, IconX } from '@tabler/icons-react'
 
 import { useFetch } from '@/app/lib/hooks/useFetch'
 import { Routes } from '@/app/lib/Routes'
@@ -17,6 +19,10 @@ export default function Rentals() {
 
     const { data: rentals, loading, dataNotFound } = useFetch(Routes('rentals').list)
 
+    const [selectedResidenceIds, setSelectedResidenceIds] = useState<string[]>([])
+    const [selectedTenantIds, setSelectedTenantIds] = useState<string[]>([])
+    const [dateRange, setDateRange] = useState<DatesRangeValue>([null, null])
+
     const today = new Date().toISOString().slice(0, 10)
 
     const daysUntil = (date: string) =>
@@ -25,11 +31,43 @@ export default function Rentals() {
     const renderResidence = (residence: Rental['residence']) =>
         `${residence.address} ${residence.road_number ?? ''}`.trim()
 
-    const currentRentals = (rentals as Rental[])
+    const residenceOptions = Array.from(
+        new Map(
+            (rentals as Rental[]).map((rental) => [rental.residence.id, renderResidence(rental.residence)]),
+        ),
+    ).map(([id, label]) => ({ value: String(id), label }))
+
+    const tenantOptions = Array.from(
+        new Map(
+            (rentals as Rental[]).map((rental) => [String(rental.tenant.id), `${rental.tenant.first_name} ${rental.tenant.last_name}`]),
+        ),
+    ).map(([value, label]) => ({ value, label }))
+
+    const [rangeStart, rangeEnd] = dateRange
+
+    const hasActiveFilters = selectedResidenceIds.length > 0 || selectedTenantIds.length > 0 || Boolean(rangeStart || rangeEnd)
+
+    const clearFilters = () => {
+        setSelectedResidenceIds([])
+        setSelectedTenantIds([])
+        setDateRange([null, null])
+    }
+
+    const filteredRentals = (rentals as Rental[])
+        .filter((rental) => selectedResidenceIds.length === 0 || selectedResidenceIds.includes(String(rental.residence.id)))
+        .filter((rental) => selectedTenantIds.length === 0 || selectedTenantIds.includes(String(rental.tenant.id)))
+        .filter((rental) => {
+            if (!rangeStart && !rangeEnd) return true
+            if (rangeStart && rental.end_date && rental.end_date < rangeStart) return false
+            if (rangeEnd && rental.start_date > rangeEnd) return false
+            return true
+        })
+
+    const currentRentals = filteredRentals
         .filter((rental) => !rental.end_date || rental.end_date >= today)
         .sort((a, b) => (a.end_date ?? '9999-12-31').localeCompare(b.end_date ?? '9999-12-31'))
 
-    const pastRentals = (rentals as Rental[])
+    const pastRentals = filteredRentals
         .filter((rental) => rental.end_date && rental.end_date < today)
         .sort((a, b) => b.end_date!.localeCompare(a.end_date!))
 
@@ -80,6 +118,47 @@ export default function Rentals() {
                 <Button component={Link} href="/dashboard/rentals/new" leftSection={<IconPlus size={16} />}>
                     Νέο μισθωτήριο
                 </Button>
+            </Group>
+
+            <Group gap="sm">
+                <MultiSelect
+                    placeholder="Ακίνητα"
+                    data={residenceOptions}
+                    value={selectedResidenceIds}
+                    onChange={setSelectedResidenceIds}
+                    searchable
+                    clearable
+                    style={{ flex: 1 }}
+                />
+                <MultiSelect
+                    placeholder="Ενοικιαστές"
+                    data={tenantOptions}
+                    value={selectedTenantIds}
+                    onChange={setSelectedTenantIds}
+                    searchable
+                    clearable
+                    style={{ flex: 1 }}
+                />
+                <DatePickerInput
+                    type="range"
+                    placeholder="Περίοδος μίσθωσης"
+                    valueFormat="DD/MM/YYYY"
+                    firstDayOfWeek={1}
+                    value={dateRange}
+                    onChange={setDateRange}
+                    clearable
+                    w={260}
+                />
+                {hasActiveFilters && (
+                    <Button
+                        variant="subtle"
+                        color="gray"
+                        leftSection={<IconX size={16} />}
+                        onClick={clearFilters}
+                    >
+                        Καθαρισμός φίλτρων
+                    </Button>
+                )}
             </Group>
 
             {endingSoonRentals.length > 0 && (
