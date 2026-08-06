@@ -64,10 +64,14 @@ INSTALLED_APPS = [
     "django_crontab",
 ]
 
+CHECK_EXPIRING_RENTALS_CRON = config("CHECK_EXPIRING_RENTALS_CRON", default="* * * * *")
+SCRAPE_GOV_ANNOUNCEMENTS_CRON = config("SCRAPE_GOV_ANNOUNCEMENTS_CRON", default="* * * * *")
+SEND_INACTIVITY_REMINDERS_CRON = config("SEND_INACTIVITY_REMINDERS_CRON", default="* * * * *")
+
 CRONJOBS = [
-    ('* * * * *', 'django.core.management.call_command', ['check_expiring_rentals']),
-    ('* * * * *', 'django.core.management.call_command', ['scrape_gov_announcements']),
-    ('* * * * *', 'django.core.management.call_command', ['send_inactivity_reminders']),
+    (CHECK_EXPIRING_RENTALS_CRON, 'django.core.management.call_command', ['check_expiring_rentals']),
+    (SCRAPE_GOV_ANNOUNCEMENTS_CRON, 'django.core.management.call_command', ['scrape_gov_announcements']),
+    (SEND_INACTIVITY_REMINDERS_CRON, 'django.core.management.call_command', ['send_inactivity_reminders']),
 ]
 
 MIDDLEWARE = [
