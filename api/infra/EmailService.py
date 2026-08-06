@@ -8,7 +8,7 @@ def EmailService(template: str, subject: str, vars: dict, receivers: list[str]):
     if not config("MAILS_ENABLED", cast=bool, default=True):
         return
 
-    html_content = render_to_string(f"emails/{template}", vars)
+    html_content = render_to_string(f"{template}", vars)
 
     email_message = EmailMultiAlternatives(
         subject=subject,

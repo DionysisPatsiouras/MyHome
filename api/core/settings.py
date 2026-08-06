@@ -65,8 +65,6 @@ INSTALLED_APPS = [
 ]
 
 CRONJOBS = [
-
-    ('* * * * *', 'django.core.management.call_command', ['hello_cron']),
     ('* * * * *', 'django.core.management.call_command', ['check_expiring_rentals']),
     ('* * * * *', 'django.core.management.call_command', ['scrape_gov_announcements']),
 ]

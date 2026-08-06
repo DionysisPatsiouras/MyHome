@@ -67,7 +67,7 @@ def resetPassword(request):
     reset_request.save(update_fields=["used_at"])
 
     EmailService(
-        'reset_password_success.html', 
+        'auth/reset_password_success.html', 
         'Ο κωδικός σου άλλαξε - MyHome',
         {"first_name": user.first_name},
         [user.email]
@@ -114,7 +114,7 @@ def forgotPassword(request):
     reset_url = f"{config("FRONTEND_URL")}/reset-password?token={reset_request.token}&requestId={reset_request.id}"
 
     EmailService(
-        'reset_password.html', 
+        'auth/reset_password.html', 
         'Επαναφορά κωδικού πρόσβασης - MyHome',
         {"first_name": user.first_name, "reset_url": reset_url},
         [user.email]
@@ -172,7 +172,7 @@ def resendVerification(request):
     verify_url = f"{config("FRONTEND_URL")}/auth/verify?token={verify_request.token}&requestId={verify_request.id}"
 
     EmailService(
-        'verify_email.html',
+        'auth/verify_email.html',
         'Επιβεβαίωση email - MyHome',
         {"first_name": user.first_name, "verify_url": verify_url},
         [user.email]
@@ -245,7 +245,7 @@ def verifyEmail(request):
 
 
     EmailService(
-        'verify_success.html', 
+        'auth/verify_success.html', 
         'Το email σου επιβεβαιώθηκε - MyHome',
         {"first_name": user.first_name, "login_url": config("FRONTEND_LOGIN_URL")},
         [user.email]

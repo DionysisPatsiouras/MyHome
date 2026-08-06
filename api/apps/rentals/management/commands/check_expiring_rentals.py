@@ -9,43 +9,54 @@ from infra.EmailService import EmailService
 class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
-        target_date = date.today() + timedelta(days=5)
 
-        expiring_rentals = Rental.objects.filter(
+        target_date_week = date.today() + timedelta(days=7)
+        target_date_tomorrow = date.today() + timedelta(days=1)
+
+        expiring_rentals_week = Rental.objects.filter(
             is_deleted=False,
-            end_date=target_date,
+            end_date=target_date_week,
+        )
+        
+        expiring_rentals_tomorrow = Rental.objects.filter(
+                    is_deleted=False,
+                    end_date=target_date_tomorrow,
         )
 
-        if not expiring_rentals.exists():
-            print("No rentals expiring in 5 days.")
-            return
+        if not expiring_rentals_week.exists():
+            print("No rentals expiring in 7 days.")
+        else:
+            for rental in expiring_rentals_week:
+                owner_email = rental.residence.user.email
+                tenant_name = f"{rental.tenant.first_name} {rental.tenant.last_name}"
 
-        for rental in expiring_rentals:
-            owner_email = rental.residence.user.email
-
-            print(
-                f"Rental expiring in 5 days: ID {rental.id}, "
-                f"Residence {rental.residence.address}, "
-                f"Tenant {rental.tenant.first_name} {rental.tenant.last_name}, "
-                f"End date {rental.end_date}"
-            )
-
-            EmailService(
-                'verify_email.html', 
-                'Επιβεβαίωση email - MyHome',
-                {},
-                [owner_email]
-            )
+                EmailService(
+                    'rentals/rental_expiring_soon.html',
+                    f"Η μίσθωση λήγει σε 7 ημέρες - {rental.residence.address} {rental.residence.road_number}",
+                    {
+                        "address": f"{rental.residence.address} {rental.residence.road_number}",
+                        "tenant_name": tenant_name,
+                        "end_date": rental.end_date,
+                    },
+                    [owner_email]
+                )
 
 
-            send_mail(
-                subject=f"Rental expiring soon: {rental.residence.address}",
-                message=(
-                    f"The rental at {rental.residence.address} for tenant "
-                    f"{rental.tenant.first_name} {rental.tenant.last_name} "
-                    f"is expiring on {rental.end_date}."
-                ),
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[owner_email],
-                fail_silently=False,
-            )
+        if not expiring_rentals_tomorrow.exists():
+            print("No rentals expiring tomorrow.")
+        else:
+            for rental in expiring_rentals_tomorrow:
+                owner_email = rental.residence.user.email
+                tenant_name = f"{rental.tenant.first_name} {rental.tenant.last_name}"
+
+                EmailService(
+                    'rentals/rental_expiring_tomorrow.html',
+                    f"Η μίσθωση λήγει αύριο - {rental.residence.address} {rental.residence.road_number}",
+                    {
+                        "address": f"{rental.residence.address} {rental.residence.road_number}",
+                        "tenant_name": tenant_name,
+                        "end_date": rental.end_date,
+                    },
+                    [owner_email]
+                )
+

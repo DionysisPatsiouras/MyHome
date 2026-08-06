@@ -31,7 +31,7 @@ def changePassword(request):
 
 
     EmailService(
-        'password_changed.html',
+        'auth/password_changed.html',
         'Ο κωδικός πρόσβασης άλλαξε',
         {"first_name": user.first_name},
         [user.email]
@@ -108,7 +108,7 @@ def insert(request):
 
 
     EmailService(
-        'welcome.html', 
+        'auth/welcome.html', 
         'Καλώς ήρθατε στο MyHome',
         {"first_name": user.first_name},
         [user.email]
@@ -118,7 +118,7 @@ def insert(request):
     verify_url = f"{config("FRONTEND_URL")}/auth/verify?token={verify_request.token}&requestId={verify_request.id}"
 
     EmailService(
-        'verify_email.html', 
+        'auth/verify_email.html', 
         'Επιβεβαίωση email - MyHome',
         {"first_name": user.first_name, "verify_url": verify_url},
         [user.email]
