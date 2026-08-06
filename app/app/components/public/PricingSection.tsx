@@ -18,7 +18,7 @@ const plans = [
   },
   {
     name: 'Βασικό',
-    price: '4,99€',
+    price: '6,99€',
     period: '/μήνα',
     description: 'Ιδανικό για ιδιοκτήτες με λίγα ακίνητα υπό διαχείριση.',
     features: [
