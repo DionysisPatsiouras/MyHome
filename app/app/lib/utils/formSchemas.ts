@@ -28,9 +28,13 @@ export const SignUpFormSchema = z.object({
             { error: `Πρέπει να έχει τουλάχιστον ${Number(process.env.NEXT_PUBLIC_PASSWORD_LENGTH)} χαρακτήρες` })
         .trim(),
     confirm_password: z.string().trim(),
+    terms: z.boolean({ error: 'Υποχρεωτικό πεδίο' }),
 }).refine(data => data.password === data.confirm_password, {
     error: 'Οι κωδικοί δεν ταιριάζουν',
     path: ['confirm_password'],
+}).refine(data => data.terms === true, {
+    error: 'Πρέπει να αποδεχτείς τους όρους χρήσης',
+    path: ['terms'],
 })
 
 

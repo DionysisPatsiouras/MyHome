@@ -137,6 +137,13 @@ export default function SignIn() {
                         >
                             Σύνδεση
                         </Button>
+
+                        <Text ta="center" size="sm" c="dimmed">
+                            Δεν έχετε λογαριασμό?{' '}
+                            <Anchor component={Link} href="/auth/sign-up" size="sm" fw={500}>
+                                Εγγραφή
+                            </Anchor>
+                        </Text>
                     </Stack>
                 </Paper>
             </Box>

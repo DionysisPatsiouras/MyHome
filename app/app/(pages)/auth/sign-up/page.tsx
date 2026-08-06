@@ -3,6 +3,7 @@
 import { useState } from "react"
 import ControlledTextfield from "@/app/components/forms/ControlledTextfield"
 import ControlledDatePicker from "@/app/components/forms/ControlledDatePicker"
+import ControlledCheckbox from "@/app/components/forms/ControlledCheckbox"
 import { useForm } from "react-hook-form"
 import { useRouter } from "next/navigation"
 
@@ -25,6 +26,7 @@ interface FormData {
     email: string
     password: string
     confirm_password: string
+    terms: boolean
 }
 
 export default function SignUp() {
@@ -44,7 +46,8 @@ export default function SignUp() {
             email: 'dion.patsiouras@gmail.com',
             password: 'Password123!',
             confirm_password: 'Password123!',
-        } : undefined,
+            terms: true,
+        } : { terms: false },
     })
 
     const formProps = { control, errors, disabled: submitting }
@@ -129,6 +132,19 @@ export default function SignUp() {
                                 name="confirm_password"
                                 type="password"
                                 placeholder="••••••••"
+                                {...formProps}
+                            />
+
+                            <ControlledCheckbox
+                                name="terms"
+                                label={
+                                    <>
+                                        Έχω διαβάσει και αποδέχομαι τους{' '}
+                                        <Link href="/terms" target="_blank" className="text-blue-600 hover:text-blue-500 font-medium">
+                                            όρους χρήσης
+                                        </Link>
+                                    </>
+                                }
                                 {...formProps}
                             />
 
