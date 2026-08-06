@@ -1,72 +1,1690 @@
 [
     {
+        "model": "residences.prefecture",
+        "pk": 1,
+        "fields": {
+            "name": "Κεντρικός Τομέας Αθηνών",
+            "genitive_name": "Κεντρικού Τομέα Αθηνών"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 2,
+        "fields": {
+            "name": "Βόρειος Τομέας Αθηνών",
+            "genitive_name": "Βόρειου Τομέα Αθηνών"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 3,
+        "fields": {
+            "name": "Δυτικός Τομέας Αθηνών",
+            "genitive_name": "Δυτικού Τομέα Αθηνών"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 4,
+        "fields": {
+            "name": "Νότιος Τομέας Αθηνών",
+            "genitive_name": "Νότιου Τομέα Αθηνών"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 5,
+        "fields": {
+            "name": "Ανατολική Αττική",
+            "genitive_name": "Ανατολικής Αττικής"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 6,
+        "fields": {
+            "name": "Δυτική Αττική",
+            "genitive_name": "Δυτικής Αττικής"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 7,
+        "fields": {
+            "name": "Πειραιώς",
+            "genitive_name": "Πειραιώς"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 8,
+        "fields": {
+            "name": "Νήσων",
+            "genitive_name": "Νήσων"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 9,
+        "fields": {
+            "name": "Ημαθία",
+            "genitive_name": "Ημαθίας"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 10,
+        "fields": {
+            "name": "Θεσσαλονίκη",
+            "genitive_name": "Θεσσαλονίκης"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 11,
+        "fields": {
+            "name": "Κιλκίς",
+            "genitive_name": "Κιλκίς"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 12,
+        "fields": {
+            "name": "Πέλλα",
+            "genitive_name": "Πέλλας"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 13,
+        "fields": {
+            "name": "Πιερία",
+            "genitive_name": "Πιερίας"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 14,
+        "fields": {
+            "name": "Σέρρες",
+            "genitive_name": "Σερρών"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 15,
+        "fields": {
+            "name": "Χαλκιδική",
+            "genitive_name": "Χαλκιδικής"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 16,
+        "fields": {
+            "name": "Βοιωτία",
+            "genitive_name": "Βοιωτίας"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 17,
+        "fields": {
+            "name": "Εύβοια",
+            "genitive_name": "Εύβοιας"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 18,
+        "fields": {
+            "name": "Ευρυτανία",
+            "genitive_name": "Ευρυτανίας"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 19,
+        "fields": {
+            "name": "Φωκίδα",
+            "genitive_name": "Φωκίδας"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 20,
+        "fields": {
+            "name": "Φθιώτιδα",
+            "genitive_name": "Φθιώτιδας"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 21,
+        "fields": {
+            "name": "Χανιά",
+            "genitive_name": "Χανίων"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 22,
+        "fields": {
+            "name": "Ηράκλειο",
+            "genitive_name": "Ηρακλείου"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 23,
+        "fields": {
+            "name": "Λασίθι",
+            "genitive_name": "Λασιθίου"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 24,
+        "fields": {
+            "name": "Ρέθυμνο",
+            "genitive_name": "Ρεθύμνου"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 25,
+        "fields": {
+            "name": "Δράμα",
+            "genitive_name": "Δράμας"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 26,
+        "fields": {
+            "name": "Έβρος",
+            "genitive_name": "Έβρου"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 27,
+        "fields": {
+            "name": "Θάσος",
+            "genitive_name": "Θάσου"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 28,
+        "fields": {
+            "name": "Καβάλα",
+            "genitive_name": "Καβάλας"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 29,
+        "fields": {
+            "name": "Ξάνθη",
+            "genitive_name": "Ξάνθης"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 30,
+        "fields": {
+            "name": "Ροδόπη",
+            "genitive_name": "Ροδόπης"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 31,
+        "fields": {
+            "name": "Άρτα",
+            "genitive_name": "Άρτας"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 32,
+        "fields": {
+            "name": "Ιωάννινα",
+            "genitive_name": "Ιωαννίνων"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 33,
+        "fields": {
+            "name": "Πρέβεζα",
+            "genitive_name": "Πρέβεζας"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 34,
+        "fields": {
+            "name": "Θεσπρωτία",
+            "genitive_name": "Θεσπρωτίας"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 35,
+        "fields": {
+            "name": "Κέρκυρα",
+            "genitive_name": "Κέρκυρας"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 36,
+        "fields": {
+            "name": "Ιθάκη",
+            "genitive_name": "Ιθάκης"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 37,
+        "fields": {
+            "name": "Κεφαλληνία",
+            "genitive_name": "Κεφαλληνίας"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 38,
+        "fields": {
+            "name": "Λευκάδα",
+            "genitive_name": "Λευκάδας"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 39,
+        "fields": {
+            "name": "Ζάκυνθος",
+            "genitive_name": "Ζακύνθου"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 40,
+        "fields": {
+            "name": "Χίος",
+            "genitive_name": "Χίου"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 41,
+        "fields": {
+            "name": "Ικαρία",
+            "genitive_name": "Ικαρίας"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 42,
+        "fields": {
+            "name": "Λήμνος",
+            "genitive_name": "Λήμνου"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 43,
+        "fields": {
+            "name": "Λέσβος",
+            "genitive_name": "Λέσβου"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 44,
+        "fields": {
+            "name": "Σάμος",
+            "genitive_name": "Σάμου"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 45,
+        "fields": {
+            "name": "Αρκαδία",
+            "genitive_name": "Αρκαδίας"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 46,
+        "fields": {
+            "name": "Αργολίδα",
+            "genitive_name": "Αργολίδας"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 47,
+        "fields": {
+            "name": "Κορινθία",
+            "genitive_name": "Κορινθίας"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 48,
+        "fields": {
+            "name": "Λακωνία",
+            "genitive_name": "Λακωνίας"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 49,
+        "fields": {
+            "name": "Μεσσηνία",
+            "genitive_name": "Μεσσηνίας"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 50,
+        "fields": {
+            "name": "Άνδρος",
+            "genitive_name": "Άνδρου"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 51,
+        "fields": {
+            "name": "Κάλυμνος",
+            "genitive_name": "Καλύμνου"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 52,
+        "fields": {
+            "name": "Κάρπαθος-Κάσος",
+            "genitive_name": "Καρπάθου-Κάσου"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 53,
+        "fields": {
+            "name": "Κέα-Κύθνος",
+            "genitive_name": "Κέας-Κύθνου"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 54,
+        "fields": {
+            "name": "Κως",
+            "genitive_name": "Κω"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 55,
+        "fields": {
+            "name": "Μήλος",
+            "genitive_name": "Μήλου"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 56,
+        "fields": {
+            "name": "Μύκονος",
+            "genitive_name": "Μυκόνου"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 57,
+        "fields": {
+            "name": "Νάξος",
+            "genitive_name": "Νάξου"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 58,
+        "fields": {
+            "name": "Πάρος",
+            "genitive_name": "Πάρου"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 59,
+        "fields": {
+            "name": "Ρόδος",
+            "genitive_name": "Ρόδου"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 60,
+        "fields": {
+            "name": "Σύρος",
+            "genitive_name": "Σύρου"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 61,
+        "fields": {
+            "name": "Θήρα",
+            "genitive_name": "Θήρας"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 62,
+        "fields": {
+            "name": "Τήνος",
+            "genitive_name": "Τήνου"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 63,
+        "fields": {
+            "name": "Καρδίτσα",
+            "genitive_name": "Καρδίτσας"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 64,
+        "fields": {
+            "name": "Λάρισα",
+            "genitive_name": "Λάρισας"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 65,
+        "fields": {
+            "name": "Μαγνησία",
+            "genitive_name": "Μαγνησίας"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 66,
+        "fields": {
+            "name": "Σποράδες",
+            "genitive_name": "Σποράδων"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 67,
+        "fields": {
+            "name": "Τρίκαλα",
+            "genitive_name": "Τρικάλων"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 68,
+        "fields": {
+            "name": "Αχαΐα",
+            "genitive_name": "Αχαΐας"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 69,
+        "fields": {
+            "name": "Αιτωλοακαρνανία",
+            "genitive_name": "Αιτωλοακαρνανίας"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 70,
+        "fields": {
+            "name": "Ηλεία",
+            "genitive_name": "Ηλείας"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 71,
+        "fields": {
+            "name": "Φλώρινα",
+            "genitive_name": "Φλώρινας"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 72,
+        "fields": {
+            "name": "Γρεβενά",
+            "genitive_name": "Γρεβενών"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 73,
+        "fields": {
+            "name": "Καστοριά",
+            "genitive_name": "Καστοριάς"
+        }
+    },
+    {
+        "model": "residences.prefecture",
+        "pk": 74,
+        "fields": {
+            "name": "Κοζάνη",
+            "genitive_name": "Κοζάνης"
+        }
+    },
+    {
         "model": "residences.city",
         "pk": 1,
         "fields": {
-            "name": "Αθήνα"
+            "name": "Αθήνα",
+            "prefecture": 1
         }
     },
     {
         "model": "residences.city",
         "pk": 2,
         "fields": {
-            "name": "Θεσσαλονίκη"
+            "name": "Θεσσαλονίκη",
+            "prefecture": 10
         }
     },
     {
         "model": "residences.city",
         "pk": 3,
         "fields": {
-            "name": "Πάτρα"
+            "name": "Πάτρα",
+            "prefecture": 68
         }
     },
     {
         "model": "residences.city",
         "pk": 4,
         "fields": {
-            "name": "Ηράκλειο"
+            "name": "Ηράκλειο",
+            "prefecture": 22
         }
     },
     {
         "model": "residences.city",
         "pk": 5,
         "fields": {
-            "name": "Λάρισα"
+            "name": "Λάρισα",
+            "prefecture": 64
         }
     },
     {
         "model": "residences.city",
         "pk": 6,
         "fields": {
-            "name": "Βόλος"
+            "name": "Βόλος",
+            "prefecture": 65
         }
     },
     {
         "model": "residences.city",
         "pk": 7,
         "fields": {
-            "name": "Ιωάννινα"
+            "name": "Ιωάννινα",
+            "prefecture": 32
         }
     },
     {
         "model": "residences.city",
         "pk": 8,
         "fields": {
-            "name": "Καβάλα"
+            "name": "Καβάλα",
+            "prefecture": 28
         }
     },
     {
         "model": "residences.city",
         "pk": 9,
         "fields": {
-            "name": "Χανιά"
+            "name": "Χανιά",
+            "prefecture": 21
         }
     },
     {
         "model": "residences.city",
         "pk": 10,
         "fields": {
-            "name": "Καλαμάτα"
+            "name": "Καλαμάτα",
+            "prefecture": 49
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 11,
+        "fields": {
+            "name": "Ζωγράφου",
+            "prefecture": 1
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 12,
+        "fields": {
+            "name": "Καισαριανή",
+            "prefecture": 1
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 13,
+        "fields": {
+            "name": "Βύρωνας",
+            "prefecture": 1
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 14,
+        "fields": {
+            "name": "Μαρούσι",
+            "prefecture": 2
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 15,
+        "fields": {
+            "name": "Κηφισιά",
+            "prefecture": 2
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 16,
+        "fields": {
+            "name": "Χαλάνδρι",
+            "prefecture": 2
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 17,
+        "fields": {
+            "name": "Αγία Παρασκευή",
+            "prefecture": 2
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 18,
+        "fields": {
+            "name": "Περιστέρι",
+            "prefecture": 3
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 19,
+        "fields": {
+            "name": "Αιγάλεω",
+            "prefecture": 3
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 20,
+        "fields": {
+            "name": "Ίλιον",
+            "prefecture": 3
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 21,
+        "fields": {
+            "name": "Πετρούπολη",
+            "prefecture": 3
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 22,
+        "fields": {
+            "name": "Καλλιθέα",
+            "prefecture": 4
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 23,
+        "fields": {
+            "name": "Νέα Σμύρνη",
+            "prefecture": 4
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 24,
+        "fields": {
+            "name": "Γλυφάδα",
+            "prefecture": 4
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 25,
+        "fields": {
+            "name": "Άλιμος",
+            "prefecture": 4
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 26,
+        "fields": {
+            "name": "Μαραθώνας",
+            "prefecture": 5
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 27,
+        "fields": {
+            "name": "Ραφήνα",
+            "prefecture": 5
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 28,
+        "fields": {
+            "name": "Σπάτα",
+            "prefecture": 5
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 29,
+        "fields": {
+            "name": "Λαύριο",
+            "prefecture": 5
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 30,
+        "fields": {
+            "name": "Ελευσίνα",
+            "prefecture": 6
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 31,
+        "fields": {
+            "name": "Μέγαρα",
+            "prefecture": 6
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 32,
+        "fields": {
+            "name": "Μάνδρα",
+            "prefecture": 6
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 33,
+        "fields": {
+            "name": "Πειραιάς",
+            "prefecture": 7
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 34,
+        "fields": {
+            "name": "Κερατσίνι",
+            "prefecture": 7
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 35,
+        "fields": {
+            "name": "Νίκαια",
+            "prefecture": 7
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 36,
+        "fields": {
+            "name": "Σαλαμίνα",
+            "prefecture": 8
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 37,
+        "fields": {
+            "name": "Αίγινα",
+            "prefecture": 8
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 38,
+        "fields": {
+            "name": "Ύδρα",
+            "prefecture": 8
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 39,
+        "fields": {
+            "name": "Σπέτσες",
+            "prefecture": 8
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 40,
+        "fields": {
+            "name": "Βέροια",
+            "prefecture": 9
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 41,
+        "fields": {
+            "name": "Νάουσα",
+            "prefecture": 9
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 42,
+        "fields": {
+            "name": "Αλεξάνδρεια",
+            "prefecture": 9
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 43,
+        "fields": {
+            "name": "Καλαμαριά",
+            "prefecture": 10
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 44,
+        "fields": {
+            "name": "Κιλκίς",
+            "prefecture": 11
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 45,
+        "fields": {
+            "name": "Έδεσσα",
+            "prefecture": 12
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 46,
+        "fields": {
+            "name": "Γιαννιτσά",
+            "prefecture": 12
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 47,
+        "fields": {
+            "name": "Κατερίνη",
+            "prefecture": 13
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 48,
+        "fields": {
+            "name": "Λιτόχωρο",
+            "prefecture": 13
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 49,
+        "fields": {
+            "name": "Σέρρες",
+            "prefecture": 14
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 50,
+        "fields": {
+            "name": "Πολύγυρος",
+            "prefecture": 15
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 51,
+        "fields": {
+            "name": "Νέα Μουδανιά",
+            "prefecture": 15
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 52,
+        "fields": {
+            "name": "Κασσάνδρεια",
+            "prefecture": 15
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 53,
+        "fields": {
+            "name": "Λιβαδειά",
+            "prefecture": 16
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 54,
+        "fields": {
+            "name": "Θήβα",
+            "prefecture": 16
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 55,
+        "fields": {
+            "name": "Χαλκίδα",
+            "prefecture": 17
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 56,
+        "fields": {
+            "name": "Κύμη",
+            "prefecture": 17
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 57,
+        "fields": {
+            "name": "Κάρυστος",
+            "prefecture": 17
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 58,
+        "fields": {
+            "name": "Καρπενήσι",
+            "prefecture": 18
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 59,
+        "fields": {
+            "name": "Άμφισσα",
+            "prefecture": 19
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 60,
+        "fields": {
+            "name": "Δελφοί",
+            "prefecture": 19
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 61,
+        "fields": {
+            "name": "Ιτέα",
+            "prefecture": 19
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 62,
+        "fields": {
+            "name": "Λαμία",
+            "prefecture": 20
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 63,
+        "fields": {
+            "name": "Στυλίδα",
+            "prefecture": 20
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 64,
+        "fields": {
+            "name": "Κίσσαμος",
+            "prefecture": 21
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 65,
+        "fields": {
+            "name": "Αρχάνες",
+            "prefecture": 22
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 66,
+        "fields": {
+            "name": "Άγιος Νικόλαος",
+            "prefecture": 23
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 67,
+        "fields": {
+            "name": "Ιεράπετρα",
+            "prefecture": 23
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 68,
+        "fields": {
+            "name": "Σητεία",
+            "prefecture": 23
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 69,
+        "fields": {
+            "name": "Ρέθυμνο",
+            "prefecture": 24
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 70,
+        "fields": {
+            "name": "Δράμα",
+            "prefecture": 25
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 71,
+        "fields": {
+            "name": "Αλεξανδρούπολη",
+            "prefecture": 26
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 72,
+        "fields": {
+            "name": "Ορεστιάδα",
+            "prefecture": 26
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 73,
+        "fields": {
+            "name": "Διδυμότειχο",
+            "prefecture": 26
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 74,
+        "fields": {
+            "name": "Θάσος",
+            "prefecture": 27
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 75,
+        "fields": {
+            "name": "Ξάνθη",
+            "prefecture": 29
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 76,
+        "fields": {
+            "name": "Κομοτηνή",
+            "prefecture": 30
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 77,
+        "fields": {
+            "name": "Άρτα",
+            "prefecture": 31
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 78,
+        "fields": {
+            "name": "Μέτσοβο",
+            "prefecture": 32
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 79,
+        "fields": {
+            "name": "Πρέβεζα",
+            "prefecture": 33
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 80,
+        "fields": {
+            "name": "Ηγουμενίτσα",
+            "prefecture": 34
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 81,
+        "fields": {
+            "name": "Κέρκυρα",
+            "prefecture": 35
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 82,
+        "fields": {
+            "name": "Ιθάκη",
+            "prefecture": 36
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 83,
+        "fields": {
+            "name": "Αργοστόλι",
+            "prefecture": 37
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 84,
+        "fields": {
+            "name": "Ληξούρι",
+            "prefecture": 37
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 85,
+        "fields": {
+            "name": "Λευκάδα",
+            "prefecture": 38
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 86,
+        "fields": {
+            "name": "Ζάκυνθος",
+            "prefecture": 39
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 87,
+        "fields": {
+            "name": "Χίος",
+            "prefecture": 40
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 88,
+        "fields": {
+            "name": "Άγιος Κήρυκος",
+            "prefecture": 41
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 89,
+        "fields": {
+            "name": "Μύρινα",
+            "prefecture": 42
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 90,
+        "fields": {
+            "name": "Μυτιλήνη",
+            "prefecture": 43
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 91,
+        "fields": {
+            "name": "Πλωμάρι",
+            "prefecture": 43
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 92,
+        "fields": {
+            "name": "Καλλονή",
+            "prefecture": 43
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 93,
+        "fields": {
+            "name": "Σάμος",
+            "prefecture": 44
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 94,
+        "fields": {
+            "name": "Καρλόβασι",
+            "prefecture": 44
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 95,
+        "fields": {
+            "name": "Τρίπολη",
+            "prefecture": 45
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 96,
+        "fields": {
+            "name": "Μεγαλόπολη",
+            "prefecture": 45
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 97,
+        "fields": {
+            "name": "Ναύπλιο",
+            "prefecture": 46
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 98,
+        "fields": {
+            "name": "Άργος",
+            "prefecture": 46
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 99,
+        "fields": {
+            "name": "Κόρινθος",
+            "prefecture": 47
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 100,
+        "fields": {
+            "name": "Λουτράκι",
+            "prefecture": 47
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 101,
+        "fields": {
+            "name": "Σπάρτη",
+            "prefecture": 48
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 102,
+        "fields": {
+            "name": "Γύθειο",
+            "prefecture": 48
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 103,
+        "fields": {
+            "name": "Κυπαρισσία",
+            "prefecture": 49
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 104,
+        "fields": {
+            "name": "Άνδρος",
+            "prefecture": 50
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 105,
+        "fields": {
+            "name": "Πόθια",
+            "prefecture": 51
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 106,
+        "fields": {
+            "name": "Κάρπαθος",
+            "prefecture": 52
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 107,
+        "fields": {
+            "name": "Κάσος",
+            "prefecture": 52
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 108,
+        "fields": {
+            "name": "Κέα",
+            "prefecture": 53
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 109,
+        "fields": {
+            "name": "Κύθνος",
+            "prefecture": 53
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 110,
+        "fields": {
+            "name": "Κως",
+            "prefecture": 54
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 111,
+        "fields": {
+            "name": "Αδάμαντας",
+            "prefecture": 55
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 112,
+        "fields": {
+            "name": "Μύκονος",
+            "prefecture": 56
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 113,
+        "fields": {
+            "name": "Νάξος",
+            "prefecture": 57
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 114,
+        "fields": {
+            "name": "Παροικιά",
+            "prefecture": 58
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 115,
+        "fields": {
+            "name": "Ρόδος",
+            "prefecture": 59
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 116,
+        "fields": {
+            "name": "Ερμούπολη",
+            "prefecture": 60
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 117,
+        "fields": {
+            "name": "Φηρά",
+            "prefecture": 61
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 118,
+        "fields": {
+            "name": "Τήνος",
+            "prefecture": 62
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 119,
+        "fields": {
+            "name": "Καρδίτσα",
+            "prefecture": 63
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 120,
+        "fields": {
+            "name": "Τύρναβος",
+            "prefecture": 64
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 121,
+        "fields": {
+            "name": "Νέα Ιωνία",
+            "prefecture": 65
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 122,
+        "fields": {
+            "name": "Σκιάθος",
+            "prefecture": 66
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 123,
+        "fields": {
+            "name": "Σκόπελος",
+            "prefecture": 66
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 124,
+        "fields": {
+            "name": "Αλόννησος",
+            "prefecture": 66
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 125,
+        "fields": {
+            "name": "Τρίκαλα",
+            "prefecture": 67
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 126,
+        "fields": {
+            "name": "Καλαμπάκα",
+            "prefecture": 67
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 127,
+        "fields": {
+            "name": "Αίγιο",
+            "prefecture": 68
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 128,
+        "fields": {
+            "name": "Αγρίνιο",
+            "prefecture": 69
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 129,
+        "fields": {
+            "name": "Μεσολόγγι",
+            "prefecture": 69
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 130,
+        "fields": {
+            "name": "Πύργος",
+            "prefecture": 70
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 131,
+        "fields": {
+            "name": "Αμαλιάδα",
+            "prefecture": 70
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 132,
+        "fields": {
+            "name": "Ζαχάρω",
+            "prefecture": 70
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 133,
+        "fields": {
+            "name": "Φλώρινα",
+            "prefecture": 71
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 134,
+        "fields": {
+            "name": "Γρεβενά",
+            "prefecture": 72
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 135,
+        "fields": {
+            "name": "Καστοριά",
+            "prefecture": 73
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 136,
+        "fields": {
+            "name": "Κοζάνη",
+            "prefecture": 74
+        }
+    },
+    {
+        "model": "residences.city",
+        "pk": 137,
+        "fields": {
+            "name": "Πτολεμαΐδα",
+            "prefecture": 74
         }
     },
     {

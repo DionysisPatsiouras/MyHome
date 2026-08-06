@@ -11,5 +11,6 @@ urlpatterns = [
     path("<uuid:id>", views.record), # GET, PATCH, DELETE
     path("types", views.retrieveTypes),
     path("cities", views.retrieveCities),
+    path("prefectures", views.retrievePrefectures),
 ]
 

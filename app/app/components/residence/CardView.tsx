@@ -57,7 +57,7 @@ export default function CardView({ residences }: CardViewProps) {
                                 <Group gap={4} c="dimmed" mt={4}>
                                     <IconMapPin size={14} />
                                     <Text size="sm" c="dimmed">
-                                        {residence.city.name}
+                                        {[residence.city.name, residence.city.prefecture && `Νομός ${residence.city.prefecture.genitive_name}`].filter(Boolean).join(', ')}
                                     </Text>
                                 </Group>
                             )}

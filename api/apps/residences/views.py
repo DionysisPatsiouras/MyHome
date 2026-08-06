@@ -32,3 +32,8 @@ def retrieveTypes(request):
 @api_view(["GET"])
 def retrieveCities(request):
     return retrieveAll(City, CitySerializer)
+
+
+@api_view(["GET"])
+def retrievePrefectures(request):
+    return retrieveAll(Prefecture, PrefectureSerializer)

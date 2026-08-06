@@ -12,9 +12,20 @@ from tenants.models import *
 from users.models import CustomUser
 
 
+class Prefecture(models.Model):
+
+    name = models.CharField(max_length=200, null=False, unique=True)
+    genitive_name = models.CharField(max_length=200, null=False)
+
+    class Meta:
+        db_table = "prefectures"
+        ordering = ["name"]
+
+
 class City(models.Model):
 
     name = models.CharField(max_length=200, null=False)
+    prefecture = models.ForeignKey(Prefecture, on_delete=models.PROTECT, null=True, related_name="cities")
 
     class Meta:
         db_table = "cities"

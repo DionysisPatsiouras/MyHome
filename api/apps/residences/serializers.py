@@ -10,7 +10,20 @@ class ResidenceTypeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class PrefectureSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Prefecture
+        fields = '__all__'
+
+
 class CitySerializer(serializers.ModelSerializer):
+
+    prefecture = PrefectureSerializer(many=False, read_only=True)
+
+    prefecture_id = serializers.PrimaryKeyRelatedField(
+        queryset=Prefecture.objects.all(), source='prefecture', write_only=True, required=True
+    )
 
     class Meta:
         model = City

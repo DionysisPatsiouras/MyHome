@@ -107,7 +107,7 @@ export default function ResidenceHeader() {
                         <Group gap={4} c="dimmed">
                             <IconMapPin size={14} />
                             <Text size="sm">
-                                {[residence.city?.name, residence.zip_code && `ΤΚ ${residence.zip_code}`].filter(Boolean).join(' · ')}
+                                {[residence.city?.name, residence.city?.prefecture && `Νομός ${residence.city.prefecture.genitive_name}`, residence.zip_code && `ΤΚ ${residence.zip_code}`].filter(Boolean).join(' · ')}
                             </Text>
                         </Group>
                     )}

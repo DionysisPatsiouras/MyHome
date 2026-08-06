@@ -12,9 +12,16 @@ export interface ResidenceType {
     name: string
 }
 
+export interface Prefecture {
+    id: number
+    name: string
+    genitive_name: string
+}
+
 export interface City {
     id: number
     name: string
+    prefecture?: Prefecture
 }
 
 export interface TechnicianType {

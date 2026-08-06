@@ -15,6 +15,7 @@ import {
     Group,
     NumberInput,
     Paper,
+    Select,
     SimpleGrid,
     Skeleton,
     Stack,
@@ -45,7 +46,7 @@ import { useFetch } from '@/app/lib/hooks/useFetch'
 import { useCRUD } from '@/app/lib/hooks/useCRUD'
 import { Routes } from '@/app/lib/Routes'
 import { getCurrentUserId } from '@/app/lib/utils/auth'
-import type { City, ResidenceType } from '@/app/lib/types'
+import type { City, Prefecture, ResidenceType } from '@/app/lib/types'
 import { ENERGY_CLASSES, FLOOR_OPTIONS } from '@/app/lib/constants/ResidenceOptions'
 import SectionTitle from '@/app/components/layout/SectionTitle'
 
@@ -80,16 +81,21 @@ export default function NewResidence() {
     const { POST } = useCRUD()
 
     const { data: residenceTypes, loading: loadingTypes } = useFetch(Routes('residences/types').list)
+    const { data: prefectures, loading: loadingPrefectures } = useFetch(Routes('residences/prefectures').list)
     const { data: cities, loading: loadingCities } = useFetch(Routes('residences/cities').list)
 
     const [submitError, setSubmitError] = useState(false)
     const [submitting, setSubmitting] = useState(false)
+    const [selectedPrefectureId, setSelectedPrefectureId] = useState<number | null>(null)
 
-
+    const citiesForPrefecture = (cities ?? []).filter(
+        (city: City) => selectedPrefectureId == null || city.prefecture?.id === selectedPrefectureId
+    )
 
     const {
         control,
         handleSubmit,
+        setValue,
         formState: { errors },
     } = useForm<NewResidenceFormValues>({
         resolver: zodResolver(NewResidenceSchema),
@@ -190,13 +196,26 @@ export default function NewResidence() {
                             label="Αριθμός"
                             placeholder="π.χ. 12"
                         />
+                        <Select
+                            label="Νομός"
+                            placeholder="Επιλέξτε νομό"
+                            data={(prefectures ?? []).map((prefecture: Prefecture) => ({ value: String(prefecture.id), label: prefecture.name }))}
+                            disabled={loadingPrefectures}
+                            value={selectedPrefectureId ? String(selectedPrefectureId) : null}
+                            onChange={(value) => {
+                                setSelectedPrefectureId(value ? Number(value) : null)
+                                setValue('city_id', undefined as any)
+                            }}
+                            searchable
+                            clearable
+                        />
                         <ControlledSelect
                             name="city_id"
                             {...formProps}
                             label="Πόλη"
-                            placeholder="Επιλέξτε πόλη"
-                            data={(cities ?? []).map((city: City) => ({ value: String(city.id), label: city.name }))}
-                            disabled={loadingCities}
+                            placeholder={selectedPrefectureId ? "Επιλέξτε πόλη" : "Επιλέξτε πρώτα νομό"}
+                            data={citiesForPrefecture.map((city: City) => ({ value: String(city.id), label: city.name }))}
+                            disabled={loadingCities || !selectedPrefectureId}
                             valueAsNumber
                             searchable
                             clearable

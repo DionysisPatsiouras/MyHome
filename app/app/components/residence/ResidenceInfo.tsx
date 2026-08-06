@@ -34,6 +34,7 @@ export default function ResidenceInfo() {
             <InfoRow label="Διεύθυνση" value={`${residence.address} ${residence.road_number}`} />
             <InfoRow label="Τύπος" value={residence.residenceType?.name} />
             <InfoRow label="Πόλη" value={residence.city?.name} />
+            <InfoRow label="Νομός" value={residence.city?.prefecture?.name} />
             <InfoRow label="ΤΚ" value={residence.zip_code} />
             <InfoRow label="Όροφος" value={residence.floor} />
             <InfoRow label="Διαμέρισμα" value={residence.flat_number} />
