@@ -1,6 +1,6 @@
 import { IconBuildingEstate, IconHome2, IconMapPin, IconTool, IconUsers } from '@tabler/icons-react'
 
-const sidebarItems = [
+const navItems = [
   { icon: IconHome2, active: true },
   { icon: IconBuildingEstate, active: false },
   { icon: IconTool, active: false },
@@ -15,33 +15,18 @@ const propertyCards = [
 
 export function AppMockup() {
   return (
-    <div className="w-full max-w-md overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl shadow-blue-500/10 dark:border-zinc-800 dark:bg-zinc-900">
-      <div className="flex items-center gap-2 border-b border-zinc-100 px-4 py-3 dark:border-zinc-800">
-        <span className="h-2.5 w-2.5 rounded-full bg-red-400" />
-        <span className="h-2.5 w-2.5 rounded-full bg-yellow-400" />
-        <span className="h-2.5 w-2.5 rounded-full bg-green-400" />
-        <div className="ml-3 flex-1 rounded-md bg-zinc-100 px-3 py-1 text-[11px] text-zinc-400 dark:bg-zinc-800">
-          myhome.app/dashboard
-        </div>
-      </div>
+    <div className="relative mx-auto h-[600px] w-[300px] rounded-[2.75rem] border-[6px] border-zinc-900 bg-zinc-900 shadow-2xl shadow-blue-500/10 dark:border-zinc-700">
+      <div className="absolute left-1/2 top-0 z-10 h-6 w-32 -translate-x-1/2 rounded-b-2xl bg-zinc-900 dark:bg-zinc-700" />
 
-      <div className="flex">
-        <div className="flex w-12 flex-col items-center gap-3 border-r border-zinc-100 py-4 dark:border-zinc-800">
-          {sidebarItems.map(({ icon: Icon, active }, i) => (
-            <div
-              key={i}
-              className={`grid h-8 w-8 place-items-center rounded-lg ${
-                active
-                  ? 'bg-blue-500 text-white'
-                  : 'text-zinc-400 dark:text-zinc-500'
-              }`}
-            >
-              <Icon size={16} />
-            </div>
-          ))}
+      <div className="flex h-full w-full flex-col overflow-hidden rounded-[2.25rem] bg-white dark:bg-zinc-900">
+        <div className="flex items-center justify-between px-6 pb-1 pt-3 text-[11px] font-medium text-zinc-900 dark:text-zinc-100">
+          <span>9:41</span>
+          <div className="flex items-center gap-1">
+            <span className="h-2 w-3.5 rounded-[2px] border border-zinc-900 dark:border-zinc-100" />
+          </div>
         </div>
 
-        <div className="flex-1 space-y-3 p-4">
+        <div className="space-y-3 px-4 pt-2">
           <div className="space-y-1">
             <div className="h-2.5 w-24 rounded bg-zinc-800 dark:bg-zinc-200" />
             <div className="h-2 w-16 rounded bg-zinc-200 dark:bg-zinc-700" />
@@ -57,7 +42,7 @@ export function AppMockup() {
                   <div className="grid h-7 w-7 place-items-center rounded-md bg-blue-100 text-blue-600 dark:bg-blue-500/20 dark:text-blue-300">
                     <IconBuildingEstate size={14} />
                   </div>
-                  <div className="h-2 w-24 rounded bg-zinc-300 dark:bg-zinc-600" />
+                  <div className="h-2 w-20 rounded bg-zinc-300 dark:bg-zinc-600" />
                 </div>
                 <span className="rounded-full bg-white px-2 py-0.5 text-[10px] font-medium text-zinc-500 shadow-sm dark:bg-zinc-900 dark:text-zinc-400">
                   {p.tag}
@@ -70,6 +55,21 @@ export function AppMockup() {
             <IconMapPin size={14} />
             <div className="h-2 w-32 rounded bg-zinc-200 dark:bg-zinc-700" />
           </div>
+        </div>
+
+        <div className="mt-auto flex items-center justify-around border-t border-zinc-100 py-3 dark:border-zinc-800">
+          {navItems.map(({ icon: Icon, active }, i) => (
+            <div
+              key={i}
+              className={`grid h-8 w-8 place-items-center rounded-lg ${
+                active
+                  ? 'bg-blue-500 text-white'
+                  : 'text-zinc-400 dark:text-zinc-500'
+              }`}
+            >
+              <Icon size={16} />
+            </div>
+          ))}
         </div>
       </div>
     </div>

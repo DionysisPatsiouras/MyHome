@@ -2,6 +2,8 @@ import Link from "next/link"
 import { Badge, Button, Container, Grid, Group, Stack, Text, Title } from '@mantine/core'
 import { IconArrowRight } from '@tabler/icons-react'
 import { AppMockup } from '../illustrations/AppMockup'
+import { DesktopMockup } from '../illustrations/DesktopMockup'
+import { AppStoreBadge, GooglePlayBadge } from '../illustrations/StoreBadges'
 
 export function HeroSection() {
   return (
@@ -69,13 +71,21 @@ export function HeroSection() {
                   Σύνδεση
                 </Button>
               </Group>
+
+              <Group mt="xs">
+                <AppStoreBadge href="https://apps.apple.com/app/REPLACE_WITH_APP_ID" />
+                <GooglePlayBadge href="https://play.google.com/store/apps/details?id=REPLACE_WITH_PACKAGE_ID" />
+              </Group>
             </Stack>
           </Grid.Col>
 
           <Grid.Col span={{ base: 12, md: 6 }}>
-            <Group justify="center">
-              <AppMockup />
-            </Group>
+            <div className="relative mx-auto flex justify-center py-6 pl-6 sm:pl-10">
+              <DesktopMockup />
+              <div className="absolute -bottom-6 -right-2 hidden sm:block sm:scale-[0.5] sm:origin-bottom-right">
+                <AppMockup />
+              </div>
+            </div>
           </Grid.Col>
         </Grid>
       </Container>
