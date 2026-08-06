@@ -43,6 +43,12 @@
       "type": "shell",
       "command": "python3 manage.py crontab add",
       "options": { "cwd": "${workspaceFolder}/api" }
+    },
+    {
+      "label": "Cron Tab show",
+      "type": "shell",
+      "command": "python3 manage.py crontab show",
+      "options": { "cwd": "${workspaceFolder}/api" }
     }
   ]
 }

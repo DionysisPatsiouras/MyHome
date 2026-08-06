@@ -4,6 +4,7 @@ from django.core.mail import send_mail
 from django.core.management.base import BaseCommand
 from rentals.models import Rental
 
+from infra.EmailService import EmailService
 
 class Command(BaseCommand):
 
@@ -28,6 +29,14 @@ class Command(BaseCommand):
                 f"Tenant {rental.tenant.first_name} {rental.tenant.last_name}, "
                 f"End date {rental.end_date}"
             )
+
+            EmailService(
+                'verify_email.html', 
+                'Επιβεβαίωση email - MyHome',
+                {},
+                [owner_email]
+            )
+
 
             send_mail(
                 subject=f"Rental expiring soon: {rental.residence.address}",
