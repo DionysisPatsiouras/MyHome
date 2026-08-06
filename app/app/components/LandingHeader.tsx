@@ -20,9 +20,9 @@ import {
 } from '@tabler/icons-react'
 
 const navLinks = [
-  { label: 'Λειτουργίες', href: '#features' },
-  { label: 'Πώς λειτουργεί', href: '#how-it-works' },
-  { label: 'Τιμές', href: '#pricing' },
+  { label: 'Λειτουργίες', href: '/#features' },
+  { label: 'Πώς λειτουργεί', href: '/#how-it-works' },
+  { label: 'Τιμές', href: '/#pricing' },
 ]
 
 export function LandingHeader() {

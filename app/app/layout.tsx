@@ -68,9 +68,9 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       {...mantineHtmlProps}
     >
-      <head>
+      {/* <head>
         <ColorSchemeScript />
-      </head>
+      </head> */}
 
       <body className="min-h-full flex flex-col">
         <AppMantineProvider>

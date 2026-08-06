@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link'
 import { Container, Group, SimpleGrid, Stack, Text, ThemeIcon } from '@mantine/core'
 import { IconBuildingEstate, IconMail } from '@tabler/icons-react'
@@ -78,6 +80,15 @@ export function LandingFooter() {
         <Group justify="space-between" mt={48} pt="lg" className="border-t border-zinc-200 dark:border-zinc-800">
           <Text size="xs" c="dimmed">
             © {new Date().getFullYear()} MyHome. Με επιφύλαξη παντός δικαιώματος.
+          </Text>
+          <Text
+            component={Link}
+            href="/terms"
+            size="xs"
+            c="dimmed"
+            className="hover:!text-blue-500 transition-colors"
+          >
+            Όροι Χρήσης
           </Text>
         </Group>
       </Container>
