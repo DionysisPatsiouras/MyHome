@@ -14,9 +14,10 @@ import {
     Text,
     Title,
 } from '@mantine/core'
-import { IconMail, IconUser } from '@tabler/icons-react'
+import { IconCalendar, IconMail, IconUser } from '@tabler/icons-react'
 
 import ControlledTextfield from '@/app/components/forms/ControlledTextfield'
+import ControlledDatePicker from '@/app/components/forms/ControlledDatePicker'
 import { AccountDetailsSchema, type AccountDetailsFormValues } from '@/app/lib/utils/formSchemas'
 import { useFetch } from '@/app/lib/hooks/useFetch'
 import { useCRUD } from '@/app/lib/hooks/useCRUD'
@@ -47,6 +48,7 @@ export default function Account() {
         reset({
             first_name: fetchedUser.first_name,
             last_name: fetchedUser.last_name,
+            birthdate: fetchedUser.birthdate,
             email: fetchedUser.email,
         })
     }, [user, reset])
@@ -105,6 +107,14 @@ export default function Account() {
                             label="Επώνυμο"
                             placeholder="π.χ. Παπαδόπουλος"
                             leftSection={<IconUser size={14} />}
+                        />
+                        <ControlledDatePicker
+                            name="birthdate"
+                            {...formProps}
+                            label="Ημερομηνία γέννησης"
+                            placeholder="Επιλέξτε ημερομηνία"
+                            leftSection={<IconCalendar size={14} />}
+                            maxDate={new Date()}
                         />
                     </SimpleGrid>
 

@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import ControlledTextfield from "@/app/components/forms/ControlledTextfield"
+import ControlledDatePicker from "@/app/components/forms/ControlledDatePicker"
 import { useForm } from "react-hook-form"
 import { useRouter } from "next/navigation"
 
@@ -11,7 +12,7 @@ import { useCRUD } from "@/app/lib/hooks/useCRUD"
 import { Routes } from "@/app/lib/Routes"
 
 import { Button } from "@mantine/core"
-import { IconBuildingEstate } from "@tabler/icons-react"
+import { IconBuildingEstate, IconCalendar } from "@tabler/icons-react"
 import { AppMockup } from "@/app/components/illustrations/AppMockup"
 
 import Link from "next/link"
@@ -20,6 +21,7 @@ import Link from "next/link"
 interface FormData {
     first_name: string
     last_name: string
+    birthdate: string
     email: string
     password: string
     confirm_password: string
@@ -38,6 +40,7 @@ export default function SignUp() {
         defaultValues: process.env.NODE_ENV === 'development' ? {
             first_name: 'Dionysis',
             last_name: 'Patsiouras',
+            birthdate: '1990-01-01',
             email: 'dion.patsiouras@gmail.com',
             password: 'Password123!',
             confirm_password: 'Password123!',
@@ -98,6 +101,14 @@ export default function SignUp() {
                                 label="Επώνυμο"
                                 name="last_name"
                                 placeholder="Παπαδόπουλος"
+                                {...formProps}
+                            />
+                            <ControlledDatePicker
+                                label="Ημερομηνία γέννησης"
+                                name="birthdate"
+                                placeholder="Επιλέξτε ημερομηνία"
+                                leftSection={<IconCalendar size={14} />}
+                                maxDate={new Date()}
                                 {...formProps}
                             />
                             <ControlledTextfield

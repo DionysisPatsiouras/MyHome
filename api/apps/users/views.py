@@ -14,7 +14,7 @@ from decouple import config
 from infra.Helpers import *
 
 
-_UPDATABLE_PROFILE_FIELDS = ("first_name", "last_name")
+_UPDATABLE_PROFILE_FIELDS = ("first_name", "last_name", "birthdate")
 
 @api_view(["POST"])
 def changePassword(request):

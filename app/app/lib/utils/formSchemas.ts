@@ -20,6 +20,7 @@ export const SignInFormSchema = z.object({
 export const SignUpFormSchema = z.object({
     first_name: z.string({ error: 'Υποχρεωτικό πεδίο' }).min(1, { error: 'Υποχρεωτικό πεδίο' }).trim(),
     last_name: z.string({ error: 'Υποχρεωτικό πεδίο' }).min(1, { error: 'Υποχρεωτικό πεδίο' }).trim(),
+    birthdate: z.string({ error: 'Υποχρεωτικό πεδίο' }).min(1, { error: 'Υποχρεωτικό πεδίο' }),
     email: z.email({ error: 'Μη έγκυρο email' }).trim(),
     password: z
         .string()
@@ -197,6 +198,7 @@ export type EditRentalFormValues = z.infer<typeof EditRentalSchema>
 export const AccountDetailsSchema = z.object({
     first_name: z.string({ error: 'Υποχρεωτικό πεδίο' }).min(1, { error: 'Υποχρεωτικό πεδίο' }).trim(),
     last_name: z.string({ error: 'Υποχρεωτικό πεδίο' }).min(1, { error: 'Υποχρεωτικό πεδίο' }).trim(),
+    birthdate: z.string({ error: 'Υποχρεωτικό πεδίο' }).min(1, { error: 'Υποχρεωτικό πεδίο' }),
     email: z.email({ error: 'Μη έγκυρο email' }).trim(),
 })
 

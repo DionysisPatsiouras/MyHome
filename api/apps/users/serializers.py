@@ -10,7 +10,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ("email", "first_name", "last_name")
+        fields = ("email", "first_name", "last_name", "birthdate")
 
     def validate_email(self, value):
         return validate_email_format(value)
