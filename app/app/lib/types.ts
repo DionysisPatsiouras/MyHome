@@ -123,3 +123,23 @@ export interface Rental {
     duration: number
     declaration_number?: string | null
 }
+
+export type NotificationType =
+    | 'general'
+    | 'repair'
+    | 'rental'
+    | 'payment'
+    | 'tenant'
+    | 'maintenance'
+
+export interface UserNotification {
+    id: number
+    title: string
+    message: string
+    notification_type: NotificationType
+    action_url: string
+    is_read: boolean
+    read_at: string | null
+    created_at: string
+    updated_at: string
+}

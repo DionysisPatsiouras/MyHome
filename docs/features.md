@@ -23,6 +23,7 @@ Pages under `app/app/(pages)/dashboard/`.
 - **Technicians** — contact records (name, phone numbers, type, description) a landlord keeps on hand for repairs.
 - **Maintenances / Repairs** — recurring maintenance items per residence (`components/maintenances/`: overview panel, history table/modal, new-maintenance modal) plus one-off repairs (`components/layout/NewRepairModal.tsx`).
 - **Account** — profile details, plan, linked residences, security (password change).
+- **Notifications** — authenticated, user-scoped API for listing and creating notifications, reading one, marking all as read, getting the unread count, and soft-deleting entries. The list endpoint supports `?status=all|unread|read`. The dashboard also connects to `/ws/notifications/`, so create/update/delete/read-all events update the badge, dropdown, and full notifications page immediately; new notifications show a toast and the client automatically reconnects with backoff.
 
 ## Background jobs
 

@@ -1,0 +1,104 @@
+[
+    {
+        "model": "notifications.notification",
+        "pk": 1,
+        "fields": {
+            "user": "00000000-0000-0000-0000-000000000001",
+            "title": "Νέο αίτημα επισκευής",
+            "message": "Ο ενοικιαστής του Α-12 ανέφερε διαρροή στην κουζίνα.",
+            "notification_type": "repair",
+            "action_url": "/dashboard/residences",
+            "is_read": false,
+            "read_at": null,
+            "created_at": "2026-09-08T08:55:00Z",
+            "updated_at": "2026-09-08T08:55:00Z",
+            "is_deleted": false,
+            "deleted_at": null
+        }
+    },
+    {
+        "model": "notifications.notification",
+        "pk": 2,
+        "fields": {
+            "user": "00000000-0000-0000-0000-000000000001",
+            "title": "Λήξη μισθωτηρίου",
+            "message": "Το μισθωτήριο για το διαμέρισμα Β-04 λήγει σε 30 ημέρες.",
+            "notification_type": "rental",
+            "action_url": "/dashboard/rentals",
+            "is_read": false,
+            "read_at": null,
+            "created_at": "2026-09-08T08:00:00Z",
+            "updated_at": "2026-09-08T08:00:00Z",
+            "is_deleted": false,
+            "deleted_at": null
+        }
+    },
+    {
+        "model": "notifications.notification",
+        "pk": 3,
+        "fields": {
+            "user": "00000000-0000-0000-0000-000000000001",
+            "title": "Καταβολή ενοικίου",
+            "message": "Καταχωρήθηκε η πληρωμή Σεπτεμβρίου από τη Μαρία Παπαδοπούλου.",
+            "notification_type": "payment",
+            "action_url": "/dashboard/rentals",
+            "is_read": false,
+            "read_at": null,
+            "created_at": "2026-09-08T06:00:00Z",
+            "updated_at": "2026-09-08T06:00:00Z",
+            "is_deleted": false,
+            "deleted_at": null
+        }
+    },
+    {
+        "model": "notifications.notification",
+        "pk": 4,
+        "fields": {
+            "user": "00000000-0000-0000-0000-000000000001",
+            "title": "Νέος ενοικιαστής",
+            "message": "Ο Γιώργος Νικολάου ολοκλήρωσε τα στοιχεία του προφίλ του.",
+            "notification_type": "tenant",
+            "action_url": "/dashboard/tenants",
+            "is_read": false,
+            "read_at": null,
+            "created_at": "2026-09-07T12:30:00Z",
+            "updated_at": "2026-09-07T12:30:00Z",
+            "is_deleted": false,
+            "deleted_at": null
+        }
+    },
+    {
+        "model": "notifications.notification",
+        "pk": 5,
+        "fields": {
+            "user": "00000000-0000-0000-0000-000000000001",
+            "title": "Προγραμματισμένη συντήρηση",
+            "message": "Έλεγχος καυστήρα στην Κανάρη 18 αύριο στις 10:00.",
+            "notification_type": "maintenance",
+            "action_url": "/dashboard/residences",
+            "is_read": false,
+            "read_at": null,
+            "created_at": "2026-09-06T09:15:00Z",
+            "updated_at": "2026-09-06T09:15:00Z",
+            "is_deleted": false,
+            "deleted_at": null
+        }
+    },
+    {
+        "model": "notifications.notification",
+        "pk": 6,
+        "fields": {
+            "user": "00000000-0000-0000-0000-000000000001",
+            "title": "Καλώς ήρθες στο MyHome",
+            "message": "Ο λογαριασμός σου είναι έτοιμος για τη διαχείριση των ακινήτων σου.",
+            "notification_type": "general",
+            "action_url": "/dashboard",
+            "is_read": true,
+            "read_at": "2026-09-05T10:30:00Z",
+            "created_at": "2026-09-05T10:00:00Z",
+            "updated_at": "2026-09-05T10:30:00Z",
+            "is_deleted": false,
+            "deleted_at": null
+        }
+    }
+]

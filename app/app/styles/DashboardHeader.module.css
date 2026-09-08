@@ -9,6 +9,43 @@
   padding-bottom: var(--mantine-spacing-sm);
 }
 
+.notificationButton {
+  position: relative;
+  overflow: visible;
+}
+
+.notificationBadge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background-color: var(--mantine-color-red-6);
+  color: var(--mantine-color-white);
+  box-shadow: 0 0 0 2px #f6f6f6;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 17px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.notificationItem {
+  padding: var(--mantine-spacing-sm);
+  border-radius: var(--mantine-radius-sm);
+  transition: background-color 120ms ease, opacity 120ms ease;
+
+  &:hover {
+    background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
+  }
+
+  &[data-read] {
+    opacity: 0.62;
+  }
+}
+
 .user {
   color: light-dark(var(--mantine-color-black), var(--mantine-color-dark-0));
   padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);

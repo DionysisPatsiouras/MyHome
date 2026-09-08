@@ -4,8 +4,8 @@
 
 ```
 app/      Next.js frontend
-api/      Django REST backend
-docker/   Dockerfile + docker-compose.yml (backend + Postgres)
+api/      Django REST + Channels backend
+docker/   Dockerfile + docker-compose.yml (backend + Postgres + Redis)
 postman/  Postman collection for the API
 ```
 
@@ -19,7 +19,7 @@ postman/  Postman collection for the API
   - Both call endpoints built by `app/app/lib/Routes.ts`, a factory: `Routes(resourceName)` returns `{ id, list, add, patch, delete, overview, filters }` URL builders against `NEXT_PUBLIC_API_ENDPOINT`; `AuthRoutes` covers sign-in/forgot-password/verification endpoints separately.
 - **Auth token** — stored in cookies (`app/app/lib/utils/cookies.ts`), read in `app/app/lib/utils/auth.ts`, attached manually as `Authorization: Bearer <token>` in the fetch hooks (no cookie-based session auth on the Django side).
 - **Forms** — `react-hook-form` + `zod`, resolved via `@hookform/resolvers/zod`. All schemas live in one place: `app/app/lib/utils/formSchemas.ts` (e.g. `SignUpFormSchema`, `NewResidenceSchema`, `NewRentalSchema`, ...). Each form field is a reusable wrapper around a Mantine input driven by RHF's `Controller`, in `app/app/components/forms/`: `ControlledTextfield`, `ControlledDatePicker`, `ControlledCheckbox`, `ControlledSelect`, `ControlledTextarea`.
-- **Global state** — no Redux/Zustand; just two React Contexts, `MaintenanceContext` and `ResidenceContext` (`app/app/contexts/`), for state shared within those feature areas.
+- **Global state** — no Redux/Zustand; React Contexts under `app/app/contexts/` hold feature state. `NotificationsContext` performs the initial REST fetch, maintains the unread count, and merges WebSocket events into the notification list.
 
 ### Adding a new frontend section
 
@@ -31,6 +31,7 @@ postman/  Postman collection for the API
 ## Backend (`api/`)
 
 - **Project core** — `api/core/`: settings, URL root, ASGI/WSGI, `exception_handlers.py` for standardized error responses (paired with `infra/Responses.py`, e.g. `Forbidden_403`).
+- **Real-time notifications** — Django Channels exposes `/ws/notifications/` through ASGI. A JWT passed as a WebSocket subprotocol authenticates the connection, each user joins an isolated channel group, and model signals publish create/update/delete events after the database transaction commits. Redis is the shared channel layer in Docker; the in-memory layer is available for single-process local development and tests.
 - **URL routing is auto-discovered** — `core/urls.py` scans every directory under `api/apps/` and mounts it at `/<app_name>/` via that app's own `urls.py`. There's no central route registry to edit when adding an app.
 - **Domain apps** — one Django app per domain under `api/apps/`: `auth`, `users`, `residences`, `rentals`, `tenants`, `technicians`, `repairs`, `maintenances`, `scraper`. Each app's `urls.py` conventionally exposes:
   - `path("", list)` — GET (list, with filters) / POST (create)

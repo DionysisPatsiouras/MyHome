@@ -39,6 +39,10 @@ All models live under `api/apps/<app>/models.py`. Most business models share the
 
 - **Repair** — `description`, `cost`, `date`, `user` FK (owner).
 
+## Notifications (`api/apps/notifications/`)
+
+- **Notification** — user-owned notification with `title`, `message`, `notification_type`, optional internal `action_url`, `is_read`/`read_at`, and the standard soft-delete/timestamp fields. Rows are ordered newest-first and indexed by user and status for efficient unread queries.
+
 ## Scraper (`api/apps/scraper/`)
 
 - **GovAnnouncement** — `title`, `summary`, `category`, `organization`, `published_at`, `announcement_url` (unique), `created_at`, `scraped_at`. Not user-owned — populated by the `scrape_gov_announcements` cron job.
@@ -51,7 +55,8 @@ CustomUser (owner) ──< Residence ──< Rental >── Tenant
                  │           └──< Maintenance ──< MaintenanceHistory
                  │           └──< ResidenceFile
                  ├──< Technician >── TechnicianType
-                 └──< Repair
+                 ├──< Repair
+                 └──< Notification
 
 Residence >── ResidenceType
 Residence >── City >── Prefecture

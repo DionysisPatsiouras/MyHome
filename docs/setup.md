@@ -16,7 +16,8 @@ docker compose -f docker-compose.yml up --build
 
 This starts:
 - `db` — Postgres 16, exposed on host port `5433` (container port `5432`)
-- `api` — the Django app, built from `docker/Dockerfile`, exposed on port `8000`. On startup it runs `manage.py migrate`, loads fixture data (`apps/{users,technicians,residences,tenants}/fixtures/data.json`), then starts `runserver`.
+- `redis` — Redis 7, used by the Django Channels layer to fan out real-time notification events
+- `api` — the Django app, built from `docker/Dockerfile`, exposed on port `8000`. On startup it runs `manage.py migrate`, loads fixture data (`apps/{users,notifications,technicians,residences,tenants}/fixtures/data.json`), then starts the ASGI-aware development server.
 
 The `api` service reads its environment from `api/.env` (see below); `DB_HOST`/`DB_PORT` are overridden by the compose file to point at the `db` service.
 
@@ -40,6 +41,7 @@ npm run lint
 | Variable | Purpose |
 |---|---|
 | `NEXT_PUBLIC_API_ENDPOINT` | Base URL of the Django API the frontend calls |
+| `NEXT_PUBLIC_WS_ENDPOINT` | Optional WebSocket base URL (for example `ws://localhost:8000`). When omitted, it is derived from `NEXT_PUBLIC_API_ENDPOINT`. |
 | `NEXT_PUBLIC_PASSWORD_LENGTH` | Minimum password length enforced client-side |
 | `SECRET_KEY` | Frontend-side secret (JWT-related usage) |
 
@@ -53,6 +55,8 @@ npm run lint
 | `FRONTEND_URL` | Base URL of the frontend, used in generated links |
 | `FRONTEND_LOGIN_URL` | Login page URL, used in email templates (e.g. inactivity reminder) |
 | `DB_NAME`, `DB_USERNAME`, `DB_PASSWORD`, `DB_HOST`, `DB_PORT` | Postgres connection |
+| `CHANNEL_LAYER_BACKEND` | `redis` for a shared production-capable channel layer; defaults to `inmemory` for single-process local development |
+| `REDIS_URL` | Redis connection URL used when `CHANNEL_LAYER_BACKEND=redis` |
 | `SECRET_KEY` | Django secret key |
 | `EMAIL_BACKEND`, `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_USE_TLS`, `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD`, `DEFAULT_FROM_EMAIL` | SMTP configuration for outgoing email |
 

@@ -22,6 +22,18 @@ services:
       timeout: 5s
       retries: 5
 
+  redis:
+    container_name: redis
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
   api:
     container_name: api
     build:
@@ -35,12 +47,17 @@ services:
     environment:
       DB_HOST: db
       DB_PORT: "5432"
+      CHANNEL_LAYER_BACKEND: redis
+      REDIS_URL: redis://redis:6379/0
     depends_on:
       db:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     command: >
       sh -c "python manage.py migrate &&
              python manage.py loaddata apps/users/fixtures/data.json &&
+             python manage.py loaddata apps/notifications/fixtures/data.json &&
              python manage.py loaddata apps/technicians/fixtures/data.json &&
              python manage.py loaddata apps/residences/fixtures/data.json &&
              python manage.py loaddata apps/tenants/fixtures/data.json &&

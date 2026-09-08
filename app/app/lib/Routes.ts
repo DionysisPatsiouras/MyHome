@@ -1,9 +1,12 @@
 const prefix = process.env.NEXT_PUBLIC_API_ENDPOINT
+const websocketPrefix = process.env.NEXT_PUBLIC_WS_ENDPOINT
+    ?? (prefix ? prefix.replace(/^http/, 'ws') : '')
 // const socketPrefix = process.env.NEXT_PUBLIC_SOCKET_ENDPOINT
 
+type QueryParams = Record<string, unknown>
 
 
-const generateParams = (paramsObj: any) => {
+const generateParams = (paramsObj: QueryParams) => {
 
     let allParams = ''
 
@@ -33,7 +36,7 @@ export const Routes = (resourceName: string) => ({
     delete: (id: string) => `${prefix}/${resourceName}/${id}`,
     // hardDelete: (id: string) => `${prefix}/${resourceName}/handler/hardDelete/${id}`,
     overview: (id: string) => `${prefix}/${resourceName}/overview/${id}`,
-    filters: (paramsObj: any) =>
+    filters: (paramsObj: QueryParams) =>
         `${prefix}/${resourceName}/filtering/filters?${generateParams(paramsObj)}`
 })
 
@@ -42,6 +45,14 @@ export const AuthRoutes = {
     forgotPassword: `${prefix}/auth/forgot-password`,
     resendVerification: `${prefix}/auth/resend-verification`,
     verifyEmail: `${prefix}/auth/verify-email`
+}
+
+export const NotificationRoutes = {
+    list: `${prefix}/notifications/`,
+    detail: (id: number | string) => `${prefix}/notifications/${id}`,
+    unreadCount: `${prefix}/notifications/unread-count`,
+    readAll: `${prefix}/notifications/read-all`,
+    socket: websocketPrefix ? `${websocketPrefix}/ws/notifications/` : '',
 }
 
 

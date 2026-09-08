@@ -2,27 +2,34 @@ import { useState, type ComponentType } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import {
+    IconBell,
     IconChevronDown,
     IconLogout,
     IconMessage,
     IconMoon,
-    IconPlayerPause,
     IconSettings,
     IconSun,
-    IconTrash,
 } from '@tabler/icons-react'
 import cx from 'clsx'
 import {
+    ActionIcon,
+    Anchor,
     Avatar,
+    Badge,
+    Box,
+    Button,
     Burger,
+    Center,
     Container,
     Divider,
     Drawer,
     Group,
+    Loader,
     Menu,
     ScrollArea,
     Tabs,
     Text,
+    ThemeIcon,
     UnstyledButton,
     useMantineColorScheme,
     useMantineTheme,
@@ -30,6 +37,11 @@ import {
 import { useDisclosure } from '@mantine/hooks'
 
 import { deleteCookie } from '@/app/lib/utils/cookies'
+import {
+    formatNotificationTime,
+    getNotificationPresentation,
+} from '@/app/lib/constants/Notifications'
+import { useNotifications } from '@/app/contexts/NotificationsContext'
 
 import classes from '../styles/DashboardHeader.module.css'
 
@@ -75,6 +87,16 @@ export function DashboardHeader() {
     const router = useRouter()
     const [opened, { toggle, close }] = useDisclosure(false)
     const [userMenuOpened, setUserMenuOpened] = useState(false)
+    const {
+        notifications,
+        unreadCount,
+        loading: notificationsLoading,
+        error: notificationsError,
+        markingIds,
+        markAsRead,
+        reload: reloadNotifications,
+    } = useNotifications()
+    const recentNotifications = notifications.slice(0, 5)
 
     const handleLogout = () => {
         deleteCookie('token')
@@ -142,6 +164,155 @@ export function DashboardHeader() {
                             size="sm"
                             aria-label="Toggle navigation"
                         />
+
+                        <Menu
+                            width={360}
+                            position="bottom-end"
+                            transitionProps={{ transition: 'pop-top-right' }}
+                            withinPortal
+                            zIndex={9999}
+                            styles={{ dropdown: { maxWidth: 'calc(100vw - 24px)' } }}
+                        >
+                            <Menu.Target>
+                                <ActionIcon
+                                    className={classes.notificationButton}
+                                    variant="subtle"
+                                    color="gray"
+                                    size="lg"
+                                    radius="xl"
+                                    aria-label={`Ειδοποιήσεις (${unreadCount} νέες)`}
+                                    title="Ειδοποιήσεις"
+                                >
+                                    <IconBell size={21} stroke={1.7} />
+                                    {unreadCount > 0 && (
+                                        <span className={classes.notificationBadge} aria-hidden="true">
+                                            {unreadCount}
+                                        </span>
+                                    )}
+                                </ActionIcon>
+                            </Menu.Target>
+
+                            <Menu.Dropdown>
+                                <Menu.Label>
+                                    <Group justify="space-between" wrap="nowrap">
+                                        <Text size="sm" fw={600}>Ειδοποιήσεις</Text>
+                                        <Badge
+                                            size="sm"
+                                            variant="light"
+                                            color={unreadCount > 0 ? 'red' : 'gray'}
+                                        >
+                                            {unreadCount > 0 ? `${unreadCount} νέες` : 'Καμία νέα'}
+                                        </Badge>
+                                    </Group>
+                                </Menu.Label>
+                                <Menu.Divider />
+
+                                <ScrollArea.Autosize mah={420} type="auto">
+                                    {notificationsLoading && (
+                                        <Center py="lg">
+                                            <Loader size="sm" />
+                                        </Center>
+                                    )}
+
+                                    {!notificationsLoading && notificationsError && (
+                                        <Box p="md" ta="center">
+                                            <Text size="xs" c="red">
+                                                {notificationsError}
+                                            </Text>
+                                            <Button
+                                                variant="subtle"
+                                                size="compact-xs"
+                                                mt="xs"
+                                                onClick={() => void reloadNotifications()}
+                                            >
+                                                Δοκιμή ξανά
+                                            </Button>
+                                        </Box>
+                                    )}
+
+                                    {!notificationsLoading && !notificationsError && recentNotifications.length === 0 && (
+                                        <Text size="sm" c="dimmed" ta="center" py="lg">
+                                            Δεν υπάρχουν ειδοποιήσεις
+                                        </Text>
+                                    )}
+
+                                    {!notificationsLoading && !notificationsError && recentNotifications.map((notification) => {
+                                        const presentation = getNotificationPresentation(notification.notification_type)
+                                        const NotificationIcon = presentation.icon
+
+                                        return (
+                                            <Box
+                                                key={notification.id}
+                                                className={classes.notificationItem}
+                                                data-read={notification.is_read || undefined}
+                                            >
+                                                <Group gap="sm" wrap="nowrap" align="flex-start">
+                                                    <ThemeIcon
+                                                        variant="light"
+                                                        color={presentation.color}
+                                                        size={34}
+                                                        radius="xl"
+                                                    >
+                                                        <NotificationIcon size={18} stroke={1.6} />
+                                                    </ThemeIcon>
+
+                                                    <Box style={{ flex: 1, minWidth: 0 }}>
+                                                        {notification.action_url ? (
+                                                            <Anchor
+                                                                component={Link}
+                                                                href={notification.action_url}
+                                                                size="sm"
+                                                                fw={600}
+                                                                c="inherit"
+                                                                underline="hover"
+                                                            >
+                                                                {notification.title}
+                                                            </Anchor>
+                                                        ) : (
+                                                            <Text size="sm" fw={600} lineClamp={1}>
+                                                                {notification.title}
+                                                            </Text>
+                                                        )}
+                                                        <Text size="xs" c="dimmed" lineClamp={2}>
+                                                            {notification.message}
+                                                        </Text>
+                                                        <Text size="xs" c="blue" mt={3}>
+                                                            {formatNotificationTime(notification.created_at)}
+                                                        </Text>
+                                                        {notification.is_read ? (
+                                                            <Text size="xs" c="dimmed" mt={5}>
+                                                                Διαβάστηκε
+                                                            </Text>
+                                                        ) : (
+                                                            <Button
+                                                                variant="subtle"
+                                                                size="compact-xs"
+                                                                mt={4}
+                                                                px={0}
+                                                                loading={markingIds.has(notification.id)}
+                                                                onClick={() => void markAsRead(notification.id)}
+                                                            >
+                                                                Το έχω διαβάσει
+                                                            </Button>
+                                                        )}
+                                                    </Box>
+                                                </Group>
+                                            </Box>
+                                        );
+                                    })}
+                                </ScrollArea.Autosize>
+
+                                <Menu.Divider />
+                                <Menu.Item
+                                    component={Link}
+                                    href="/dashboard/notifications"
+                                    color="blue"
+                                    ta="center"
+                                >
+                                    Προβολή όλων
+                                </Menu.Item>
+                            </Menu.Dropdown>
+                        </Menu>
 
                         <Menu
                             width={260}
