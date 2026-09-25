@@ -27,6 +27,16 @@ interface FormData {
     password: string
 }
 
+const signInDefaultValues: FormData = process.env.NODE_ENV === "development"
+    ? {
+        email: process.env.NEXT_PUBLIC_DEV_LOGIN_EMAIL ?? "",
+        password: process.env.NEXT_PUBLIC_DEV_LOGIN_PASSWORD ?? "",
+    }
+    : {
+        email: "",
+        password: "",
+    }
+
 export default function SignIn() {
 
     const router = useRouter()
@@ -38,6 +48,7 @@ export default function SignIn() {
 
     const { control, handleSubmit, getValues, formState: { errors }, } = useForm<FormData>({
         resolver: zodResolver(SignInFormSchema),
+        defaultValues: signInDefaultValues,
     })
 
     const formProps = { control, errors }
