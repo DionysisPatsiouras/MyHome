@@ -20,10 +20,10 @@ import {
     Button,
     Burger,
     Center,
-    Container,
     Divider,
     Drawer,
     Group,
+    Grid,
     Loader,
     Menu,
     ScrollArea,
@@ -151,21 +151,24 @@ export function DashboardHeader() {
 
     return (
         <div className={classes.header}>
-            <Container className={classes.mainSection} size="md">
-                <Group justify="space-between">
-                    {/* <MantineLogo size={28} /> */}
-                    logo
+            <div className={classes.content}>
+                <Grid justify="center">
+                    <Grid.Col span={{ base: 12, lg: 8 }}>
+                        <div className={classes.mainSection}>
+                            <Group justify="space-between">
+                                {/* <MantineLogo size={28} /> */}
+                                logo
 
-                    <Group gap="sm">
-                        <Burger
-                            opened={opened}
-                            onClick={toggle}
-                            hiddenFrom="sm"
-                            size="sm"
-                            aria-label="Toggle navigation"
-                        />
+                                <Group gap="sm">
+                                    <Burger
+                                        opened={opened}
+                                        onClick={toggle}
+                                        hiddenFrom="sm"
+                                        size="sm"
+                                        aria-label="Toggle navigation"
+                                    />
 
-                        <Menu
+                                    <Menu
                             width={360}
                             position="bottom-end"
                             transitionProps={{ transition: 'pop-top-right' }}
@@ -312,9 +315,9 @@ export function DashboardHeader() {
                                     Προβολή όλων
                                 </Menu.Item>
                             </Menu.Dropdown>
-                        </Menu>
+                                    </Menu>
 
-                        <Menu
+                                    <Menu
                             width={260}
                             position="bottom-end"
                             transitionProps={{ transition: 'pop-top-right' }}
@@ -337,24 +340,25 @@ export function DashboardHeader() {
                                 </UnstyledButton>
                             </Menu.Target>
                             <Menu.Dropdown>{userMenuItems}</Menu.Dropdown>
-                        </Menu>
-                    </Group>
-                </Group>
-            </Container>
-            <Container size="md">
-                <Tabs
-                    value={activeLink?.url ?? null}
-                    variant="outline"
-                    visibleFrom="sm"
-                    classNames={{
-                        root: classes.tabs,
-                        list: classes.tabsList,
-                        tab: classes.tab,
-                    }}
-                >
-                    <Tabs.List>{items}</Tabs.List>
-                </Tabs>
-            </Container>
+                                    </Menu>
+                                </Group>
+                            </Group>
+                        </div>
+                        <Tabs
+                            value={activeLink?.url ?? null}
+                            variant="outline"
+                            visibleFrom="sm"
+                            classNames={{
+                                root: classes.tabs,
+                                list: classes.tabsList,
+                                tab: classes.tab,
+                            }}
+                        >
+                            <Tabs.List>{items}</Tabs.List>
+                        </Tabs>
+                    </Grid.Col>
+                </Grid>
+            </div>
 
             <Drawer
                 opened={opened}
