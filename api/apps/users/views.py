@@ -95,7 +95,7 @@ def me(request):
 @permission_classes([])
 def insert(request):
 
-    serializer = UserSerializer(data=request.data)
+    serializer = RegistrationSerializer(data=request.data)
 
     serializer.is_valid(raise_exception=True)
 

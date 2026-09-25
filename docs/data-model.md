@@ -5,6 +5,7 @@ All models live under `api/apps/<app>/models.py`. Most business models share the
 ## Users (`api/apps/users/`)
 
 - **CustomUser** — custom auth model (`AbstractBaseUser` + `PermissionsMixin`, UUID pk, `email` as the username field). Fields: `first_name`, `last_name`, `birthdate`, `password`, `is_verified`, plus the standard soft-delete/timestamp fields.
+- `birthdate` is a date (not a timestamp). New and updated users must be at least 18 on the current UTC date. The database check is installed as `NOT VALID` so existing records are left untouched; it still rejects invalid inserts and updates. After correcting any older invalid rows, run `ALTER TABLE users VALIDATE CONSTRAINT users_birthdate_adult;` to validate the full table.
 - **LoginAttempts** — `user` FK, `ip_address`, `date_attempted`. One row per failed login attempt; used to lock out a user after 3 attempts.
 - **ResetPassword** — `user` FK, `token` (UUID), `expires_at` (24h from creation), `used_at`.
 - **VerifyRequests** — `user` FK, `token` (UUID), `expires_at` (24h), `date_verified`.

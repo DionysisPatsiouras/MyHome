@@ -1,7 +1,6 @@
 # TO-DO
 
 - [ ] Send email with the residence location
-- [ ] Check if user is 18+ when register
 - [ ] Ιδιοκτησία ακινήτων με ποσοστό
 
 ## Ιδέες για τη χρησιμότητα της σελίδας

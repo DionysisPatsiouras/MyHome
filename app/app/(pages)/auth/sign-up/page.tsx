@@ -5,10 +5,10 @@ import ControlledTextfield from "@/app/components/forms/ControlledTextfield"
 import ControlledDatePicker from "@/app/components/forms/ControlledDatePicker"
 import ControlledCheckbox from "@/app/components/forms/ControlledCheckbox"
 import { useForm } from "react-hook-form"
-import { useRouter } from "next/navigation"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { SignUpFormSchema } from "@/app/lib/utils/formSchemas"
+import { adultBirthdateCutoff } from "@/app/lib/utils/adultBirthdate"
 import { useCRUD } from "@/app/lib/hooks/useCRUD"
 import { Routes } from "@/app/lib/Routes"
 
@@ -30,8 +30,6 @@ interface FormData {
 }
 
 export default function SignUp() {
-
-    const router = useRouter()
 
     const { POST } = useCRUD()
 
@@ -62,7 +60,6 @@ export default function SignUp() {
             error: { title: 'Σφάλμα', message: 'Δεν ήταν δυνατή η δημιουργία λογαριασμού' },
         }).then(() => {
             reset()
-            // router.push('/auth/sign-in')
             alert("completed")
         })
             .catch(() => setSubmitting(false))
@@ -111,7 +108,7 @@ export default function SignUp() {
                                 name="birthdate"
                                 placeholder="Επιλέξτε ημερομηνία"
                                 leftSection={<IconCalendar size={14} />}
-                                maxDate={new Date()}
+                                maxDate={new Date(`${adultBirthdateCutoff()}T12:00:00`)}
                                 {...formProps}
                             />
                             <ControlledTextfield

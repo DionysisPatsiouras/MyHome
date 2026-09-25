@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from .managers import CustomUserManager
+from .constraints import AdultBirthdateCutoff
 
 from datetime import timedelta
 import uuid
@@ -36,6 +37,12 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     class Meta:
         db_table = "users"
+        constraints = [
+            models.CheckConstraint(
+                condition=models.Q(birthdate__lte=AdultBirthdateCutoff()),
+                name="users_birthdate_adult",
+            ),
+        ]
 
 
 
@@ -77,6 +84,4 @@ class VerifyRequests(models.Model):
 
     class Meta:
         db_table = "verify_requests"
-
-
 

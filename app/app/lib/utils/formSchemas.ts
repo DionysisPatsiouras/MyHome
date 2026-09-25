@@ -1,5 +1,12 @@
 import * as z from 'zod'
 import { AFM_REGEX, PHONE_REGEX, ZIP_CODE_REGEX } from './regex'
+import { isAdultBirthdate } from './adultBirthdate'
+
+const AdultBirthdateSchema = z.string({ error: 'Υποχρεωτικό πεδίο' })
+    .min(1, { error: 'Υποχρεωτικό πεδίο' })
+    .refine(value => !value || isAdultBirthdate(value), {
+        error: 'Πρέπει να είσαι τουλάχιστον 18 ετών',
+    })
 
 export const SignInFormSchema = z.object({
     email: z.email({ error: 'Please enter a valid email.' }).trim(),
@@ -20,7 +27,7 @@ export const SignInFormSchema = z.object({
 export const SignUpFormSchema = z.object({
     first_name: z.string({ error: 'Υποχρεωτικό πεδίο' }).min(1, { error: 'Υποχρεωτικό πεδίο' }).trim(),
     last_name: z.string({ error: 'Υποχρεωτικό πεδίο' }).min(1, { error: 'Υποχρεωτικό πεδίο' }).trim(),
-    birthdate: z.string({ error: 'Υποχρεωτικό πεδίο' }).min(1, { error: 'Υποχρεωτικό πεδίο' }),
+    birthdate: AdultBirthdateSchema,
     email: z.email({ error: 'Μη έγκυρο email' }).trim(),
     password: z
         .string()
@@ -202,7 +209,7 @@ export type EditRentalFormValues = z.infer<typeof EditRentalSchema>
 export const AccountDetailsSchema = z.object({
     first_name: z.string({ error: 'Υποχρεωτικό πεδίο' }).min(1, { error: 'Υποχρεωτικό πεδίο' }).trim(),
     last_name: z.string({ error: 'Υποχρεωτικό πεδίο' }).min(1, { error: 'Υποχρεωτικό πεδίο' }).trim(),
-    birthdate: z.string({ error: 'Υποχρεωτικό πεδίο' }).min(1, { error: 'Υποχρεωτικό πεδίο' }),
+    birthdate: AdultBirthdateSchema,
     email: z.email({ error: 'Μη έγκυρο email' }).trim(),
 })
 

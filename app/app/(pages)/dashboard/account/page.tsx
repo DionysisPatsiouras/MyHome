@@ -19,6 +19,7 @@ import { IconCalendar, IconMail, IconUser } from '@tabler/icons-react'
 import ControlledTextfield from '@/app/components/forms/ControlledTextfield'
 import ControlledDatePicker from '@/app/components/forms/ControlledDatePicker'
 import { AccountDetailsSchema, type AccountDetailsFormValues } from '@/app/lib/utils/formSchemas'
+import { adultBirthdateCutoff } from '@/app/lib/utils/adultBirthdate'
 import { useFetch } from '@/app/lib/hooks/useFetch'
 import { useCRUD } from '@/app/lib/hooks/useCRUD'
 import { customRoute } from '@/app/lib/Routes'
@@ -114,7 +115,7 @@ export default function Account() {
                             label="Ημερομηνία γέννησης"
                             placeholder="Επιλέξτε ημερομηνία"
                             leftSection={<IconCalendar size={14} />}
-                            maxDate={new Date()}
+                            maxDate={new Date(`${adultBirthdateCutoff()}T12:00:00`)}
                         />
                     </SimpleGrid>
 

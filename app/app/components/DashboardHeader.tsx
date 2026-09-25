@@ -288,7 +288,7 @@ export function DashboardHeader() {
                                                                 variant="subtle"
                                                                 size="compact-xs"
                                                                 mt={4}
-                                                                px={0}
+                                                                px="xs"
                                                                 loading={markingIds.has(notification.id)}
                                                                 onClick={() => void markAsRead(notification.id)}
                                                             >

@@ -2,6 +2,8 @@ from rest_framework import serializers
 from .models import *
 
 from django.contrib.auth.hashers import check_password
+from django.utils import timezone
+from datetime import date
 
 from infra.Validators import *
 
@@ -14,6 +16,24 @@ class UserSerializer(serializers.ModelSerializer):
 
     def validate_email(self, value):
         return validate_email_format(value)
+
+    def validate_birthdate(self, value):
+        today = timezone.now().date()
+        try:
+            cutoff = today.replace(year=today.year - 18)
+        except ValueError:
+            cutoff = date(today.year - 18, 2, 28)
+
+        if value > cutoff:
+            raise serializers.ValidationError("You must be at least 18 years old.")
+        return value
+
+
+class RegistrationSerializer(UserSerializer):
+    password = serializers.CharField(write_only=True, trim_whitespace=False)
+
+    class Meta(UserSerializer.Meta):
+        fields = UserSerializer.Meta.fields + ("password",)
 
 
 class VerifyPasswordSerializer(serializers.Serializer):
